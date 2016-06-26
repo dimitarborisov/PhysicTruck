@@ -11,19 +11,7 @@ public class MyContactListener implements ContactListener{
 	@Override
 	public void beginContact(Contact contact) {
 		Fixture fa = contact.getFixtureA();
-		Fixture fb = contact.getFixtureB();
-		
-		if(fa.getUserData() != null && fa.getUserData().equals("Terrain")){
-			if(fb.getUserData() instanceof MyUserData){
-				MyUserData mud = (MyUserData) fb.getUserData();
-				System.out.println(mud.toString() + " - " + mud.getState());
-				mud.setState(true);
-			}
-		}
-		
-		
-
-		
+		Fixture fb = contact.getFixtureB();		
 		
 		//System.out.println(fa.getUserData() + " - " + fb.getUserData());
 		

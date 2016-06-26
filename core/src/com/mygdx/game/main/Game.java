@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.handlers.ContentManager;
 import com.mygdx.game.handlers.GameStateManager;
 
 public class Game implements ApplicationListener{
@@ -27,17 +28,23 @@ public class Game implements ApplicationListener{
 	private OrthographicCamera hud;
 	private GameStateManager m;
 	
+	public static ContentManager cm;
 	
 	
 	@Override
 	public void create() {
+		//load textures
+		cm = new ContentManager();
+		cm.loadTexture("sprites/body.png", "Truck");
+		cm.loadTexture("sprites/tyre.png", "Wheel");
+		cm.loadTexture("sprites/box.png", "Box");
 		
 		s = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, VWIDTH, VHEIGHT);
 		
 		hud = new OrthographicCamera();
-		cam.setToOrtho(false, VWIDTH, VHEIGHT);
+		hud.setToOrtho(false, VWIDTH, VHEIGHT);
 		
 		m = new GameStateManager(this);
 	}
