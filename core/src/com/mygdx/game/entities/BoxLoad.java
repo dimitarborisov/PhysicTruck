@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -39,7 +38,8 @@ public class BoxLoad implements Box2DSprite{
 		boxFixture.density = 10f;
 		
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox((width / 2) / PPM, (height / 2) / PPM);
+		shape.setAsBox((width / 2) / PPM , (height / 2) / PPM);
+		
 		boxFixture.shape = shape;
 		
 		//create sprites
@@ -66,7 +66,7 @@ public class BoxLoad implements Box2DSprite{
 	@Override
 	public void render(SpriteBatch sb) {
 		sb.begin();
-			sprite.setSize(width + 2, height + 2);
+			sprite.setSize(width + 4f, height + 4f);
 			
 			sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
 			

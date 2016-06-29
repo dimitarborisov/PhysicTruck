@@ -37,9 +37,25 @@ public class Car extends InputAdapter implements Box2DSprite{
 	private Texture bodyTexture;
 	private Texture wheelTexture;
 
-	public Car(World w, FixtureDef bodyFixture, FixtureDef wheelFixture, float x, float y, float scale){
+	public Car(World w, float x, float y, float scale){
 		//Car width
 		carWidth = scale;
+		
+		FixtureDef bodyFixture = new FixtureDef();
+		FixtureDef wheelFixture = new FixtureDef();
+		
+		//truck
+		bodyFixture.density = 5;
+		bodyFixture.friction = 0.4f;
+		bodyFixture.restitution = 0.3f;
+
+		
+		//wheel
+		wheelFixture.density = bodyFixture.density + 2.5f;
+		wheelFixture.friction = 5f;
+		
+		bodyFixture.friction = 0.3f;
+		bodyFixture.restitution = 0.4f;
 		
 		//load fixtures
 		bodyTexture = Game.cm.getTexture("Truck");
@@ -88,17 +104,19 @@ public class Car extends InputAdapter implements Box2DSprite{
 		WheelJointDef axisDef = new WheelJointDef();
 		axisDef.bodyA = body;
 		axisDef.bodyB = leftWheel;
-		axisDef.localAnchorA.set(x / scale - 1, - (y / scale) - 0.4f);
+		//axisDef.localAnchorA.set(x / scale - 1, - (y / scale) - 0.4f);
+		axisDef.localAnchorA.set(body.getPosition().x - 0.6f, body.getPosition().y - 0.6f);
 		axisDef.localAxisA.set(Vector2.Y);
 		axisDef.frequencyHz = bodyFixture.density + 2;
 		axisDef.maxMotorTorque = bodyFixture.density * 2;
+		
 		
 		leftAxis = (WheelJoint) w.createJoint(axisDef);
 		
 		//right axis
 		axisDef.frequencyHz = bodyFixture.density;
 		axisDef.bodyB = rightWheel;
-		axisDef.localAnchorA.set(- x / scale + 1, - (y / scale) - 0.4f);
+		axisDef.localAnchorA.set(body.getPosition().x + 0.6f, body.getPosition().y - 0.6f);
 		
 		rightAxis = (WheelJoint) w.createJoint(axisDef);
 	}
@@ -196,7 +214,7 @@ public class Car extends InputAdapter implements Box2DSprite{
 	
 	private void renderBody(SpriteBatch sb){
 		sb.begin();
-			bodySprite.setSize(230, 80);
+			bodySprite.setSize(230 + 4f, 80 + 4f);
 			
 			bodySprite.setOrigin(bodySprite.getWidth() / 2, bodySprite.getHeight() / 2);
 			

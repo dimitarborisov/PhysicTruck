@@ -44,7 +44,7 @@ public class Play extends GameState{
 		initializeWorld();
 		createTruck();
 		createStage();
-		createBoxes();
+		//createBoxes();
 		
 		//set inputProcessors
 		Gdx.input.setInputProcessor(new InputMultiplexer(new InputProcessor(){
@@ -131,6 +131,8 @@ public class Play extends GameState{
 			t.render(s);
 		}
 		
+		terrain.render(s);
+		
 		if(debug){
 			//debug box2d
 			box2dDebug.render(world, b2cam.combined);
@@ -152,28 +154,14 @@ public class Play extends GameState{
 		FixtureDef terrainFixture = new FixtureDef();
 		terrainFixture.friction = 0.3f;
 				
-		terrain = new Terrain0(world, terrainFixture, "track", 4, 2, 10);
+		terrain = new Terrain0(world, terrainFixture, -100 / PPM, -400 / PPM, 50);
 	}
 
 	
 	private void createTruck() {
-		FixtureDef fixtureDef = new FixtureDef();
-		FixtureDef wheelFixtureDef = new FixtureDef();
-		
-		//truck
-		fixtureDef.density = 5;
-		fixtureDef.friction = 0.4f;
-		fixtureDef.restitution = 0.3f;
 		
 		
-		//wheel
-		wheelFixtureDef.density = fixtureDef.density + 2.5f;
-		wheelFixtureDef.friction = 5f;
-		
-		fixtureDef.friction = 0.3f;
-		fixtureDef.restitution = 0.4f;
-		
-		car = new Car(world, fixtureDef, wheelFixtureDef, 4, 2, 10);
+		car = new Car(world, 0 / PPM, 0 / PPM, 10);
 		
 	}
 	
