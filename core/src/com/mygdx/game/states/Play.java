@@ -10,20 +10,18 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.entities.BoxLoad;
 import com.mygdx.game.entities.Car;
 import com.mygdx.game.entities.Terrain0;
-import com.mygdx.game.entities.BoxLoad;
+import com.mygdx.game.handlers.BackgroundHandler;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.handlers.MyContactListener;
-import com.mygdx.game.handlers.MyUserData;
 import com.mygdx.game.main.Game;
 
 public class Play extends GameState{
@@ -36,6 +34,7 @@ public class Play extends GameState{
 	private Terrain0 terrain;
 	private ArrayList<BoxLoad> truckLoad;
 	Array<Body> bodies;
+	BackgroundHandler bh;
 	
 	
 	public Play(GameStateManager m) {
@@ -45,6 +44,7 @@ public class Play extends GameState{
 		createTruck();
 		createStage();
 		//createBoxes();
+		bh = new BackgroundHandler(car);
 		
 		//set inputProcessors
 		Gdx.input.setInputProcessor(new InputMultiplexer(new InputProcessor(){
@@ -112,8 +112,8 @@ public class Play extends GameState{
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//follow player sprite
-		cam.position.set(car.getBody().getPosition().x * PPM,
-						 car.getBody().getPosition().y * PPM,
+		cam.position.set((car.getBody().getPosition().x * PPM),
+						 (car.getBody().getPosition().y * PPM),
 						 0);
 		cam.update();
 		
@@ -125,13 +125,13 @@ public class Play extends GameState{
 		b2cam.update();
 		
 		s.setProjectionMatrix(cam.combined);
-		car.render(s);
 		
+		bh.render(s);
+		terrain.render(s);
+		car.render(s);
 		for(BoxLoad t: truckLoad){
 			t.render(s);
 		}
-		
-		terrain.render(s);
 		
 		if(debug){
 			//debug box2d
@@ -143,16 +143,16 @@ public class Play extends GameState{
 	
 	private void createBoxes() {
 		
-	    truckLoad.add( new BoxLoad(world, 40, 40, 400f / PPM, 250 / PPM) );
-		truckLoad.add( new BoxLoad(world, 40, 40, 375f / PPM, 250 / PPM) );
-		truckLoad.add( new BoxLoad(world, 40, 40, 387.5f / PPM, 275 / PPM) );
+	    truckLoad.add( new BoxLoad(world, 40, 40, 0f / PPM, 100 / PPM) );
+		truckLoad.add( new BoxLoad(world, 40, 40, -50f / PPM, 100 / PPM) );
+		truckLoad.add( new BoxLoad(world, 40, 40, -25f / PPM, 175 / PPM) );
 		
 	}
 
 	private void createStage() {
 		//track0
 		FixtureDef terrainFixture = new FixtureDef();
-		terrainFixture.friction = 0.3f;
+		terrainFixture.friction = 1f;
 				
 		terrain = new Terrain0(world, terrainFixture, -100 / PPM, -400 / PPM, 50);
 	}

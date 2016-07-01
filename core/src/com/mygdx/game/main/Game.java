@@ -39,6 +39,9 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/tyre.png", "Wheel");
 		cm.loadTexture("sprites/box.png", "Box");
 		cm.loadTexture("sprites/track0.png", "track0");
+		cm.loadTexture("sprites/layer1.png", "layer1");
+		cm.loadTexture("sprites/layer2.png", "layer2");
+		cm.loadTexture("sprites/skybox.png", "skybox");
 		
 		s = new SpriteBatch();
 		cam = new OrthographicCamera();

@@ -91,6 +91,8 @@ public class Car extends InputAdapter implements Box2DSprite{
 		wheelShape.setRadius(((scale) / 2) / 15);
 		
 		wheelFixture.shape = wheelShape;
+		wheelFixture.friction = 5f;
+		
 		leftWheel = w.createBody(bd);
 		leftWheel.createFixture(wheelFixture);
 		

@@ -25,6 +25,9 @@ public class BoxLoad implements Box2DSprite{
 	private	float width, height;
 
 	public BoxLoad(World w, float width, float height, float x, float y){
+		this(w, 5, width, height, x, y);
+	}
+	public BoxLoad(World w, float weight ,float width, float height, float x, float y){
 		this.width = width;
 		this.height = height;
 		
@@ -35,7 +38,7 @@ public class BoxLoad implements Box2DSprite{
 		//boxes
 		FixtureDef boxFixture = new FixtureDef();
 		boxFixture.friction = 1f;
-		boxFixture.density = 10f;
+		boxFixture.density = weight;
 		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox((width / 2) / PPM , (height / 2) / PPM);
