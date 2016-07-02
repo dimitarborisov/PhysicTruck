@@ -147,18 +147,18 @@ public class Play extends GameState{
 	
 	private void createBoxes() {
 		
-	    //truckLoad.add( new BoxLoad(world, 40, 40, 0f / PPM, 100 / PPM) );
+	    truckLoad.add( new BoxLoad(world, 40, 40, 0f / PPM, 100 / PPM) );
 		truckLoad.add( new BoxLoad(world, 40, 40, -50f / PPM, 120 / PPM) );
-		//truckLoad.add( new BoxLoad(world, 40, 40, -25f / PPM, 175 / PPM) );
+		truckLoad.add( new BoxLoad(world, 40, 40, -25f / PPM, 175 / PPM) );
 		
 	}
 
 	private void createStage() {
 		//track0
 		FixtureDef terrainFixture = new FixtureDef();
-		terrainFixture.friction = 1f;
+		terrainFixture.friction = 2f;
 				
-		terrain = new Terrain0(world, terrainFixture, -100 / PPM, -400 / PPM, 70);
+		terrain = new Terrain0(world, terrainFixture, -100 / PPM, -150 / PPM, 25);
 	}
 
 	

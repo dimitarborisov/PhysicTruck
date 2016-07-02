@@ -32,14 +32,14 @@ public class Terrain0 implements Box2DSprite{
 		this.y = y;
 		
 		textureTerrain = Game.cm.getTexture("track0");
-		textureTerrain.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		//textureTerrain.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		spriteTerrain = new Sprite(textureTerrain);
 		spriteTerrain.setSize(scale * Box2DVariables.PPM, (scale*spriteTerrain.getHeight()/spriteTerrain.getWidth()) * Box2DVariables.PPM);
 		
 		//body of the truck
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/tracknull.json"));
+		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/track1,2.json"));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();
@@ -51,8 +51,8 @@ public class Terrain0 implements Box2DSprite{
 		
 		
 		// 4. Create the body fixture automatically by using the loader.
-		loader.attachFixture(terrain, "track", terrainFixture, scale);
-		terrainOrigin = loader.getOrigin("track", scale).cpy();
+		loader.attachFixture(terrain, "Name", terrainFixture, scale);
+		terrainOrigin = loader.getOrigin("Name", scale).cpy();
 		
 		
 	}

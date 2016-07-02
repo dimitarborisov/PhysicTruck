@@ -29,7 +29,7 @@ public class FarmTruck extends Box2DVehicle{
 	private WheelJoint leftAxis, rightAxis;
 	Vector2 bodyOrigin;
 	
-	private float motorSpeed = 25;
+	private float motorSpeed = 55;
 	
 	private Sprite bodySprite;
 	private Sprite wheelSprite;
