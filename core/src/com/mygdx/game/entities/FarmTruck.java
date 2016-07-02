@@ -22,7 +22,7 @@ import com.mygdx.game.handlers.Box2DVariables;
 import com.mygdx.game.handlers.MyUserData;
 import com.mygdx.game.main.Game;
 
-public class Car extends Box2DVehicle{
+public class FarmTruck extends Box2DVehicle{
 	private float carWidth;
 	
 	private Body body, leftWheel, rightWheel;
@@ -36,8 +36,10 @@ public class Car extends Box2DVehicle{
 	
 	private Texture bodyTexture;
 	private Texture wheelTexture;
+	
+	private Vector2 truckPos;
 
-	public Car(World w, float x, float y, float scale){
+	public FarmTruck(World w, float x, float y, float scale){
 		//Car width
 		carWidth = scale;
 		
@@ -45,7 +47,7 @@ public class Car extends Box2DVehicle{
 		FixtureDef wheelFixture = new FixtureDef();
 		
 		//truck
-		bodyFixture.density = 5;
+		bodyFixture.density = 2;
 		bodyFixture.friction = 0.4f;
 		bodyFixture.restitution = 0.3f;
 
@@ -58,7 +60,7 @@ public class Car extends Box2DVehicle{
 		bodyFixture.restitution = 0.4f;
 		
 		//load fixtures
-		bodyTexture = Game.cm.getTexture("Truck");
+		bodyTexture = Game.cm.getTexture("FarmTruck");
 		wheelTexture = Game.cm.getTexture("Wheel");
 		
 		wheelTexture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
@@ -70,7 +72,7 @@ public class Car extends Box2DVehicle{
 		
 		//body of the truck
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/truck.json"));
+		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/truck1,1.json"));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();
@@ -81,14 +83,17 @@ public class Car extends Box2DVehicle{
 		body = w.createBody(bd);
 
 		// 4. Create the body fixture automatically by using the loader.
-		loader.attachFixture(body, "body", bodyFixture, carWidth);
-		bodyOrigin = loader.getOrigin("body", carWidth).cpy();
+		loader.attachFixture(body, "Name", bodyFixture, carWidth);
+		bodyOrigin = loader.getOrigin("Name", carWidth).cpy();
 		
+		//setup basic Sprite options
+		bodySprite.setSize(carWidth * Box2DVariables.PPM, (carWidth*bodySprite.getHeight()/bodySprite.getWidth()) * Box2DVariables.PPM);
+		bodySprite.setOrigin(bodyOrigin.x * Box2DVariables.PPM, bodyOrigin.y * Box2DVariables.PPM);
 		
 		//left wheel
 		bd.position.set(x , y);
 		CircleShape wheelShape = new CircleShape();
-		wheelShape.setRadius(((scale) / 2) / 15);
+		wheelShape.setRadius(33 / Box2DVariables.PPM);
 		
 		wheelFixture.shape = wheelShape;
 		wheelFixture.friction = 5f;
@@ -107,20 +112,21 @@ public class Car extends Box2DVehicle{
 		axisDef.bodyA = body;
 		axisDef.bodyB = leftWheel;
 		//axisDef.localAnchorA.set(x / scale - 1, - (y / scale) - 0.4f);
-		axisDef.localAnchorA.set(body.getPosition().x - 0.6f, body.getPosition().y - 0.6f);
+		axisDef.localAnchorA.set(body.getPosition().x - 0.55f, body.getPosition().y - 0.7f);
 		axisDef.localAxisA.set(Vector2.Y);
-		axisDef.frequencyHz = bodyFixture.density + 2;
+		axisDef.frequencyHz = bodyFixture.density + 4;
 		axisDef.maxMotorTorque = bodyFixture.density * 2;
 		
 		
 		leftAxis = (WheelJoint) w.createJoint(axisDef);
 		
 		//right axis
-		axisDef.frequencyHz = bodyFixture.density;
+		axisDef.frequencyHz = bodyFixture.density + 3;
 		axisDef.bodyB = rightWheel;
-		axisDef.localAnchorA.set(body.getPosition().x + 0.6f, body.getPosition().y - 0.6f);
+		axisDef.localAnchorA.set(body.getPosition().x + 0.46f, body.getPosition().y - 0.7f);
 		
 		rightAxis = (WheelJoint) w.createJoint(axisDef);
+		
 	}
 	
 
@@ -144,7 +150,7 @@ public class Car extends Box2DVehicle{
 		
 		case Keys.SPACE:
 			leftWheel.setFixedRotation(true);
-			rightWheel.setFixedRotation(true);
+			//rightWheel.setFixedRotation(true);
 		
 		}
 		
@@ -161,17 +167,13 @@ public class Car extends Box2DVehicle{
 			
 		case Keys.SPACE:
 			leftWheel.setFixedRotation(false);
-			rightWheel.setFixedRotation(false);
+			//rightWheel.setFixedRotation(false);
 		}
 		return true;
 	}
 	
 	public Body getBody(){
 		return body;
-	}
-
-
-	public void update(float dt) {
 	}
 
 
@@ -184,7 +186,7 @@ public class Car extends Box2DVehicle{
 	
 	private void renderLeftWheel(SpriteBatch sb){
 		sb.begin();
-			wheelSprite.setSize(70 , 70);
+			wheelSprite.setSize(66, 66);
 			wheelSprite.setOrigin(wheelSprite.getHeight() / 2, wheelSprite.getWidth() / 2);
 			
 			wheelSprite.setPosition(leftWheel.getPosition().x * Box2DVariables.PPM - wheelSprite.getHeight() / 2,
@@ -199,7 +201,7 @@ public class Car extends Box2DVehicle{
 	
 	private void renderRightWheel(SpriteBatch sb){
 		sb.begin();
-			wheelSprite.setSize(70 , 70);
+			wheelSprite.setSize(66, 66);
 			wheelSprite.setOrigin(wheelSprite.getHeight() / 2, wheelSprite.getWidth() / 2);
 			
 			wheelSprite.setPosition(rightWheel.getPosition().x * Box2DVariables.PPM - wheelSprite.getHeight() / 2,
@@ -215,17 +217,21 @@ public class Car extends Box2DVehicle{
 	
 	private void renderBody(SpriteBatch sb){
 		sb.begin();
-			bodySprite.setSize(230 + 4f, 80 + 4f);
+			//Save body position matrix
+			truckPos = body.getPosition().sub(bodyOrigin);
 			
-			bodySprite.setOrigin(bodySprite.getWidth() / 2, bodySprite.getHeight() / 2);
-			
-			bodySprite.setPosition(body.getPosition().x * Box2DVariables.PPM - bodySprite.getWidth() / 2,
-									body.getPosition().y * Box2DVariables.PPM - bodySprite.getHeight() / 2);
-			
+			bodySprite.setPosition(truckPos.x * Box2DVariables.PPM, truckPos.y * Box2DVariables.PPM);
 			bodySprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
 		
 			bodySprite.draw(sb);
 
 		sb.end();
+	}
+
+
+	@Override
+	public void update(float dt) {
+		// TODO Auto-generated method stub
+		
 	}
 }

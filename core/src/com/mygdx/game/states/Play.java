@@ -16,8 +16,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
-import com.mygdx.game.entities.Car;
+import com.mygdx.game.entities.FarmTruck;
 import com.mygdx.game.entities.Terrain0;
 import com.mygdx.game.handlers.BackgroundHandler;
 import com.mygdx.game.handlers.GameStateManager;
@@ -30,7 +31,8 @@ public class Play extends GameState{
 	private boolean debug;
 	private OrthographicCamera b2cam;
 	
-	private Car car;
+	private Box2DVehicle car;
+	//private Car2 car2;
 	private Terrain0 terrain;
 	private ArrayList<BoxLoad> truckLoad;
 	Array<Body> bodies;
@@ -129,10 +131,11 @@ public class Play extends GameState{
 		
 		bh.render(s);
 		terrain.render(s);
-		car.render(s);
 		for(BoxLoad t: truckLoad){
 			t.render(s);
 		}
+		
+		car.render(s);
 		
 		if(debug){
 			//debug box2d
@@ -144,9 +147,9 @@ public class Play extends GameState{
 	
 	private void createBoxes() {
 		
-	    truckLoad.add( new BoxLoad(world, 40, 40, 0f / PPM, 100 / PPM) );
-		truckLoad.add( new BoxLoad(world, 40, 40, -50f / PPM, 100 / PPM) );
-		truckLoad.add( new BoxLoad(world, 40, 40, -25f / PPM, 175 / PPM) );
+	    //truckLoad.add( new BoxLoad(world, 40, 40, 0f / PPM, 100 / PPM) );
+		truckLoad.add( new BoxLoad(world, 40, 40, -50f / PPM, 120 / PPM) );
+		//truckLoad.add( new BoxLoad(world, 40, 40, -25f / PPM, 175 / PPM) );
 		
 	}
 
@@ -162,7 +165,7 @@ public class Play extends GameState{
 	private void createTruck() {
 		
 		
-		car = new Car(world, 0 / PPM, 0 / PPM, 10);
+		car = new FarmTruck(world, 0 / PPM, 0 / PPM, 2);
 		
 	}
 	

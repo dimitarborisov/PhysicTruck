@@ -15,14 +15,14 @@ public class BackgroundLayer {
 	Sprite sprite;
 	Sprite sprite2;
 	OrthographicCamera cam;
-	Car car;
+	Box2DVehicle vehicle;
 	SpriteBatch s;
 	
-	public BackgroundLayer(Texture texture, float distance, float width, float height,Car car) {
+	public BackgroundLayer(Texture texture, float distance, float width, float height,Box2DVehicle car) {
 		s = new SpriteBatch();
 		this.texture = texture;
 		this.distance = distance;
-		this.car = car;
+		this.vehicle = car;
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, Game.VWIDTH, Game.VHEIGHT);
 		
@@ -49,8 +49,8 @@ public class BackgroundLayer {
 	public void render(SpriteBatch sb){
 		//System.out.println(sprite.getX() + sprite.getWidth() - cam.position.x);
 		//follow player sprite
-		cam.position.set((this.car.getBody().getPosition().x * PPM) / distance,
-						(this.car.getBody().getPosition().y * PPM),
+		cam.position.set((this.vehicle.getBody().getPosition().x * PPM) / distance,
+						(this.vehicle.getBody().getPosition().y * PPM),
 						0);
 		cam.update();
 		
