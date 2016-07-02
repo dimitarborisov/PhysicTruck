@@ -77,4 +77,8 @@ public class Terrain0 implements Box2DSprite{
 		sb.end();
 		
 	}
+	
+	public Body getBody(){
+		return this.terrain;
+	}
 }

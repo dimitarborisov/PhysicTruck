@@ -18,7 +18,7 @@ public class BackgroundLayer {
 	Car car;
 	SpriteBatch s;
 	
-	public BackgroundLayer(Texture texture, float distance, Car car) {
+	public BackgroundLayer(Texture texture, float distance, float width, float height,Car car) {
 		s = new SpriteBatch();
 		this.texture = texture;
 		this.distance = distance;
@@ -30,16 +30,19 @@ public class BackgroundLayer {
 		sprite2 = new Sprite(texture);
 		
 		
-		sprite.setSize(Game.VWIDTH, Game.VHEIGHT);
+		//sprite.setSize(Game.VWIDTH, Game.VHEIGHT);
+		sprite.setSize(width, height);
 		sprite.setX(sprite.getX() - sprite.getWidth() / 2);
-		sprite.setY(cam.position.y);
 		
-        sprite2.setSize(Game.VWIDTH, Game.VHEIGHT);
-		//sprite2.setX(sprite.getX() + sprite.getWidth());
-		sprite2.setY(sprite.getY());
 		
-		sprite.setY(cam.position.y / Box2DVariables.PPM - sprite.getHeight() / 2);
-		sprite2.setY(sprite.getY());
+		
+        //sprite2.setSize(Game.VWIDTH, Game.VHEIGHT);
+		sprite2.setSize(width, height);
+		sprite2.setX(sprite2.getX() + sprite.getWidth() / 2);
+		
+		
+		//sprite.setY(cam.position.y / Box2DVariables.PPM - sprite.getHeight() / 2);
+		//sprite2.setY(sprite.getY());
 		
 	}
 
@@ -50,6 +53,9 @@ public class BackgroundLayer {
 						(this.car.getBody().getPosition().y * PPM),
 						0);
 		cam.update();
+		
+		sprite.setY(cam.position.y - sprite.getHeight() / 2f);
+		sprite2.setY(sprite.getY());
 		
 		s.setProjectionMatrix(cam.combined);
 		

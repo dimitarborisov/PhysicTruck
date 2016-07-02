@@ -39,12 +39,13 @@ public class Play extends GameState{
 	
 	public Play(GameStateManager m) {
 		super(m);
+		debug = false;
 		
 		initializeWorld();
 		createTruck();
 		createStage();
-		//createBoxes();
-		bh = new BackgroundHandler(car);
+		createBoxes();
+		bh = new BackgroundHandler(car, terrain.getBody().getPosition().x, terrain.getBody().getPosition().y);
 		
 		//set inputProcessors
 		Gdx.input.setInputProcessor(new InputMultiplexer(new InputProcessor(){
@@ -154,7 +155,7 @@ public class Play extends GameState{
 		FixtureDef terrainFixture = new FixtureDef();
 		terrainFixture.friction = 1f;
 				
-		terrain = new Terrain0(world, terrainFixture, -100 / PPM, -400 / PPM, 50);
+		terrain = new Terrain0(world, terrainFixture, -100 / PPM, -400 / PPM, 70);
 	}
 
 	
@@ -166,7 +167,6 @@ public class Play extends GameState{
 	}
 	
 	private void initializeWorld() {
-		debug = true;
 		
 		truckLoad = new ArrayList<BoxLoad>();
 		
