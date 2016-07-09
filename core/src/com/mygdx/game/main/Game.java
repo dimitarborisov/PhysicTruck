@@ -38,7 +38,7 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/body.png", "Truck");
 		cm.loadTexture("sprites/path4209.png", "Wheel");
 		cm.loadTexture("sprites/box.png", "Box");
-		cm.loadTexture("sprites/track0,1.png", "track0");
+		cm.loadTexture("sprites/track0,0.png", "track0");
 		
 		cm.loadTexture("sprites/layer1.png", "layer1");
 		cm.loadTexture("sprites/layer2.png", "layer2");
@@ -47,6 +47,8 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/image10.png", "image10.png");
 		cm.loadTexture("sprites/image4146.png", "image4146.png");
 		cm.loadTexture("sprites/image4157.png", "image4157.png");
+		
+		cm.loadTexture("sprites/finish.png", "finish");
 		
 		cm.loadTexture("sprites/path4172.png", "FarmTruck");
 		
@@ -114,6 +116,10 @@ public class Game implements ApplicationListener{
 	}
 	public void setHud(OrthographicCamera hud) {
 		this.hud = hud;
+	}
+	
+	public GameStateManager getGameState(){
+		return m;
 	}
 
 }

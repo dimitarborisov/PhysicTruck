@@ -18,28 +18,43 @@ import com.mygdx.game.main.Game;
 
 public class Terrain0 implements Box2DSprite{
 	private Body terrain;
+	private Body flag;
+	
 	Vector2 terrainOrigin;
+	Vector2 flagOrigin;
+	
 	float scale;
 	
 	Texture textureTerrain;
+	Texture textureFlag;
+	
 	Sprite spriteTerrain;
-
+	Sprite spriteFlag;
+	
 	float x, y;
 	
-	public Terrain0(World w, FixtureDef terrainFixture, float x, float y, float scale){
+	public Terrain0(World w, float x, float y, float scale){
 		this.scale = scale;
 		this.x = x;
 		this.y = y;
 		
+		FixtureDef terrainFixture = new FixtureDef();
+		terrainFixture.friction = 2f;
+		
 		textureTerrain = Game.cm.getTexture("track0");
 		//textureTerrain.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		textureFlag = Game.cm.getTexture("finish");
 		
 		spriteTerrain = new Sprite(textureTerrain);
 		spriteTerrain.setSize(scale * Box2DVariables.PPM, (scale*spriteTerrain.getHeight()/spriteTerrain.getWidth()) * Box2DVariables.PPM);
 		
+		spriteFlag = new Sprite(textureFlag);
+		spriteFlag.setSize(1f * Box2DVariables.PPM, (1f*spriteFlag.getHeight()/spriteFlag.getWidth()) * Box2DVariables.PPM);
+		
 		//body of the truck
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/track1,2.json"));
+		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/track0,0.json"));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();
@@ -48,13 +63,32 @@ public class Terrain0 implements Box2DSprite{
 		
 		// 3. Create a Body, as usual.
 		terrain = w.createBody(bd);
-		
-		
 		// 4. Create the body fixture automatically by using the loader.
-		loader.attachFixture(terrain, "Name", terrainFixture, scale);
-		terrainOrigin = loader.getOrigin("Name", scale).cpy();
+		loader.attachFixture(terrain, "track", terrainFixture, scale);
+		terrainOrigin = loader.getOrigin("track", scale).cpy();
 		
 		
+		
+		//Create finish flag
+		// 0. Create a loader for the file saved from the editor.
+		BodyEditorLoader flagLoader = new BodyEditorLoader(Gdx.files.internal("models/finish.json"));
+
+		// 1. Create a BodyDef, as usual.
+		BodyDef bdFlag = new BodyDef();
+		FixtureDef flagFixture = new FixtureDef();
+		bdFlag.position.set( 9.5f , 1f);
+		flagFixture.isSensor = true;
+		//flagFixture.filter.categoryBits = 2;
+		//flagFixture.filter.maskBits = 0;
+		
+		// 3. Create a Body, as usual.
+		flag = w.createBody(bdFlag);
+		flag.setUserData("FINISH");
+		
+				
+		// 4. Create the body fixture automatically by using the loader.
+		flagLoader.attachFixture(flag, "flag", flagFixture , 1f);
+		flagOrigin = flagLoader.getOrigin("flag", scale).cpy();
 	}
 
 
@@ -72,7 +106,12 @@ public class Terrain0 implements Box2DSprite{
 		spriteTerrain.setRotation(terrain.getAngle() * MathUtils.radiansToDegrees);
 		
 		
+		Vector2 flagPos = flag.getPosition().sub(flagOrigin);
+		spriteFlag.setPosition(flagPos.x * Box2DVariables.PPM, flagPos.y * Box2DVariables.PPM);
+		spriteFlag.setOrigin(flagOrigin.x * Box2DVariables.PPM, flagOrigin.y * Box2DVariables.PPM);
+		spriteFlag.setRotation(flag.getAngle() * MathUtils.radiansToDegrees);
 		
+		spriteFlag.draw(sb);
 		spriteTerrain.draw(sb);
 		sb.end();
 		

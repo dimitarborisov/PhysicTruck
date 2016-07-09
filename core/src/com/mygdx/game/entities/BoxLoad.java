@@ -37,7 +37,7 @@ public class BoxLoad implements Box2DSprite{
 				
 		//boxes
 		FixtureDef boxFixture = new FixtureDef();
-		boxFixture.friction = 4f;
+		boxFixture.friction = 2f;
 		boxFixture.density = weight;
 		
 		PolygonShape shape = new PolygonShape();

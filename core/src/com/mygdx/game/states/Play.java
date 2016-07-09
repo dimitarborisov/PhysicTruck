@@ -41,7 +41,7 @@ public class Play extends GameState{
 	
 	public Play(GameStateManager m) {
 		super(m);
-		debug = false;
+		debug = true;
 		
 		initializeWorld();
 		createTruck();
@@ -147,25 +147,24 @@ public class Play extends GameState{
 	
 	private void createBoxes() {
 		
-	    truckLoad.add( new BoxLoad(world, 40, 40, 0f / PPM, 100 / PPM) );
-		truckLoad.add( new BoxLoad(world, 40, 40, -50f / PPM, 120 / PPM) );
-		truckLoad.add( new BoxLoad(world, 40, 40, -25f / PPM, 175 / PPM) );
+	    truckLoad.add( new BoxLoad(world, 40, 40, 125 / PPM, 350 / PPM) );
+		truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 300 / PPM) );
+		truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 300 / PPM) );
 		
 	}
 
 	private void createStage() {
 		//track0
-		FixtureDef terrainFixture = new FixtureDef();
-		terrainFixture.friction = 2f;
+		
 				
-		terrain = new Terrain0(world, terrainFixture, -100 / PPM, -150 / PPM, 25);
+		terrain = new Terrain0(world, 0 / PPM, 0 / PPM, 10);
 	}
 
 	
 	private void createTruck() {
 		
 		
-		car = new FarmTruck(world, 0 / PPM, 0 / PPM, 2);
+		car = new FarmTruck(world, 150 / PPM, 130 / PPM, 2);
 		
 	}
 	
@@ -174,7 +173,7 @@ public class Play extends GameState{
 		truckLoad = new ArrayList<BoxLoad>();
 		
 		world = new World(new Vector2(0,-9.8f), false);
-		world.setContactListener(new MyContactListener());
+		world.setContactListener(new MyContactListener(m));
 		box2dDebug = new Box2DDebugRenderer();
 		bodies = new Array<Body>();
 		

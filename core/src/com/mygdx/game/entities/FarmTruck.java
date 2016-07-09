@@ -91,7 +91,7 @@ public class FarmTruck extends Box2DVehicle{
 		bodySprite.setOrigin(bodyOrigin.x * Box2DVariables.PPM, bodyOrigin.y * Box2DVariables.PPM);
 		
 		//left wheel
-		bd.position.set(x , y);
+		bd.position.set(body.getPosition().x, body.getPosition().y);
 		CircleShape wheelShape = new CircleShape();
 		wheelShape.setRadius(33 / Box2DVariables.PPM);
 		
@@ -103,7 +103,9 @@ public class FarmTruck extends Box2DVehicle{
 		
 
 		//right wheel
+		bd.position.set(body.getPosition().x, body.getPosition().y);
 		rightWheel = w.createBody(bd);
+	
 		rightWheel.createFixture(wheelFixture);
 		//rightWheel.setUserData(new MyUserData("leftWheel", rightWheel, "sprites/tyre.png"));
 		
@@ -112,18 +114,20 @@ public class FarmTruck extends Box2DVehicle{
 		axisDef.bodyA = body;
 		axisDef.bodyB = leftWheel;
 		//axisDef.localAnchorA.set(x / scale - 1, - (y / scale) - 0.4f);
-		axisDef.localAnchorA.set(body.getPosition().x - 0.55f, body.getPosition().y - 0.7f);
+		axisDef.localAnchorA.set( - 0.55f,  - 0.7f);
+		
 		axisDef.localAxisA.set(Vector2.Y);
 		axisDef.frequencyHz = bodyFixture.density + 4;
 		axisDef.maxMotorTorque = bodyFixture.density * 2;
 		
 		
 		leftAxis = (WheelJoint) w.createJoint(axisDef);
+		//System.out.println(rightWheel.getPosition().x);
 		
 		//right axis
 		axisDef.frequencyHz = bodyFixture.density + 3;
 		axisDef.bodyB = rightWheel;
-		axisDef.localAnchorA.set(body.getPosition().x + 0.46f, body.getPosition().y - 0.7f);
+		axisDef.localAnchorA.set(0.46f, - 0.7f);
 		
 		rightAxis = (WheelJoint) w.createJoint(axisDef);
 		
@@ -178,7 +182,7 @@ public class FarmTruck extends Box2DVehicle{
 
 
 	public void render(SpriteBatch sb) {
-		
+		//System.out.println(body.getPosition().x + " - " + leftWheel.getPosition().x + " - " + leftAxis.getLocalAnchorA().x);
 		renderRightWheel(sb);
 		renderLeftWheel(sb);
 		renderBody(sb);
