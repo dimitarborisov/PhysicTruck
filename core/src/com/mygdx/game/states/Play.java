@@ -41,7 +41,7 @@ public class Play extends GameState{
 	
 	public Play(GameStateManager m) {
 		super(m);
-		debug = true;
+		debug = false;
 		
 		initializeWorld();
 		createTruck();

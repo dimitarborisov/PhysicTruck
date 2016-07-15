@@ -18,7 +18,7 @@ public class BackgroundLayer {
 	Box2DVehicle vehicle;
 	SpriteBatch s;
 	
-	public BackgroundLayer(Texture texture, float distance, float width, float height,Box2DVehicle car) {
+	public BackgroundLayer(Texture texture, float distance, float width, float height, Box2DVehicle car) {
 		s = new SpriteBatch();
 		this.texture = texture;
 		this.distance = distance;
