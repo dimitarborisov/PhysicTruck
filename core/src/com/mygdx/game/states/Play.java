@@ -49,7 +49,7 @@ public class Play extends GameState{
 		createTruck();
 		createStage();
 		createBoxes();
-		bh = new BackgroundHandler(car, terrain.getTerrain().getPosition().x, terrain.getTerrain().getPosition().y);
+		bh = new BackgroundHandler(car);
 		
 		//set inputProcessors
 		Gdx.input.setInputProcessor(new InputMultiplexer(new InputProcessor(){

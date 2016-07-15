@@ -56,25 +56,25 @@ public class LevelSelect extends GameState {
 
 		// add buttons
 		sib = new ArrayList<SimpleImageButton>();
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage1"), "1", 40, 13, 280, 280));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage1"), "2", 360, 13, 280, 280));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage1"), "3", 680, 13, 280, 280));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage1"), "4", 40, 306, 280, 280));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage1"), "5", 360, 306, 280, 280));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage1"), "6", 680, 306, 280, 280));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage1"), "1", 40, 13, 280, 280, false, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage2"), "2", 360, 13, 280, 280, false, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage3"), "3", 680, 13, 280, 280, false, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage4"), "4", 40, 306, 280, 280, false, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage5"), "5", 360, 306, 280, 280, false, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage6"), "6", 680, 306, 280, 280, false, true));
 
 		// create background
 		initializeWorld();
 		createTruck();
 		createStage();
 		createBoxes();
-		bh = new BackgroundHandler(car, terrain1.getTerrain().getPosition().x, terrain1.getTerrain().getPosition().y);
+		bh = new BackgroundHandler(car);
 
 		Timer.schedule(new Task() {
 
 			@Override
 			public void run() {
-				car.getBody().setLinearVelocity(1, 0);
+				car.getBody().setLinearVelocity(2, 0);
 			}
 
 		}, 1, 0.1f);

@@ -51,8 +51,18 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/finish.png", "finish");
 		
 		cm.loadTexture("sprites/path4172.png", "FarmTruck");
-		cm.loadTexture("sprites/stage1.png", "buttonStage1");
 		
+		
+		//stage select numbers
+		cm.loadTexture("sprites/stage1.png", "buttonStage1");
+		cm.loadTexture("sprites/stage2.png", "buttonStage2");
+		cm.loadTexture("sprites/stage3.png", "buttonStage3");
+		cm.loadTexture("sprites/stage4.png", "buttonStage4");
+		cm.loadTexture("sprites/stage5.png", "buttonStage5");
+		cm.loadTexture("sprites/stage6.png", "buttonStage6");
+		
+		//press enter "button"
+		cm.loadTexture("sprites/press_enter.png", "press_enter");
 		
 		
 		s = new SpriteBatch();

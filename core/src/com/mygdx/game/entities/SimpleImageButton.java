@@ -16,22 +16,25 @@ public class SimpleImageButton {
 	private String name;
 	private int stageSelect;
 	
-	public SimpleImageButton(Texture texture, String name, float x, float y, float width, float height){
+	public SimpleImageButton(Texture texture, String name, float x, float y, float width, float height, boolean iX, boolean iY){
 		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
-		this.name = name;
 		
+		this.name = name;
 		stageSelect = id;
 		buttonSprite = new Sprite(texture);
 		buttonSprite.setPosition(x, y);
 		buttonSprite.setSize(width, height);
-		
-		//buttonSprite.flip(false, true);
+		buttonSprite.flip(iX, iY);
 		
 		id++;
 	}
 	
+	public SimpleImageButton(Texture texture, String name, float x, float y, float width, float height){
+		this(texture, name, x, y, width, height, false, false);
+	}
+	
 	public SimpleImageButton(Texture texture, float x, float y, float width, float height) {
-		this(texture, id + "", x, y, width, height);
+		this(texture, id + "", x, y, width, height, false, false);
 	}
 
 	public void update(int input_x, int input_y) {

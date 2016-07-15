@@ -13,7 +13,7 @@ public class BackgroundHandler implements Box2DSprite{
 	ArrayList<BackgroundLayer> backgrounds;
 	Box2DVehicle car;
 	
-	public BackgroundHandler(Box2DVehicle car, float x, float y){
+	public BackgroundHandler(Box2DVehicle car){
 		this.car = car;
 		backgrounds = new ArrayList<BackgroundLayer>();
 		backgrounds.add(new BackgroundLayer(Game.cm.getTexture("image10.png"), 10f, Game.VWIDTH, Game.VHEIGHT));
