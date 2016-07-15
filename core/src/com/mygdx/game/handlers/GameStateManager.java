@@ -20,7 +20,7 @@ public class GameStateManager {
 	public GameStateManager(Game game){
 		this.game = game;
 		gameStates = new Stack<GameState>();
-		gameStates.push(getState(LEVELSELECT));
+		gameStates.push(getState(PLAY));
 		
 	}
 	

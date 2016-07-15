@@ -106,6 +106,7 @@ public class Play extends GameState{
 	@Override
 	public void update(float dt) {
 		world.step(dt, 6, 2);
+		bh.update(dt);
 		
 	}
 
