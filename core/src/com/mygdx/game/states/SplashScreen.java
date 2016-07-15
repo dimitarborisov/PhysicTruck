@@ -5,6 +5,7 @@ import static com.mygdx.game.handlers.Box2DVariables.PPM;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -74,7 +75,7 @@ public class SplashScreen extends GameState{
                 TweenSpriteAccessor()); 
 		
 		
-		Tween.to(pressEnterSprite, TweenSpriteAccessor.ALPHA , 1.0f)
+		Tween.to(pressEnterSprite, TweenSpriteAccessor.ALPHA , 0.5f)
 				.target(1f)
 				.repeatYoyo(-1, 0.3f)
 				.start(tweenManager);
@@ -99,8 +100,11 @@ public class SplashScreen extends GameState{
 
 			@Override
 			public boolean keyDown(int keycode) {
-				// TODO Auto-generated method stub
-				return false;
+				if(keycode == Keys.ENTER){
+					getStateManager().setState(getStateManager().LEVELSELECT);
+				}
+				
+				return true;
 			}
 
 			@Override
@@ -123,8 +127,7 @@ public class SplashScreen extends GameState{
 
 			@Override
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				// Vector3 input = new Vector3(screenX, screenY, 0);
-				// cam.unproject(input);
+				getStateManager().setState(getStateManager().LEVELSELECT);
 
 				return true;
 			}
