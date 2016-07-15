@@ -13,9 +13,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.entities.Box2DTerrain;
 import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
 import com.mygdx.game.entities.FarmTruck;
@@ -32,22 +32,24 @@ public class Play extends GameState{
 	private OrthographicCamera b2cam;
 	
 	private Box2DVehicle car;
-	//private Car2 car2;
-	private Terrain0 terrain;
+	private Box2DTerrain terrain;
 	private ArrayList<BoxLoad> truckLoad;
 	Array<Body> bodies;
 	BackgroundHandler bh;
 	
+	public static int STAGESELECTED = -1;
 	
 	public Play(GameStateManager m) {
 		super(m);
 		debug = false;
 		
+		System.out.println("starting stage: " + STAGESELECTED);
+		
 		initializeWorld();
 		createTruck();
 		createStage();
 		createBoxes();
-		bh = new BackgroundHandler(car, terrain.getBody().getPosition().x, terrain.getBody().getPosition().y);
+		bh = new BackgroundHandler(car, terrain.getTerrain().getPosition().x, terrain.getTerrain().getPosition().y);
 		
 		//set inputProcessors
 		Gdx.input.setInputProcessor(new InputMultiplexer(new InputProcessor(){
@@ -156,8 +158,7 @@ public class Play extends GameState{
 
 	private void createStage() {
 		//track0
-		
-				
+	
 		terrain = new Terrain0(world, 0 / PPM, 0 / PPM, 10);
 	}
 
@@ -186,8 +187,5 @@ public class Play extends GameState{
 	
 	@Override
 	public void dispose() {}
-
-	@Override
-	public void handleInput() {}
 	
 }

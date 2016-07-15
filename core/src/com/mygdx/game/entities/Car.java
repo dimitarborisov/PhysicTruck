@@ -19,7 +19,6 @@ import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.mygdx.game.handlers.BodyEditorLoader;
 import com.mygdx.game.handlers.Box2DVariables;
-import com.mygdx.game.handlers.MyUserData;
 import com.mygdx.game.main.Game;
 
 public class Car extends Box2DVehicle{
@@ -227,5 +226,17 @@ public class Car extends Box2DVehicle{
 			bodySprite.draw(sb);
 
 		sb.end();
+	}
+
+
+	@Override
+	public Body getLeftWheel() {
+		return leftWheel;
+	}
+
+
+	@Override
+	public Body getRightWheel() {
+		return rightWheel;
 	}
 }

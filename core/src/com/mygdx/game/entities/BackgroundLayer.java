@@ -61,9 +61,6 @@ public class BackgroundLayer {
 		sprite.draw(s);
 		
 		s.end();
-	      
-	      
-	      
 	}
 	
 	public void update(float step, Vector2 movement){

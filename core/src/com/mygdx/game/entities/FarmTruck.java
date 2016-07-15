@@ -19,7 +19,6 @@ import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.mygdx.game.handlers.BodyEditorLoader;
 import com.mygdx.game.handlers.Box2DVariables;
-import com.mygdx.game.handlers.MyUserData;
 import com.mygdx.game.main.Game;
 
 public class FarmTruck extends Box2DVehicle{
@@ -237,5 +236,17 @@ public class FarmTruck extends Box2DVehicle{
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Body getLeftWheel() {
+		return leftWheel;
+	}
+
+
+	@Override
+	public Body getRightWheel() {
+		return rightWheel;
 	}
 }

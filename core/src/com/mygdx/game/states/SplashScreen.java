@@ -27,10 +27,4 @@ public class SplashScreen extends GameState{
 		
 	}
 
-	@Override
-	public void handleInput() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

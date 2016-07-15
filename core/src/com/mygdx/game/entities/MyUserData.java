@@ -1,4 +1,4 @@
-package com.mygdx.game.handlers;
+package com.mygdx.game.entities;
 
 public class MyUserData {
 	

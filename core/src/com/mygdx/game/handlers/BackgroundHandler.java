@@ -3,7 +3,6 @@ package com.mygdx.game.handlers;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.entities.BackgroundLayer;
 import com.mygdx.game.entities.Box2DSprite;
 import com.mygdx.game.entities.Box2DVehicle;

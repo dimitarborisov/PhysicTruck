@@ -8,18 +8,30 @@ import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.states.GameState;
 
 public class SimpleImageButton {
-
+	
+	private static int id = 0;
+	
 	private Sprite buttonSprite;
 	private boolean clicked;
+	private String name;
+	private int stageSelect;
 	
-	public SimpleImageButton(Texture texture, float x, float y, float width, float height) {
+	public SimpleImageButton(Texture texture, String name, float x, float y, float width, float height){
 		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
+		this.name = name;
 		
-		buttonSprite = new Sprite(texture); // your image
+		stageSelect = id;
+		buttonSprite = new Sprite(texture);
 		buttonSprite.setPosition(x, y);
 		buttonSprite.setSize(width, height);
 		
-		buttonSprite.flip(false, true);
+		//buttonSprite.flip(false, true);
+		
+		id++;
+	}
+	
+	public SimpleImageButton(Texture texture, float x, float y, float width, float height) {
+		this(texture, id + "", x, y, width, height);
 	}
 
 	public void update(int input_x, int input_y) {
@@ -33,8 +45,9 @@ public class SimpleImageButton {
 	}
 
 	private Boolean checkIfClicked(int ix, int iy) {
-		
-		if(buttonSprite.getBoundingRectangle().contains(ix, iy)){
+		//System.out.println(buttonSprite.getX()+ " " + buttonSprite.getWidth());
+		if((ix > buttonSprite.getX() && ix < buttonSprite.getX() + buttonSprite.getWidth())
+			&& (iy > buttonSprite.getY() && iy < buttonSprite.getY() + buttonSprite.getHeight())){
 			return true;
 		}
 		return false;
@@ -45,5 +58,18 @@ public class SimpleImageButton {
 		boolean tclicked = clicked;
 		clicked = false;
 		return tclicked;
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
+	public Sprite getSprite(){
+		return buttonSprite;
+	}
+	
+	public int getStageSelected(){
+		return stageSelect;
 	}
 }
