@@ -43,7 +43,7 @@ public class Play extends GameState{
 		super(m);
 		debug = false;
 		
-		System.out.println("starting stage: " + STAGESELECTED);
+		//System.out.println("starting stage: " + STAGESELECTED);
 		
 		initializeWorld();
 		createTruck();

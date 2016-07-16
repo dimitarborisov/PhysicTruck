@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.handlers.ContentManager;
 import com.mygdx.game.handlers.GameStateManager;
 
+import aurelienribon.tweenengine.TweenManager;
+
 public class Game implements ApplicationListener{
 	
 	//Game name
@@ -15,7 +17,6 @@ public class Game implements ApplicationListener{
 	//Virtual game size
 	public static final int VWIDTH = 1000;
 	public static final int VHEIGHT = 600;
-	
 	
 	public static final float STEP = 1/60f;
 	private float accumulator;
@@ -27,6 +28,8 @@ public class Game implements ApplicationListener{
 	private OrthographicCamera cam;
 	private OrthographicCamera hud;
 	private GameStateManager m;
+	
+	
 	
 	public static ContentManager cm;
 	
@@ -53,13 +56,16 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/path4172.png", "FarmTruck");
 		
 		
-		//stage select numbers
-		cm.loadTexture("sprites/stage1.png", "buttonStage1");
-		cm.loadTexture("sprites/stage2.png", "buttonStage2");
-		cm.loadTexture("sprites/stage3.png", "buttonStage3");
-		cm.loadTexture("sprites/stage4.png", "buttonStage4");
-		cm.loadTexture("sprites/stage5.png", "buttonStage5");
-		cm.loadTexture("sprites/stage6.png", "buttonStage6");
+		//stage select
+		cm.loadTexture("sprites/levelselectbuttonSmall.png", "buttonStage");
+		
+		//stage select background
+		cm.loadTexture("sprites/levelselect0.png", "levelselect0");
+		cm.loadTexture("sprites/levelselect1.png", "levelselect1");
+		cm.loadTexture("sprites/levelselect2.png", "levelselect2");
+		cm.loadTexture("sprites/levelselect3.png", "levelselect3");
+		
+		
 		
 		//press enter "button"
 		cm.loadTexture("sprites/press_enter.png", "press_enter");

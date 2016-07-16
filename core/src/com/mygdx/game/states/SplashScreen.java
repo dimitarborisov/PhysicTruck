@@ -25,6 +25,7 @@ import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
 import com.mygdx.game.entities.DummyStage;
 import com.mygdx.game.entities.FarmTruck;
+import com.mygdx.game.entities.tweenEntities.TweenBox2DVehicleAccessor;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.BackgroundHandler;
 import com.mygdx.game.handlers.GameStateManager;
@@ -91,12 +92,11 @@ public class SplashScreen extends GameState{
 
 		}, 1, 0.1f);
 
-		
 		//TWEEN SETTINGS
-		Tween.setCombinedAttributesLimit(4);
+		Tween.setCombinedAttributesLimit(6);
 		Tween.registerAccessor(Sprite.class, new 
                 TweenSpriteAccessor()); 
-		
+			
 		Tween.to(pressEnterSprite, TweenSpriteAccessor.ALPHA , 0.5f)
 				.target(1f)
 				.repeatYoyo(-1, 0.3f)
@@ -122,6 +122,7 @@ public class SplashScreen extends GameState{
 			@Override
 			public boolean keyDown(int keycode) {
 				if(keycode == Keys.ENTER){
+					tweenManager.killAll();
 					getStateManager().setState(getStateManager().LEVELSELECT);
 				}
 				
@@ -148,6 +149,7 @@ public class SplashScreen extends GameState{
 
 			@Override
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+				tweenManager.killAll();
 				getStateManager().setState(getStateManager().LEVELSELECT);
 
 				return true;
@@ -175,7 +177,7 @@ public class SplashScreen extends GameState{
 
 	@Override
 	public void update(float dt) {
-		tweenManager.update(Gdx.graphics.getDeltaTime());
+		tweenManager.update(dt);
 		world.step(dt, 6, 2);
 		bh.update(dt);
 
@@ -203,7 +205,6 @@ public class SplashScreen extends GameState{
 		} else {
 			terrain1.moveTerrain((sprite2.getX() - sprite1.getWidth()) / PPM, sprite1.getY() / PPM, 0);
 		}
-		
 		
 	}
 
@@ -264,7 +265,6 @@ public class SplashScreen extends GameState{
 		truckLoad = new ArrayList<Box2DLoad>();
 
 		world = new World(new Vector2(0, -9.8f), false);
-		// world.setContactListener(new MyContactListener(m));
 		bodies = new Array<Body>();
 	}
 
