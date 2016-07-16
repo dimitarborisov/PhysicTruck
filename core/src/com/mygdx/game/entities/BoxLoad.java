@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.handlers.Box2DVariables;
 import com.mygdx.game.main.Game;
 
-public class BoxLoad implements Box2DSprite{
+public class BoxLoad extends Box2DLoad{
 	private Body box;
 	
 	private Texture texture;
@@ -82,6 +82,21 @@ public class BoxLoad implements Box2DSprite{
 
 		sb.end();
 		
+	}
+	
+	@Override
+	public Body getLoad() {
+		return box;
+	}
+	
+	@Override
+	public Sprite getLoadSprite() {
+		return sprite;
+	}
+	
+	@Override
+	public void move(float x, float y, float angle) {
+		box.setTransform(x, y, angle);
 	}
 	
 	

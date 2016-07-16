@@ -2,7 +2,6 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -90,7 +89,7 @@ public class FarmTruck extends Box2DVehicle{
 		bodySprite.setOrigin(bodyOrigin.x * Box2DVariables.PPM, bodyOrigin.y * Box2DVariables.PPM);
 		
 		//left wheel
-		bd.position.set(body.getPosition().x, body.getPosition().y);
+		bd.position.set(body.getPosition().x - 0.55f, body.getPosition().y - 0.7f);
 		CircleShape wheelShape = new CircleShape();
 		wheelShape.setRadius(33 / Box2DVariables.PPM);
 		
@@ -102,7 +101,7 @@ public class FarmTruck extends Box2DVehicle{
 		
 
 		//right wheel
-		bd.position.set(body.getPosition().x, body.getPosition().y);
+		bd.position.set(body.getPosition().x + 0.46f, body.getPosition().y - 0.7f);
 		rightWheel = w.createBody(bd);
 	
 		rightWheel.createFixture(wheelFixture);
@@ -174,10 +173,6 @@ public class FarmTruck extends Box2DVehicle{
 		}
 		return true;
 	}
-	
-	public Body getBody(){
-		return body;
-	}
 
 
 	public void render(SpriteBatch sb) {
@@ -248,5 +243,43 @@ public class FarmTruck extends Box2DVehicle{
 	@Override
 	public Body getRightWheel() {
 		return rightWheel;
+	}
+
+
+	@Override
+	public void move(float x, float y, float angle) {
+		body.setTransform(x, y, angle);
+		updateSprites();
+	}
+
+
+	private void updateSprites() {
+		truckPos = body.getPosition().sub(bodyOrigin);
+		
+		bodySprite.setPosition(truckPos.x * Box2DVariables.PPM, truckPos.y * Box2DVariables.PPM);
+		bodySprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
+		
+	}
+	
+	public Body getBody(){
+		return body;
+	}
+	
+	
+	@Override
+	public Sprite getBodySprite(){
+		return bodySprite;
+	}
+
+	
+	@Override
+	public Sprite getLeftWheelSprite() {
+		return wheelSprite;
+	}
+
+
+	@Override
+	public Sprite getRightWheelSprite() {
+		return wheelSprite;
 	}
 }
