@@ -61,6 +61,7 @@ public class SplashScreen extends GameState{
 		pressEnterSprite = new Sprite(tTexture);
 		pressEnterSprite.flip(false, true);
 		pressEnterSprite.setSize(pressEnterSprite.getWidth() * 0.3f, pressEnterSprite.getHeight() * 0.3f);
+		pressEnterSprite.setAlpha(0);
 		
 		pressEnterSprite.setPosition((Game.VWIDTH / 2 - pressEnterSprite.getWidth() / 2) + 20 , 20);
 		
@@ -122,8 +123,8 @@ public class SplashScreen extends GameState{
 			@Override
 			public boolean keyDown(int keycode) {
 				if(keycode == Keys.ENTER){
-					tweenManager.killAll();
-					getStateManager().setState(getStateManager().LEVELSELECT);
+					//tweenManager.killAll();
+					//getStateManager().setState(getStateManager().LEVELSELECT);
 				}
 				
 				return true;
@@ -149,9 +150,11 @@ public class SplashScreen extends GameState{
 
 			@Override
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				tweenManager.killAll();
-				getStateManager().setState(getStateManager().LEVELSELECT);
-
+				//tweenManager.killAll();
+				//getStateManager().setState(getStateManager().LEVELSELECT);
+				
+				getStateManager().transitionState(getThis(), getStateManager().LEVELSELECT);
+				
 				return true;
 			}
 
@@ -237,6 +240,9 @@ public class SplashScreen extends GameState{
 
 	}
 
+	private GameState getThis(){
+		return this;
+	}
 
 	private void createBoxes() {
 		

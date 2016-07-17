@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.mygdx.game.main.Game;
 import com.mygdx.game.states.GameState;
+import com.mygdx.game.states.GameTransition;
 import com.mygdx.game.states.LevelSelect;
 import com.mygdx.game.states.Play;
 import com.mygdx.game.states.SplashScreen;
@@ -49,7 +50,19 @@ public class GameStateManager {
 		
 		return null;
 	}
-
+	
+	public void transitionState(GameState from, int to){
+		GameState g = gameStates.pop();
+		g.dispose();
+		gameStates.push(new GameTransition(this, from, getState(to)));
+	}
+	
+	public void transitionCallback(GameState state){
+		GameState g = gameStates.pop();
+		g.dispose();
+		gameStates.push(state);
+	}
+	
 	public void setState(int state){
 		GameState g = gameStates.pop();
 		g.dispose();

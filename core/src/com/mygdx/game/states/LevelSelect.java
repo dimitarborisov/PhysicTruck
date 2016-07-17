@@ -30,7 +30,6 @@ public class LevelSelect extends GameState {
 	ShapeRenderer shapeRenderer;
 
 	private final TweenManager tweenManager = new TweenManager();
-	private boolean tweenStart = false;
 	
 	Sprite backgroundSprite0;
 	Sprite backgroundSprite1;
@@ -114,7 +113,6 @@ public class LevelSelect extends GameState {
 			}
 		});
 		
-		tweenStart = true;
 	}
 
 	private void setupTweenEngine() {
@@ -122,17 +120,22 @@ public class LevelSelect extends GameState {
 		Tween.setCombinedAttributesLimit(4);
 		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
 
-		Tween.to(backgroundSprite1, TweenSpriteAccessor.POS_XY, 1.5f).delay(0.5f).target(0, 0)
+		Tween.to(backgroundSprite1, TweenSpriteAccessor.POS_XY, 1.5f)
+				.delay(0.5f)
+				.target(0, 0)
 				.ease(TweenEquations.easeOutBack).start(tweenManager);
 
 		Tween.to(backgroundSprite2, TweenSpriteAccessor.ALPHA, 1.5f).target(1).delay(2f)
 				.ease(TweenEquations.easeInOutQuad).start(tweenManager);
 
-		Tween.to(backgroundSprite3, TweenSpriteAccessor.POS_XY, 1.5f).target(0, 0).ease(TweenEquations.easeOutExpo)
+		Tween.to(backgroundSprite3, TweenSpriteAccessor.POS_XY, 1.5f)
+				.target(0, 0)
+				.ease(TweenEquations.easeOutExpo)
 				.start(tweenManager);
 
 	}
 
+	
 	private void setupBackground() {
 		// layer 0
 		Texture background = Game.cm.getTexture("levelselect0");
@@ -215,32 +218,34 @@ public class LevelSelect extends GameState {
 
 	private void setupButtons() {
 		// row 1
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "1", 215, 21, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "2", 331, 21, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "3", 447, 21, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "4", 563, 21, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "5", 679, 21, 106, 132, false, true, true));
+		//106, 132
+		
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "1", 215, 21, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "2", 331, 21, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "3", 447, 21, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "4", 563, 21, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "5", 679, 21, 106, 106, false, true, true));
 
 		// row2
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "6", 215, 163, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "7", 331, 163, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "8", 447, 163, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "9", 563, 163, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "10", 679, 163, 106, 132, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "6", 215, 163, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "7", 331, 163, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "8", 447, 163, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "9", 563, 163, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "10", 679, 163, 106, 106, false, true, true));
 
 		// row3
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "11", 215, 305, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "12", 331, 305, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "13", 447, 305, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "14", 563, 305, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "15", 679, 305, 106, 132, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "11", 215, 305, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "12", 331, 305, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "13", 447, 305, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "14", 563, 305, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "15", 679, 305, 106, 106, false, true, true));
 
 		// row4
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "16", 215, 447, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "17", 331, 447, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "18", 447, 447, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "19", 563, 447, 106, 132, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "20", 679, 447, 106, 132, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "16", 215, 447, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "17", 331, 447, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "18", 447, 447, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "19", 563, 447, 106, 106, false, true, true));
+		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "20", 679, 447, 106, 106, false, true, true));
 	}
 
 	@Override
