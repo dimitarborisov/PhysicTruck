@@ -4,17 +4,23 @@ import java.util.Stack;
 
 import com.mygdx.game.main.Game;
 import com.mygdx.game.states.GameState;
-import com.mygdx.game.states.GameTransition;
 import com.mygdx.game.states.LevelSelect;
 import com.mygdx.game.states.Play;
 import com.mygdx.game.states.SplashScreen;
+import com.mygdx.game.transitions.BottomUpTransition;
+import com.mygdx.game.transitions.RightToLeftTransition;
 
 public class GameStateManager {
 	private Game game;
 	
+	//general game states
 	public static final int PLAY = 0;
 	public static final int LEVELSELECT = 1;
 	public static final int SPLASHSCREEN = 2;
+	
+	//game transitions
+	public static final int BOTTOMUP = 0;
+	public static final int RIGHTLEFT = 1;
 	
 	private Stack<GameState> gameStates;
 	
@@ -51,13 +57,30 @@ public class GameStateManager {
 		return null;
 	}
 	
-	public void transitionState(GameState from, int to){
-		GameState g = gameStates.pop();
-		g.dispose();
-		gameStates.push(new GameTransition(this, from, getState(to)));
+	private GameState getTransition(int state, GameState from, GameState to){
+		if(state == BOTTOMUP){
+			return new BottomUpTransition(this, from, to);
+		}
+		if(state == RIGHTLEFT){
+			return new RightToLeftTransition(this, from, to);
+		}
+		
+		return null;
 	}
 	
-	public void transitionCallback(GameState state){
+	public void setTransition(int transition ,GameState from, GameState to){
+		GameState g = gameStates.pop();
+		g.dispose();
+		gameStates.push(getTransition(transition, from, to));
+	}
+	
+	public void setTransition(int transition ,GameState from, int to){
+		GameState g = gameStates.pop();
+		g.dispose();
+		gameStates.push(getTransition(transition, from, getState(to)));
+	}
+	
+	public void setState(GameState state){
 		GameState g = gameStates.pop();
 		g.dispose();
 		gameStates.push(state);

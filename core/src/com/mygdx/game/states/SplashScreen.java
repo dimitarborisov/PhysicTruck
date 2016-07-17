@@ -153,7 +153,7 @@ public class SplashScreen extends GameState{
 				//tweenManager.killAll();
 				//getStateManager().setState(getStateManager().LEVELSELECT);
 				
-				getStateManager().transitionState(getThis(), getStateManager().LEVELSELECT);
+				getStateManager().setTransition(GameStateManager.RIGHTLEFT ,SplashScreen.this , GameStateManager.LEVELSELECT);
 				
 				return true;
 			}

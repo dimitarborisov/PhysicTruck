@@ -1,4 +1,4 @@
-package com.mygdx.game.states;
+package com.mygdx.game.transitions;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -6,16 +6,14 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.main.Game;
+import com.mygdx.game.states.GameState;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 
-public class GameTransition extends GameState {
-
-	GameState previousState;
-	GameState nextState;
+public class BottomUpTransition extends GameState {
 
 	FrameBuffer bufferPrevious;
 	FrameBuffer bufferNext;
@@ -23,16 +21,14 @@ public class GameTransition extends GameState {
 	Sprite previousSprite;
 	Sprite nextSprite;
 
+	GameState previousState;
+	GameState nextState;
+	
 	TweenCallback tweenCallback;
 
 	private final TweenManager tweenManager = new TweenManager();
 
-	protected GameTransition(GameStateManager m) {
-		super(m);
-		m.setState(m.SPLASHSCREEN);
-	}
-
-	public GameTransition(GameStateManager m, GameState from, GameState to) {
+	public BottomUpTransition(GameStateManager m, GameState from, GameState to) {
 		super(m);
 
 		bufferPrevious = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Game.VWIDTH, (int) Game.VHEIGHT, false);
@@ -65,12 +61,13 @@ public class GameTransition extends GameState {
 		tweenCallback = new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				getGameStateManager().transitionCallback(getNextState());
+				getGameStateManager().setState(getNextState());
 			}
 		};
 
 		Tween.to(nextSprite, TweenSpriteAccessor.POS_XY, 1f)
 						.target(0, 0)
+						.delay(0.5f)
 						.setCallback(tweenCallback)
 						.setCallbackTriggers(TweenCallback.COMPLETE)
 						.start(tweenManager);
