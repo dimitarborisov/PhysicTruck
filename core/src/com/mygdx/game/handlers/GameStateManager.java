@@ -57,27 +57,33 @@ public class GameStateManager {
 		return null;
 	}
 	
-	private GameState getTransition(int state, GameState from, GameState to){
+	private GameState getTransition(int state, GameState from, GameState to, boolean updateFrom, boolean updateTo){
 		if(state == BOTTOMUP){
 			return new BottomUpTransition(this, from, to);
 		}
 		if(state == RIGHTLEFT){
-			return new RightToLeftTransition(this, from, to);
+			return new RightToLeftTransition(this, from, to, updateFrom, updateTo);
 		}
 		
 		return null;
 	}
 	
 	public void setTransition(int transition ,GameState from, GameState to){
-		GameState g = gameStates.pop();
-		g.dispose();
-		gameStates.push(getTransition(transition, from, to));
+		setTransition(transition, from, to, false, false);
 	}
 	
 	public void setTransition(int transition ,GameState from, int to){
+		setTransition(transition, from, getState(to));
+	}
+	
+	public void setTransition(int transition ,GameState from, int to, boolean updateFrom, boolean updateTo){
+		setTransition(transition, from, getState(to), updateFrom, updateTo);
+	}
+	
+	public void setTransition(int transition ,GameState from, GameState to, boolean updateFrom, boolean updateTo){
 		GameState g = gameStates.pop();
 		g.dispose();
-		gameStates.push(getTransition(transition, from, getState(to)));
+		gameStates.push(getTransition(transition, from, to, updateFrom, updateTo));
 	}
 	
 	public void setState(GameState state){

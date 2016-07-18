@@ -92,31 +92,8 @@ public class SplashScreen extends GameState{
 			}
 
 		}, 1, 0.1f);
-
-		//TWEEN SETTINGS
-		Tween.setCombinedAttributesLimit(6);
-		Tween.registerAccessor(Sprite.class, new 
-                TweenSpriteAccessor()); 
-			
-		Tween.to(pressEnterSprite, TweenSpriteAccessor.ALPHA , 0.5f)
-				.target(1f)
-				.repeatYoyo(-1, 0.3f)
-				.start(tweenManager);
 		
-		Tween.to(car.getBodySprite(), TweenSpriteAccessor.ALPHA, 1f)
-				.target(1f)
-				.start(tweenManager);
-		
-		Tween.to(car.getLeftWheelSprite(), TweenSpriteAccessor.ALPHA, 1f)
-				.target(1f)
-				.start(tweenManager);
-		
-		for(Box2DLoad bl: truckLoad){
-			Tween.to(bl.getLoadSprite(), TweenSpriteAccessor.ALPHA, 1f)
-			.target(1f)
-			.start(tweenManager);
-		}
-		
+		tweenSetting();
 		
 		Gdx.input.setInputProcessor(new InputProcessor() {
 
@@ -153,7 +130,7 @@ public class SplashScreen extends GameState{
 				//tweenManager.killAll();
 				//getStateManager().setState(getStateManager().LEVELSELECT);
 				
-				getStateManager().setTransition(GameStateManager.RIGHTLEFT ,SplashScreen.this , GameStateManager.LEVELSELECT);
+				getStateManager().setTransition(GameStateManager.RIGHTLEFT ,SplashScreen.this , GameStateManager.LEVELSELECT, true, false);
 				
 				return true;
 			}
@@ -240,9 +217,6 @@ public class SplashScreen extends GameState{
 
 	}
 
-	private GameState getThis(){
-		return this;
-	}
 
 	private void createBoxes() {
 		
@@ -259,11 +233,11 @@ public class SplashScreen extends GameState{
 	private void createStage() {
 		// track0
 		terrain1 = new DummyStage(world, 0 / PPM, 0 / PPM, 10);
-		terrain2 = new DummyStage(world, 1500 / PPM, 0 / PPM, 10);
+		terrain2 = new DummyStage(world, terrain1.getSpriteTerrain().getWidth() / PPM, 0 / PPM, 10);
 	}
 
 	private void createTruck() {
-		car = new FarmTruck(world, 150 / PPM, 130 / PPM, 2);
+		car = new FarmTruck(world, 160.5f / PPM, 200 / PPM, 2);
 	}
 
 	private void initializeWorld() {
@@ -274,4 +248,29 @@ public class SplashScreen extends GameState{
 		bodies = new Array<Body>();
 	}
 
+	private void tweenSetting(){
+		//TWEEN SETTINGS
+		Tween.setCombinedAttributesLimit(6);
+		Tween.registerAccessor(Sprite.class, new 
+		                TweenSpriteAccessor()); 
+					
+		Tween.to(pressEnterSprite, TweenSpriteAccessor.ALPHA , 0.5f)
+				.target(1f)
+				.repeatYoyo(-1, 0.3f)
+				.start(tweenManager);
+				
+		Tween.to(car.getBodySprite(), TweenSpriteAccessor.ALPHA, 1f)
+				.target(1f)
+				.start(tweenManager);
+				
+		Tween.to(car.getLeftWheelSprite(), TweenSpriteAccessor.ALPHA, 1f)
+				.target(1f)
+				.start(tweenManager);
+				
+		for(Box2DLoad bl: truckLoad){
+			Tween.to(bl.getLoadSprite(), TweenSpriteAccessor.ALPHA, 1f)
+					.target(1f)
+					.start(tweenManager);
+				}
+	}
 }

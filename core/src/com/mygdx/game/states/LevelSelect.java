@@ -3,6 +3,7 @@ package com.mygdx.game.states;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,21 +11,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.entities.SimpleImageButton;
+import com.mygdx.game.entities.LevelSelectButton;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.main.Game;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 public class LevelSelect extends GameState {
 
-	private ArrayList<SimpleImageButton> sib;
+	private ArrayList<LevelSelectButton> sib;
 	private int ty, tx;
 
 	ShapeRenderer shapeRenderer;
@@ -52,11 +53,11 @@ public class LevelSelect extends GameState {
 		tx = -1;
 
 		// add buttons
-		sib = new ArrayList<SimpleImageButton>();
+		sib = new ArrayList<LevelSelectButton>();
 	
 		setupBackground();
 		setupButtons();
-		setupTweenEngine();
+		setupTweenBackground();
 
 		Gdx.input.setInputProcessor(new InputProcessor() {
 
@@ -68,7 +69,9 @@ public class LevelSelect extends GameState {
 
 			@Override
 			public boolean keyUp(int keycode) {
-				// TODO Auto-generated method stub
+				if(keycode == Keys.ESCAPE){
+					getStateManager().setTransition(GameStateManager.RIGHTLEFT, LevelSelect.this, GameStateManager.SPLASHSCREEN, true, true);
+				}
 				return false;
 			}
 
@@ -115,7 +118,7 @@ public class LevelSelect extends GameState {
 		
 	}
 
-	private void setupTweenEngine() {
+	private void setupTweenBackground() {
 		// TWEEN SETTINGS
 		Tween.setCombinedAttributesLimit(4);
 		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
@@ -123,16 +126,30 @@ public class LevelSelect extends GameState {
 		Tween.to(backgroundSprite1, TweenSpriteAccessor.POS_XY, 1.5f)
 				.delay(0.5f)
 				.target(0, 0)
-				.ease(TweenEquations.easeOutBack).start(tweenManager);
+				.ease(TweenEquations.easeOutBack)
+				.start(tweenManager);
 
-		Tween.to(backgroundSprite2, TweenSpriteAccessor.ALPHA, 1.5f).target(1).delay(2f)
-				.ease(TweenEquations.easeInOutQuad).start(tweenManager);
+		
+		Tween.to(backgroundSprite2, TweenSpriteAccessor.ALPHA, 1.5f)
+				.target(1).delay(2f)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager);
 
 		Tween.to(backgroundSprite3, TweenSpriteAccessor.POS_XY, 1.5f)
 				.target(0, 0)
 				.ease(TweenEquations.easeOutExpo)
+				.setCallback(new TweenCallback(){
+
+					@Override
+					public void onEvent(int arg0, BaseTween<?> arg1) {
+						setupTweenButtons();
+					}
+					
+				})
+				.setCallbackTriggers(TweenCallback.COMPLETE)
 				.start(tweenManager);
 
+		
 	}
 
 	
@@ -181,7 +198,7 @@ public class LevelSelect extends GameState {
 		tweenManager.update(dt);
 
 		// update buttons
-		for (SimpleImageButton iButton : sib) {
+		for (LevelSelectButton iButton : sib) {
 			iButton.update(tx, ty);
 			if (iButton.isClicked()) {
 				//Play.STAGESELECTED = iButton.getStageSelected();
@@ -210,42 +227,99 @@ public class LevelSelect extends GameState {
 		backgroundSprite3.draw(s);
 		s.end();
 
-		for (SimpleImageButton iButton : sib) {
+		for (LevelSelectButton iButton : sib) {
 			iButton.render(s);
 		}
 
 	}
 
+	private void setupTweenButtons(){
+		float deltaX = 116;
+		float deltaY = 142;
+		
+		float sX = 215;
+		float sY = 21;
+		
+		float delay = 0.0f;
+		
+		int j = 0;
+		for(int i = 0; i < sib.size(); i++){
+			if(j >= 5){
+				sY += deltaY;
+				sX = 215;
+				j = 0;
+				delay += 0.1f;
+			}
+			
+			if(i == sib.size() - 1){
+				Tween.to(sib.get(i).getSprite(), TweenSpriteAccessor.POS_XY, 1f)
+				.target(sX, sY)
+				.delay(delay)
+				.ease(TweenEquations.easeInOutQuad)
+				.setCallbackTriggers(TweenCallback.COMPLETE)
+				.setCallback(new TweenCallback(){
+
+					@Override
+					public void onEvent(int arg0, BaseTween<?> arg1) {
+						for(LevelSelectButton lsb: sib){
+							lsb.dropDown(tweenManager);
+						}
+						
+					}
+					
+				})
+				.start(tweenManager);
+
+			}else{
+				Tween.to(sib.get(i).getSprite(), TweenSpriteAccessor.POS_XY, 1f)
+						.target(sX, sY)
+						.delay(delay)
+						.ease(TweenEquations.easeInOutQuad)
+						.start(tweenManager);
+			}
+			
+			sX += deltaX;
+			j++;
+		}
+		
+		
+	}
+	
 	private void setupButtons() {
 		// row 1
-		//106, 132
+		//X1 = 215
+		//Y1 = 21
 		
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "1", 215, 21, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "2", 331, 21, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "3", 447, 21, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "4", 563, 21, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "5", 679, 21, 106, 106, false, true, true));
+		//deltaX = 116
+		//dealtaY = 142
+		
+		sib.add(new LevelSelectButton("1", Game.VWIDTH + 215, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("2", Game.VWIDTH + 331, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("3", Game.VWIDTH + 447, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("4", Game.VWIDTH + 563, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("5", Game.VWIDTH + 679, 21, 106, 106, false, true, true));
+		
 
 		// row2
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "6", 215, 163, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "7", 331, 163, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "8", 447, 163, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "9", 563, 163, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "10", 679, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("6", Game.VWIDTH + 215, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("7", Game.VWIDTH + 331, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("8", Game.VWIDTH + 447, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("9", Game.VWIDTH + 563, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("10", Game.VWIDTH + 679, 163, 106, 106, false, true, true));
 
 		// row3
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "11", 215, 305, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "12", 331, 305, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "13", 447, 305, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "14", 563, 305, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "15", 679, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("11", Game.VWIDTH + 215, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("12", Game.VWIDTH + 331, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("13", Game.VWIDTH + 447, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("14", Game.VWIDTH + 563, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("15", Game.VWIDTH + 679, 305, 106, 106, false, true, true));
 
 		// row4
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "16", 215, 447, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "17", 331, 447, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "18", 447, 447, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "19", 563, 447, 106, 106, false, true, true));
-		sib.add(new SimpleImageButton(Game.cm.getTexture("buttonStage"), "20", 679, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("16", Game.VWIDTH + 215, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("17", Game.VWIDTH + 331, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("18", Game.VWIDTH + 447, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("19", Game.VWIDTH + 563, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("20", Game.VWIDTH + 679, 447, 106, 106, false, true, true));
 	}
 
 	@Override

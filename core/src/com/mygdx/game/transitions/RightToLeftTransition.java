@@ -27,10 +27,20 @@ public class RightToLeftTransition extends GameState{
 	TweenCallback tweenCallback;
 
 	private final TweenManager tweenManager = new TweenManager();
-
-	public RightToLeftTransition(GameStateManager m, GameState from, GameState to) {
+	
+	boolean updatePrevious;
+	boolean updateNext;
+	
+	public RightToLeftTransition(GameStateManager m, GameState from, GameState to){
+		this(m, from, to, false, false);
+	}
+	
+	public RightToLeftTransition(GameStateManager m, GameState from, GameState to, boolean updateFrom, boolean updateTo) {
 		super(m);
 
+		updatePrevious = updateFrom;
+		updateNext = updateTo;
+		
 		bufferPrevious = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Game.VWIDTH, (int) Game.VHEIGHT, false);
 		bufferNext = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Game.VWIDTH, (int) Game.VHEIGHT, false);
 
@@ -68,7 +78,7 @@ public class RightToLeftTransition extends GameState{
 		Tween.to(nextSprite, TweenSpriteAccessor.POS_XY, 1f)
 						.target(0, 0)
 						.delay(0.5f)
-						.ease(TweenEquations.easeOutBack)
+						//.ease(TweenEquations.easeOutBack)
 						.setCallback(tweenCallback)
 						.setCallbackTriggers(TweenCallback.COMPLETE)
 						.start(tweenManager);
@@ -78,11 +88,22 @@ public class RightToLeftTransition extends GameState{
 	public void update(float dt) {
 		tweenManager.update(dt);
 
-		previousState.update(dt);
+		if(updatePrevious){
+			previousState.update(dt);
 
-		bufferPrevious.begin();
-		previousState.render();
-		bufferPrevious.end();
+			bufferPrevious.begin();
+			previousState.render();
+			bufferPrevious.end();
+		}
+		
+		if(updateNext){
+			nextState.update(dt);
+
+			bufferNext.begin();
+			nextState.render();
+			bufferNext.end();
+		}
+		
 
 	}
 

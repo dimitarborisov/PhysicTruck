@@ -7,8 +7,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
+import com.mygdx.game.main.Game;
 
-public class SimpleImageButton {
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
+public class LevelSelectButton {
 	
 	private static int id = 0;
 	
@@ -20,19 +26,39 @@ public class SimpleImageButton {
 	private BitmapFont font;
 	private float fontWidth, fontHeight;
 	GlyphLayout layout;
+	Texture texture1;
 	
-	public SimpleImageButton(Texture texture, String name, float x, float y, float width, float height, boolean iX, boolean iY, boolean renderText){
-		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
+	Texture textureExpansion;
+	Sprite expansionSprite;
+	
+	float expansionX;
+	float expansionY;
+	
+	public LevelSelectButton(String name, float x, float y, float width, float height, boolean iX, boolean iY, boolean renderText){
+		texture1 = Game.cm.getTexture("buttonStage");
+		texture1.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 		
-		this.name = name;
+		textureExpansion = Game.cm.getTexture("levelSelectButtonExpansion");
+		texture1.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 		
+		this.name = name;	
 		stageSelect = id;
-		buttonSprite = new Sprite(texture);
+		this.renderText = renderText;
+		
+		
+		buttonSprite = new Sprite(texture1);
 		buttonSprite.setPosition(x, y);
 		buttonSprite.setSize(width, height);
 		buttonSprite.flip(iX, iY);
 		
-		this.renderText = renderText;
+		
+		expansionSprite = new Sprite(textureExpansion);
+		
+		expansionX = x;
+		expansionY = y + buttonSprite.getHeight() -  expansionSprite.getHeight();
+		
+		expansionSprite.setPosition(expansionX, expansionY);
+		expansionSprite.flip(iX, iY);
 		
 		if(iY){
 			font = new BitmapFont(Gdx.files.internal("fonts/Burnstown_Dam.fnt"), true);
@@ -40,32 +66,26 @@ public class SimpleImageButton {
 			font = new BitmapFont(Gdx.files.internal("fonts/Burnstown_Dam.fnt"));
 		}
 		
-		layout = new GlyphLayout(); //dont do this every frame! Store it as member
+		//Text setup
+		layout = new GlyphLayout(); //dont do this every frame!
 		layout.setText(font , this.name);
-		fontWidth = layout.width;// contains the width of the current set text
-		fontHeight = layout.height; // contains the height of the current set text
+		fontWidth = layout.width;
+		fontHeight = layout.height;
 		
 		id++;
 	}
 	
-	public SimpleImageButton(Texture texture, String name, float x, float y, float width, float height, boolean iX, boolean iY){
-		this(texture, name, x, y, width, height, iX, iY, false);
-	}
-	
-	public SimpleImageButton(Texture texture, String name, float x, float y, float width, float height){
-		this(texture, name, x, y, width, height, false, false, false);
-	}
-	
-	public SimpleImageButton(Texture texture, float x, float y, float width, float height) {
-		this(texture, id + "", x, y, width, height, false, false, false);
-	}
 
 	public void update(int input_x, int input_y) {
 		clicked = checkIfClicked(input_x, input_y);
+		
+		expansionSprite.setPosition(buttonSprite.getX(), expansionSprite.getY());
 	}
 
 	public void render(SpriteBatch sb) {
 		sb.begin();
+		
+		expansionSprite.draw(sb); //draw expansion
 		buttonSprite.draw(sb); // draw the button
 		
 		if(renderText){
@@ -112,5 +132,12 @@ public class SimpleImageButton {
 	
 	public boolean getRenderText(){
 		return this.renderText;
+	}
+	
+	public void dropDown(TweenManager manager){
+		Tween.to(expansionSprite, TweenSpriteAccessor.POS_XY, 0.5f)
+					.targetRelative(0, 26)
+					.ease(TweenEquations.easeOutBack)
+					.start(manager);
 	}
 }
