@@ -7,7 +7,6 @@ import com.mygdx.game.states.GameState;
 import com.mygdx.game.states.LevelSelect;
 import com.mygdx.game.states.Play;
 import com.mygdx.game.states.SplashScreen;
-import com.mygdx.game.transitions.BottomUpTransition;
 import com.mygdx.game.transitions.RightToLeftTransition;
 
 public class GameStateManager {
@@ -58,9 +57,7 @@ public class GameStateManager {
 	}
 	
 	private GameState getTransition(int state, GameState from, GameState to, boolean updateFrom, boolean updateTo){
-		if(state == BOTTOMUP){
-			return new BottomUpTransition(this, from, to);
-		}
+		
 		if(state == RIGHTLEFT){
 			return new RightToLeftTransition(this, from, to, updateFrom, updateTo);
 		}

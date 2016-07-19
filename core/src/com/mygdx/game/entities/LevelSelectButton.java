@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.main.Game;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
@@ -31,12 +33,19 @@ public class LevelSelectButton {
 	Texture textureExpansion;
 	Sprite expansionSprite;
 	
+	boolean scrolled;
+	boolean scrolling;
+	
 	float expansionX;
 	float expansionY;
+	
 	
 	public LevelSelectButton(String name, float x, float y, float width, float height, boolean iX, boolean iY, boolean renderText){
 		texture1 = Game.cm.getTexture("buttonStage");
 		texture1.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
+		
+		scrolled = false;
+		scrolling = false;
 		
 		textureExpansion = Game.cm.getTexture("levelSelectButtonExpansion");
 		texture1.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
@@ -79,7 +88,15 @@ public class LevelSelectButton {
 	public void update(int input_x, int input_y) {
 		clicked = checkIfClicked(input_x, input_y);
 		
-		expansionSprite.setPosition(buttonSprite.getX(), expansionSprite.getY());
+		if(!scrolling){
+			expansionX = buttonSprite.getX();
+			if(scrolled){
+				expansionY = buttonSprite.getY() + buttonSprite.getHeight() -  expansionSprite.getHeight() + 26;
+			}else{
+				expansionY = buttonSprite.getY() + buttonSprite.getHeight() -  expansionSprite.getHeight();
+			}
+			expansionSprite.setPosition(expansionX, expansionY);
+		}
 	}
 
 	public void render(SpriteBatch sb) {
@@ -135,9 +152,39 @@ public class LevelSelectButton {
 	}
 	
 	public void dropDown(TweenManager manager){
+		scrolling = true;
+		
 		Tween.to(expansionSprite, TweenSpriteAccessor.POS_XY, 0.5f)
 					.targetRelative(0, 26)
 					.ease(TweenEquations.easeOutBack)
+					.setCallbackTriggers(TweenCallback.COMPLETE)
+					.setCallback(new TweenCallback(){
+
+						@Override
+						public void onEvent(int arg0, BaseTween<?> arg1) {
+							setScrolled(true);
+							setScrolling(false);
+						}
+						
+					})
 					.start(manager);
+										
 	}
+	
+	private void setScrolling(boolean scrolling){
+		this.scrolling = scrolling;
+	}
+
+	private boolean getScrolling(){
+		return scrolling;
+	}
+
+	private boolean getScrolled(){
+		return this.scrolled;
+	}
+	
+	private void setScrolled(boolean scrolled){
+		this.scrolled = scrolled;
+	}
+
 }

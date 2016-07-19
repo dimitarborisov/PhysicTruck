@@ -33,7 +33,7 @@ public class TweenSpriteAccessor implements TweenAccessor<Sprite> {
 			return 4;
 			
 		case ALPHA:
-			returnValues[3] = target.getColor().a;
+			returnValues[0] = target.getColor().a;
 			return 1;
 
 		default:
