@@ -70,6 +70,7 @@ public class Game implements ApplicationListener{
 		//press enter "button"
 		cm.loadTexture("sprites/press_enter.png", "press_enter");
 		cm.loadTexture("sprites/levelselectbuttonSmallExtention.png", "levelSelectButtonExpansion");
+		cm.loadTexture("sprites/star.png", "star");
 		
 		
 		s = new SpriteBatch();

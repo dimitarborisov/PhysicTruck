@@ -39,8 +39,18 @@ public class LevelSelectButton {
 	float expansionX;
 	float expansionY;
 	
+	Texture textureStar;
+	Sprite spriteStar;
+	
+	int stars;
 	
 	public LevelSelectButton(String name, float x, float y, float width, float height, boolean iX, boolean iY, boolean renderText){
+		this( name,  x,  y,  width,  height,  iX,  iY, 3,  renderText);
+	}
+	
+	public LevelSelectButton(String name, float x, float y, float width, float height, boolean iX, boolean iY, int stars, boolean renderText){
+		this.stars = stars;
+		
 		texture1 = Game.cm.getTexture("buttonStage");
 		texture1.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 		
@@ -49,6 +59,9 @@ public class LevelSelectButton {
 		
 		textureExpansion = Game.cm.getTexture("levelSelectButtonExpansion");
 		texture1.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
+		
+		textureStar = Game.cm.getTexture("star");
+		textureStar.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 		
 		this.name = name;	
 		stageSelect = id;
@@ -75,6 +88,11 @@ public class LevelSelectButton {
 			font = new BitmapFont(Gdx.files.internal("fonts/Burnstown_Dam.fnt"));
 		}
 		
+		spriteStar = new Sprite(textureStar);
+		spriteStar.setPosition(expansionX + 12, y + expansionSprite.getHeight() -  26);
+		spriteStar.setSize(24, 24);
+		spriteStar.flip(iX, iY);
+		
 		//Text setup
 		layout = new GlyphLayout(); //dont do this every frame!
 		layout.setText(font , this.name);
@@ -97,13 +115,25 @@ public class LevelSelectButton {
 			}
 			expansionSprite.setPosition(expansionX, expansionY);
 		}
+		
+		spriteStar.setX(expansionX + 12);
+		spriteStar.setY(expansionSprite.getY() + expansionSprite.getHeight() -  26);
 	}
 
 	public void render(SpriteBatch sb) {
 		sb.begin();
 		
 		expansionSprite.draw(sb); //draw expansion
+		
+		//draw stars
+		for(int i = 0; i < stars; i++){
+			spriteStar.draw(sb);
+			spriteStar.setX(spriteStar.getX() + 28);
+		}
+		
+		
 		buttonSprite.draw(sb); // draw the button
+		
 		
 		if(renderText){
 			font.draw(sb, layout
