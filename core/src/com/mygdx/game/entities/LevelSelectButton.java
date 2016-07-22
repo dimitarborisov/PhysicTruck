@@ -17,9 +17,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 public class LevelSelectButton {
-	
-	private static int id = 0;
-	
+		
 	private Sprite buttonSprite;
 	private boolean clicked;
 	private String name;
@@ -44,11 +42,11 @@ public class LevelSelectButton {
 	
 	int stars;
 	
-	public LevelSelectButton(String name, float x, float y, float width, float height, boolean iX, boolean iY, boolean renderText){
-		this( name,  x,  y,  width,  height,  iX,  iY, 3,  renderText);
+	public LevelSelectButton(String name, int sSelected, float x, float y, float width, float height, boolean iX, boolean iY, boolean renderText){
+		this( name, sSelected, x, y, width, height, iX, iY, 3, renderText);
 	}
 	
-	public LevelSelectButton(String name, float x, float y, float width, float height, boolean iX, boolean iY, int stars, boolean renderText){
+	public LevelSelectButton(String name, int sSelected, float x, float y, float width, float height, boolean iX, boolean iY, int stars, boolean renderText){
 		this.stars = stars;
 		
 		texture1 = Game.cm.getTexture("buttonStage");
@@ -64,7 +62,7 @@ public class LevelSelectButton {
 		textureStar.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 		
 		this.name = name;	
-		stageSelect = id;
+		stageSelect = sSelected;
 		this.renderText = renderText;
 		
 		
@@ -98,8 +96,7 @@ public class LevelSelectButton {
 		layout.setText(font , this.name);
 		fontWidth = layout.width;
 		fontHeight = layout.height;
-		
-		id++;
+
 	}
 	
 
@@ -116,7 +113,7 @@ public class LevelSelectButton {
 			expansionSprite.setPosition(expansionX, expansionY);
 		}
 		
-		spriteStar.setX(expansionX + 12);
+		spriteStar.setX(expansionSprite.getX() + 12);
 		spriteStar.setY(expansionSprite.getY() + expansionSprite.getHeight() -  26);
 	}
 

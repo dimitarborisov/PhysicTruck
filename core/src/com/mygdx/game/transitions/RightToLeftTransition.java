@@ -1,7 +1,9 @@
 package com.mygdx.game.transitions;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.GameStateManager;
@@ -11,7 +13,6 @@ import com.mygdx.game.states.GameState;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 public class RightToLeftTransition extends GameState{
@@ -24,6 +25,9 @@ public class RightToLeftTransition extends GameState{
 	GameState previousState;
 	GameState nextState;
 
+	SpriteBatch transitionBatch;
+	OrthographicCamera transitionCam;
+	
 	TweenCallback tweenCallback;
 
 	private final TweenManager tweenManager = new TweenManager();
@@ -32,12 +36,22 @@ public class RightToLeftTransition extends GameState{
 	boolean updateNext;
 	
 	public RightToLeftTransition(GameStateManager m, GameState from, GameState to){
-		this(m, from, to, false, false);
+		this(m, from, to, false, false, false, false);
+	}
+	public RightToLeftTransition(GameStateManager m, GameState from, GameState to, boolean updateFrom, boolean updateTo){
+		this(m, from, to, updateFrom, updateTo, false, false);
 	}
 	
-	public RightToLeftTransition(GameStateManager m, GameState from, GameState to, boolean updateFrom, boolean updateTo) {
+	public RightToLeftTransition(GameStateManager m, GameState from, GameState to, boolean updateFrom, boolean updateTo, boolean flipX, boolean flipY) {
 		super(m);
-
+		
+		transitionBatch = new SpriteBatch();
+		transitionCam = new OrthographicCamera();
+		transitionCam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
+		transitionCam.position.x = Game.VWIDTH / 2;
+		transitionCam.position.y = Game.VHEIGHT / 2;
+		transitionCam.update();
+		
 		updatePrevious = updateFrom;
 		updateNext = updateTo;
 		
@@ -51,6 +65,16 @@ public class RightToLeftTransition extends GameState{
 		this.previousState = from;
 		this.nextState = to;
 
+		
+		// from sprite render
+		bufferPrevious.begin();
+		previousState.render();
+		bufferPrevious.end();
+			
+		previousSprite = new Sprite(bufferPrevious.getColorBufferTexture());
+		previousSprite.setPosition(0, 0);
+		previousSprite.flip(flipX, flipY);
+		
 		// to sprite render
 		bufferNext.begin();
 		nextState.render();
@@ -58,15 +82,7 @@ public class RightToLeftTransition extends GameState{
 
 		nextSprite = new Sprite(bufferNext.getColorBufferTexture());
 		nextSprite.setPosition(Game.VWIDTH, 0);
-		nextSprite.flip(false, false);
-
-		// from sprite render
-		bufferPrevious.begin();
-		previousState.render();
-		bufferPrevious.end();
-		previousSprite = new Sprite(bufferPrevious.getColorBufferTexture());
-		previousSprite.setPosition(0, 0);
-		previousSprite.flip(false, false);
+		nextSprite.flip(flipX, flipY);
 
 		tweenCallback = new TweenCallback() {
 			@Override
@@ -110,10 +126,12 @@ public class RightToLeftTransition extends GameState{
 	@Override
 	public void render() {
 
-		s.begin();
-		previousSprite.draw(s);
-		nextSprite.draw(s);
-		s.end();
+		transitionBatch.setProjectionMatrix(transitionCam.combined);
+		
+		transitionBatch.begin();
+		previousSprite.draw(transitionBatch);
+		nextSprite.draw(transitionBatch);
+		transitionBatch.end();
 
 	}
 

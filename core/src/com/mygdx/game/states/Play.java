@@ -18,11 +18,10 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entities.Box2DTerrain;
 import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
-import com.mygdx.game.entities.FarmTruck;
-import com.mygdx.game.entities.Terrain0;
 import com.mygdx.game.handlers.BackgroundHandler;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.handlers.MyContactListener;
+import com.mygdx.game.handlers.StageManager;
 import com.mygdx.game.main.Game;
 
 public class Play extends GameState{
@@ -52,6 +51,7 @@ public class Play extends GameState{
 		bh = new BackgroundHandler(car);
 		
 		//set inputProcessors
+		
 		Gdx.input.setInputProcessor(new InputMultiplexer(new InputProcessor(){
 
 			@Override
@@ -63,7 +63,7 @@ public class Play extends GameState{
 			@Override
 			public boolean keyUp(int keycode) {
 				if(keycode == Keys.ESCAPE){
-					getStateManager().setState(getStateManager().PLAY);
+					getStateManager().setState(GameStateManager.PLAY);
 					return true;
 				}
 				return false;
@@ -110,25 +110,28 @@ public class Play extends GameState{
 		world.step(dt, 6, 2);
 		bh.update(dt);
 		
+		
+		//update camera
+		//follow player sprite
+		
+		cam.position.set((car.getBody().getPosition().x * PPM),
+						 (car.getBody().getPosition().y * PPM),
+						 0);
+		cam.update();
+				
+				
+		//follow box2d body
+		b2cam.position.set(car.getBody().getPosition().x,
+						  car.getBody().getPosition().y,
+						  0);
+		b2cam.update();
+	
 	}
 
 	@Override
 	public void render() {
 		//clear screen
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		//follow player sprite
-		cam.position.set((car.getBody().getPosition().x * PPM),
-						 (car.getBody().getPosition().y * PPM),
-						 0);
-		cam.update();
-		
-		
-		//follow box2d body
-		b2cam.position.set(car.getBody().getPosition().x,
-				car.getBody().getPosition().y,
-				 0);
-		b2cam.update();
 		
 		s.setProjectionMatrix(cam.combined);
 		
@@ -149,31 +152,19 @@ public class Play extends GameState{
 	}
 	
 	private void createBoxes() {
-		
-	    truckLoad.add( new BoxLoad(world, 40, 40, 125 / PPM, 350 / PPM) );
-		truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 300 / PPM) );
-		truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 300 / PPM) );
-		
+		truckLoad = StageManager.getLoad(world, StageManager.getStageNum(STAGESELECTED));
 	}
 
 	private void createStage() {
-		//track0
-	
-		terrain = new Terrain0(world, 0 / PPM, 0 / PPM, 10);
+		terrain = StageManager.getTerrain(world, StageManager.getStageNum(STAGESELECTED));
 	}
 
 	
 	private void createTruck() {
-		
-		
-		car = new FarmTruck(world, 150 / PPM, 130 / PPM, 2);
-		
+		car = StageManager.getVehicle(world, StageManager.getStageNum(STAGESELECTED));
 	}
 	
 	private void initializeWorld() {
-		
-		truckLoad = new ArrayList<BoxLoad>();
-		
 		world = new World(new Vector2(0,-9.8f), false);
 		world.setContactListener(new MyContactListener(m));
 		box2dDebug = new Box2DDebugRenderer();

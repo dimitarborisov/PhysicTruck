@@ -58,6 +58,7 @@ public class LevelSelect extends GameState {
 		setupBackground();
 		setupButtons();
 		setupTweenBackground();
+		
 
 		Gdx.input.setInputProcessor(new InputProcessor() {
 
@@ -93,7 +94,7 @@ public class LevelSelect extends GameState {
 				// cam.unproject(input);
 				tx = screenX;
 				ty = screenY;
-
+				
 				return true;
 			}
 
@@ -201,9 +202,10 @@ public class LevelSelect extends GameState {
 		for (LevelSelectButton iButton : sib) {
 			iButton.update(tx, ty);
 			if (iButton.isClicked()) {
-				//Play.STAGESELECTED = iButton.getStageSelected();
+				Play.STAGESELECTED = iButton.getStageSelected();
 				//m.setState(GameStateManager.PLAY);
-				System.out.println(iButton);
+				m.setTransition(GameStateManager.RIGHTLEFT, this, GameStateManager.PLAY, true, true);
+				//System.out.println(iButton.getStageSelected());
 			}
 		}
 		
@@ -293,33 +295,33 @@ public class LevelSelect extends GameState {
 		//deltaX = 116
 		//dealtaY = 142
 		
-		sib.add(new LevelSelectButton("1", Game.VWIDTH + 215, 21, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("2", Game.VWIDTH + 331, 21, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("3", Game.VWIDTH + 447, 21, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("4", Game.VWIDTH + 563, 21, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("5", Game.VWIDTH + 679, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("1", 0, Game.VWIDTH + 215, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("2", 1, Game.VWIDTH + 331, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("3", 2, Game.VWIDTH + 447, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("4", 3, Game.VWIDTH + 563, 21, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("5", 4, Game.VWIDTH + 679, 21, 106, 106, false, true, true));
 		
 
 		// row2
-		sib.add(new LevelSelectButton("6", Game.VWIDTH + 215, 163, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("7", Game.VWIDTH + 331, 163, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("8", Game.VWIDTH + 447, 163, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("9", Game.VWIDTH + 563, 163, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("10", Game.VWIDTH + 679, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("6", 5, Game.VWIDTH + 215, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("7", 6, Game.VWIDTH + 331, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("8", 7, Game.VWIDTH + 447, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("9", 8, Game.VWIDTH + 563, 163, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("10", 9, Game.VWIDTH + 679, 163, 106, 106, false, true, true));
 
 		// row3
-		sib.add(new LevelSelectButton("11", Game.VWIDTH + 215, 305, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("12", Game.VWIDTH + 331, 305, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("13", Game.VWIDTH + 447, 305, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("14", Game.VWIDTH + 563, 305, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("15", Game.VWIDTH + 679, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("11", 10, Game.VWIDTH + 215, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("12", 11, Game.VWIDTH + 331, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("13", 12, Game.VWIDTH + 447, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("14", 13, Game.VWIDTH + 563, 305, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("15", 14, Game.VWIDTH + 679, 305, 106, 106, false, true, true));
 
 		// row4
-		sib.add(new LevelSelectButton("16", Game.VWIDTH + 215, 447, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("17", Game.VWIDTH + 331, 447, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("18", Game.VWIDTH + 447, 447, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("19", Game.VWIDTH + 563, 447, 106, 106, false, true, true));
-		sib.add(new LevelSelectButton("20", Game.VWIDTH + 679, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("16", 15, Game.VWIDTH + 215, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("17", 16, Game.VWIDTH + 331, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("18", 17, Game.VWIDTH + 447, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("19", 18, Game.VWIDTH + 563, 447, 106, 106, false, true, true));
+		sib.add(new LevelSelectButton("20", 19, Game.VWIDTH + 679, 447, 106, 106, false, true, true));
 	}
 
 	@Override

@@ -99,18 +99,16 @@ public class SplashScreen extends GameState{
 
 			@Override
 			public boolean keyDown(int keycode) {
-				if(keycode == Keys.ENTER){
-					//tweenManager.killAll();
-					//getStateManager().setState(getStateManager().LEVELSELECT);
-				}
 				
-				return true;
+				return false;
 			}
 
 			@Override
 			public boolean keyUp(int keycode) {
-				// TODO Auto-generated method stub
-				return false;
+				if(keycode == Keys.ENTER){
+					getStateManager().setTransition(GameStateManager.RIGHTLEFT ,SplashScreen.this , GameStateManager.LEVELSELECT, true, true);
+				}
+				return true;
 			}
 
 			@Override

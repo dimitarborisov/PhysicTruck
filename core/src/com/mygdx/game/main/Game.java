@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.handlers.ContentManager;
 import com.mygdx.game.handlers.GameStateManager;
-
-import aurelienribon.tweenengine.TweenManager;
+import com.mygdx.game.handlers.StageManager;
 
 public class Game implements ApplicationListener{
 	
@@ -28,9 +27,10 @@ public class Game implements ApplicationListener{
 	private OrthographicCamera cam;
 	private OrthographicCamera hud;
 	private GameStateManager m;
+
 	
 	
-	
+	public static StageManager stageManager;
 	public static ContentManager cm;
 	
 	
