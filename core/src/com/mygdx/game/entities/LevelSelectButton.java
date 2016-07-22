@@ -100,9 +100,13 @@ public class LevelSelectButton {
 	}
 	
 
-	public void update(int input_x, int input_y) {
+	public void update(float input_x, float input_y) {
 		clicked = checkIfClicked(input_x, input_y);
 		
+	}
+
+	public void render(SpriteBatch sb) {
+		//update expansion
 		if(!scrolling){
 			expansionX = buttonSprite.getX();
 			if(scrolled){
@@ -115,9 +119,8 @@ public class LevelSelectButton {
 		
 		spriteStar.setX(expansionSprite.getX() + 12);
 		spriteStar.setY(expansionSprite.getY() + expansionSprite.getHeight() -  26);
-	}
-
-	public void render(SpriteBatch sb) {
+		
+		
 		sb.begin();
 		
 		expansionSprite.draw(sb); //draw expansion
@@ -141,7 +144,7 @@ public class LevelSelectButton {
 		sb.end();
 	}
 
-	private Boolean checkIfClicked(int ix, int iy) {
+	private Boolean checkIfClicked(float ix, float iy) {
 		//System.out.println(buttonSprite.getX()+ " " + buttonSprite.getWidth());
 		if((ix > buttonSprite.getX() && ix < buttonSprite.getX() + buttonSprite.getWidth())
 			&& (iy > buttonSprite.getY() && iy < buttonSprite.getY() + buttonSprite.getHeight())){

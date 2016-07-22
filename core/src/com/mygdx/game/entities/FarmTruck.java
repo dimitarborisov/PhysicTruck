@@ -80,6 +80,9 @@ public class FarmTruck extends Box2DVehicle{
 		// 3. Create a Body, as usual.
 		body = w.createBody(bd);
 
+		//set body user data
+		body.setUserData("VEHICLE");
+		
 		// 4. Create the body fixture automatically by using the loader.
 		loader.attachFixture(body, "Name", bodyFixture, carWidth);
 		bodyOrigin = loader.getOrigin("Name", carWidth).cpy();

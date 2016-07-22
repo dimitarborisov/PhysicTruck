@@ -106,7 +106,7 @@ public class SplashScreen extends GameState{
 			@Override
 			public boolean keyUp(int keycode) {
 				if(keycode == Keys.ENTER){
-					getStateManager().setTransition(GameStateManager.RIGHTLEFT ,SplashScreen.this , GameStateManager.LEVELSELECT, true, true);
+					getStateManager().setTransition(GameStateManager.RIGHTLEFT ,SplashScreen.this , GameStateManager.LEVELSELECT, true, false);
 				}
 				return true;
 			}

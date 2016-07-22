@@ -5,14 +5,17 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.mygdx.game.states.Play;
 
 public class MyContactListener implements ContactListener{
 	
-	GameStateManager m;
+	Play state;
 	
-	public MyContactListener(GameStateManager m){
+	
+	public MyContactListener(Play state){
 		super();
-		this.m = m;
+		this.state = state;
+		
 	}
 	
 	@Override
@@ -20,15 +23,12 @@ public class MyContactListener implements ContactListener{
 		Fixture fa = contact.getFixtureA();
 		Fixture fb = contact.getFixtureB();		
 		
-		if(fa.getBody().getUserData() != null){
-			if(fa.getBody().getUserData().equals("FINISH")){
-				m.setState(m.PLAY);
-			}
-		}
-		
-		if(fb.getBody().getUserData() != null){
-			if(fb.getBody().getUserData().equals("FINISH")){
-				m.setState(m.PLAY);
+		if((fa.getBody().getUserData() != null && fb.getBody().getUserData() != null)){
+			if((fa.getBody().getUserData().equals("FINISH") || fa.getBody().getUserData().equals("VEHICLE"))
+				&& (fb.getBody().getUserData().equals("FINISH") || fb.getBody().getUserData().equals("VEHICLE"))){
+				//m.setState(GameStateManager.PLAY);
+				//System.out.println("FINISH!");
+				state.finishStage(true);
 			}
 		}
 		

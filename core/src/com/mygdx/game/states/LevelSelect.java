@@ -26,7 +26,7 @@ import aurelienribon.tweenengine.TweenManager;
 public class LevelSelect extends GameState {
 
 	private ArrayList<LevelSelectButton> sib;
-	private int ty, tx;
+	private float ty, tx;
 
 	ShapeRenderer shapeRenderer;
 
@@ -204,7 +204,7 @@ public class LevelSelect extends GameState {
 			if (iButton.isClicked()) {
 				Play.STAGESELECTED = iButton.getStageSelected();
 				//m.setState(GameStateManager.PLAY);
-				m.setTransition(GameStateManager.RIGHTLEFT, this, GameStateManager.PLAY, true, true);
+				m.setTransition(GameStateManager.RIGHTLEFT, this, GameStateManager.PLAY, false, true);
 				//System.out.println(iButton.getStageSelected());
 			}
 		}

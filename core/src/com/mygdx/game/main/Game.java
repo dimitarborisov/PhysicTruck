@@ -73,6 +73,12 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/star.png", "star");
 		
 		
+		//level completed menu
+		cm.loadTexture("sprites/rect4162.png", "levelCompletedBackground");
+		cm.loadTexture("sprites/replay.png", "levelCompletedReplay");
+		cm.loadTexture("sprites/continue.png", "levelCompletedContinue");
+		cm.loadTexture("sprites/levelCompleted.png", "levelCompleted");
+		
 		s = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, VWIDTH, VHEIGHT);
