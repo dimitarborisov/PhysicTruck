@@ -15,6 +15,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.game.entities.Box2DTerrain;
 import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
@@ -37,15 +39,21 @@ public class Play extends GameState {
 	Array<Body> bodies;
 	BackgroundHandler bh;
 
+	
+	
 	LevelCompletedMenu lcm;
 	private float ty, tx;
-
+	
+	private float timeSlow;
+	
 	public static int STAGESELECTED = -1;
 
 	public Play(GameStateManager m) {
 		super(m);
 		debug = false;
-
+		
+		timeSlow = 1.0f;
+		
 		// System.out.println("starting stage: " + STAGESELECTED);
 
 		lcm = new LevelCompletedMenu();
@@ -119,8 +127,9 @@ public class Play extends GameState {
 
 	@Override
 	public void update(float dt) {
-		world.step(dt, 6, 2);
-		bh.update(dt);
+		
+		world.step(dt * timeSlow, 6, 2);
+		bh.update(dt * timeSlow);
 
 		// update camera
 		// follow player sprite
@@ -153,7 +162,24 @@ public class Play extends GameState {
 		//true finished at the flag
 		//false failed somewhere :(
 		
+		//TIMER SETTINGS
+		Timer.schedule(new Task() {
+			
+			@Override
+			public void run() {
+
+				if(timeSlow > 0.05f){
+					timeSlow -= 0.01f;
+					System.out.println(timeSlow);
+				}
+				
+			}
+
+		}, 0.01f, 0.01f);
+		
+		
 		lcm.trigger(1);
+	
 	}
 
 	@Override

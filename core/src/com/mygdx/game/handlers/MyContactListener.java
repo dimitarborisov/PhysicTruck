@@ -10,12 +10,12 @@ import com.mygdx.game.states.Play;
 public class MyContactListener implements ContactListener{
 	
 	Play state;
-	
+	boolean isFinished;
 	
 	public MyContactListener(Play state){
 		super();
 		this.state = state;
-		
+		isFinished = false;
 	}
 	
 	@Override
@@ -28,7 +28,11 @@ public class MyContactListener implements ContactListener{
 				&& (fb.getBody().getUserData().equals("FINISH") || fb.getBody().getUserData().equals("VEHICLE"))){
 				//m.setState(GameStateManager.PLAY);
 				//System.out.println("FINISH!");
-				state.finishStage(true);
+				if(!isFinished){
+					state.finishStage(true);
+					isFinished = true;
+				}
+			
 			}
 		}
 		

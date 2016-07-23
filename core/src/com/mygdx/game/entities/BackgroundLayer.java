@@ -63,7 +63,7 @@ public class BackgroundLayer {
 		s.end();
 	}
 	
-	public void update(float step, Vector2 movement){
+	public void update(float dt, Vector2 movement){
 		//follow player sprite
 		cam.position.set((movement.x * PPM) / distance,
 						(movement.y * PPM),

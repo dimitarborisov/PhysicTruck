@@ -148,9 +148,10 @@ public class LevelCompletedMenu {
 	}
 
 	public void trigger(int stars){
-		this.stars = stars;
 		
 		if(!isTriggered){
+			this.stars = stars;
+			
 			Tween.to(background, TweenSpriteAccessor.SCALE, 0.4f)
 		    		.target(1f, 1f)
 		    		.ease(TweenEquations.easeOutBack)
