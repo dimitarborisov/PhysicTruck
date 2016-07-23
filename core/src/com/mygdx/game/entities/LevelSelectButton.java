@@ -204,14 +204,6 @@ public class LevelSelectButton {
 	private void setScrolling(boolean scrolling){
 		this.scrolling = scrolling;
 	}
-
-	private boolean getScrolling(){
-		return scrolling;
-	}
-
-	private boolean getScrolled(){
-		return this.scrolled;
-	}
 	
 	private void setScrolled(boolean scrolled){
 		this.scrolled = scrolled;

@@ -25,7 +25,6 @@ import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
 import com.mygdx.game.entities.DummyStage;
 import com.mygdx.game.entities.FarmTruck;
-import com.mygdx.game.entities.tweenEntities.TweenBox2DVehicleAccessor;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.BackgroundHandler;
 import com.mygdx.game.handlers.GameStateManager;

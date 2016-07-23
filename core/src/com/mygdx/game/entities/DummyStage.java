@@ -62,7 +62,7 @@ public class DummyStage extends Box2DTerrain {
 
 		// Create finish flag
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader flagLoader = new BodyEditorLoader(Gdx.files.internal("models/finish.json"));
+		//BodyEditorLoader flagLoader = new BodyEditorLoader(Gdx.files.internal("models/finish.json"));
 
 	}
 

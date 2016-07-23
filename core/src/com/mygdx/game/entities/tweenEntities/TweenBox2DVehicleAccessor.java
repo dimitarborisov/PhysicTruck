@@ -1,7 +1,5 @@
 package com.mygdx.game.entities.tweenEntities;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.entities.Box2DVehicle;
 
 import aurelienribon.tweenengine.TweenAccessor;

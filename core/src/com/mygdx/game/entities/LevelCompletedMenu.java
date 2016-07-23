@@ -9,7 +9,6 @@ import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.main.Game;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
