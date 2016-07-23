@@ -133,7 +133,7 @@ public class Play extends GameState {
 		b2cam.update();
 
 		// update win screen
-		lcm.update(tx, ty);
+		lcm.update(dt, tx, ty);
 		
 		if(lcm.continueIsClicked()){
 			getStateManager().setTransition(GameStateManager.RIGHTLEFT ,Play.this , GameStateManager.LEVELSELECT, true, false);
@@ -153,7 +153,7 @@ public class Play extends GameState {
 		//true finished at the flag
 		//false failed somewhere :(
 		
-		lcm.trigger(3);
+		lcm.trigger(1);
 	}
 
 	@Override

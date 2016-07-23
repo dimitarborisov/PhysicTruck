@@ -204,7 +204,7 @@ public class LevelSelect extends GameState {
 			if (iButton.isClicked()) {
 				Play.STAGESELECTED = iButton.getStageSelected();
 				//m.setState(GameStateManager.PLAY);
-				m.setTransition(GameStateManager.RIGHTLEFT, this, GameStateManager.PLAY, false, true);
+				m.setTransition(GameStateManager.RIGHTLEFT, this, GameStateManager.PLAY, true, true);
 				//System.out.println(iButton.getStageSelected());
 			}
 		}

@@ -56,5 +56,9 @@ public class SimpleImageButton {
 		clicked = false;
 		return tclicked;
 	}
+	
+	public Sprite getSprite(){
+		return this.imageSprite;
+	}
 
 }
