@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -38,7 +39,7 @@ public class Play extends GameState {
 	private ArrayList<BoxLoad> truckLoad;
 	Array<Body> bodies;
 	BackgroundHandler bh;
-
+	Preferences prefs;
 	
 	
 	LevelCompletedMenu lcm;
@@ -54,6 +55,7 @@ public class Play extends GameState {
 		
 		timeSlow = 1.0f;
 		
+		prefs = Gdx.app.getPreferences("stagesStar");
 		// System.out.println("starting stage: " + STAGESELECTED);
 
 		lcm = new LevelCompletedMenu();
@@ -157,30 +159,6 @@ public class Play extends GameState {
 		ty = -1;
 
 	}
-	
-	public void finishStage(boolean finished){
-		//true finished at the flag
-		//false failed somewhere :(
-		
-		//TIMER SETTINGS
-		Timer.schedule(new Task() {
-			
-			@Override
-			public void run() {
-
-				if(timeSlow > 0.05f){
-					timeSlow -= 0.01f;
-					System.out.println(timeSlow);
-				}
-				
-			}
-
-		}, 0.01f, 0.01f);
-		
-		
-		lcm.trigger(1);
-	
-	}
 
 	@Override
 	public void render() {
@@ -204,6 +182,41 @@ public class Play extends GameState {
 
 		lcm.render(s);
 
+	}
+	
+	public void finishStage(boolean finished, int cratesOut){
+		//true finished at the flag
+		//false failed somewhere :(
+		
+		//TIMER SETTINGS
+		Timer.schedule(new Task() {
+			
+			@Override
+			public void run() {
+
+				if(timeSlow > 0.04f){
+					timeSlow -= 0.01f;
+					//System.out.println(timeSlow);
+				}
+				
+			}
+
+		}, 0.01f, 0.015f);
+		
+		float sRatio = (float) 3 / truckLoad.size();
+		int stars = 3 - (int) Math.ceil(cratesOut * sRatio);
+		
+		//get previous stars
+		int prevStars = prefs.getInteger(Integer.toString(STAGESELECTED + 1), 0);
+		
+		//save current stars if the stage is finished correctly and the stars are more than the saved ones
+		if(prevStars < stars && finished){
+			prefs.putInteger(Integer.toString(STAGESELECTED + 1), stars);
+			prefs.flush();
+		}
+		
+		lcm.trigger(finished, stars);
+	
 	}
 
 	private void createBoxes() {

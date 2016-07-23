@@ -20,9 +20,14 @@ import com.mygdx.game.handlers.BodyEditorLoader;
 import com.mygdx.game.handlers.Box2DVariables;
 import com.mygdx.game.main.Game;
 
+//GROUND
+//BOTTOMBORDER
+//FINISH
+
 public class Terrain0 extends Box2DTerrain {
 	private Body terrain;
 	private Body flag;
+	private Body borderBottom;
 
 	Vector2 terrainOrigin;
 	Vector2 flagOrigin;
@@ -72,8 +77,33 @@ public class Terrain0 extends Box2DTerrain {
 		// 4. Create the body fixture automatically by using the loader.
 		loader.attachFixture(terrain, "track", terrainFixture, scale);
 		terrainOrigin = loader.getOrigin("track", scale).cpy();
-
-		// Create finish flag
+		
+		// 5.set user data
+		terrain.setUserData("GROUND");
+		
+		
+		
+		//CREATE BORDERS
+		FixtureDef bottomBorderFixture = new FixtureDef();
+		bottomBorderFixture.isSensor = true;
+		
+		// 1. Create a BodyDef, as usual.
+		BodyDef bb = new BodyDef();
+		bb.type = BodyType.StaticBody;
+		bb.position.set(x, y);
+		
+		// 3. Create a Body, as usual.
+		borderBottom = w.createBody(bb);
+		
+		// 4. Create the body fixture automatically by using the loader.
+		loader.attachFixture(borderBottom, "bottomBorder", bottomBorderFixture, scale);
+		
+		// 5.set user data
+		borderBottom.setUserData("BOTTOMBORDER");
+		
+		
+		
+		// CREATE FINISH FLAG
 		// 0. Create a loader for the file saved from the editor.
 		BodyEditorLoader flagLoader = new BodyEditorLoader(Gdx.files.internal("models/finish.json"));
 

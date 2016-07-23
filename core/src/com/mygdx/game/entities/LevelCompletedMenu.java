@@ -24,6 +24,8 @@ public class LevelCompletedMenu {
 	private Sprite starSprite3;
 	
 	private Sprite levelCompletedText;
+	private Sprite levelCompletedTextCompleted;
+	private Sprite levelCompletedTextFailed;
 	
 	private OrthographicCamera levelCam;
 	
@@ -96,10 +98,19 @@ public class LevelCompletedMenu {
 		texture = Game.cm.getTexture("levelCompleted3");
 		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 		
-		levelCompletedText = new Sprite(texture);
-		levelCompletedText.setSize(335, 33);
-		levelCompletedText.flip(false, true);
-		levelCompletedText.setPosition(background.getX() + (background.getWidth() / 2) - levelCompletedText.getWidth() / 2, background.getY() - levelCompletedText.getHeight());
+		levelCompletedTextCompleted = new Sprite(texture);
+		levelCompletedTextCompleted.setSize(335, 33);
+		levelCompletedTextCompleted.flip(false, true);
+		levelCompletedTextCompleted.setPosition(background.getX() + (background.getWidth() / 2) - levelCompletedTextCompleted.getWidth() / 2, background.getY() - levelCompletedTextCompleted.getHeight());
+		
+		//levelCompleted.png
+		texture = Game.cm.getTexture("levelfailed");
+		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
+				
+		levelCompletedTextFailed = new Sprite(texture);
+		levelCompletedTextFailed.setSize(335, 44);
+		levelCompletedTextFailed.flip(false, true);
+		levelCompletedTextFailed.setPosition(background.getX() + (background.getWidth() / 2) - levelCompletedTextFailed.getWidth() / 2, background.getY() - levelCompletedTextFailed.getHeight());
 	}
 
 
@@ -147,10 +158,16 @@ public class LevelCompletedMenu {
 		return continueTo.isClicked();
 	}
 
-	public void trigger(int stars){
-		
+	public void trigger(boolean finished, int stars){
+	
 		if(!isTriggered){
-			this.stars = stars;
+			if(finished){
+				levelCompletedText = levelCompletedTextCompleted;
+				this.stars = stars;
+			}else{
+				levelCompletedText = levelCompletedTextFailed;
+				this.stars = 0;
+			}
 			
 			Tween.to(background, TweenSpriteAccessor.SCALE, 0.4f)
 		    		.target(1f, 1f)
@@ -174,13 +191,13 @@ public class LevelCompletedMenu {
 			
 			
 			//update STARS tweens
-			if(stars < 3){
+			if(this.stars < 3){
 				starSprite3.setColor(0, 0, 0, 1);
 			}
-			if(stars < 2){
+			if(this.stars < 2){
 				starSprite2.setColor(0, 0, 0, 1);
 			}
-			if(stars < 1){
+			if(this.stars < 1){
 				starSprite1.setColor(0, 0, 0, 1);
 			}
 			

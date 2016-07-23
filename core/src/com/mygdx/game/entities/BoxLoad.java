@@ -58,6 +58,9 @@ public class BoxLoad extends Box2DLoad{
 		
 		// 4. Create the body fixture
 		box.createFixture(boxFixture);
+		
+		//5. Box set USER DATA!
+		box.setUserData(new MyUserData());
 	}
 
 	@Override

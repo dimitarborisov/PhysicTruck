@@ -81,6 +81,7 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/levelCompleted.png", "levelCompleted");
 		cm.loadTexture("sprites/levelCompleted2.png", "levelCompleted2");
 		cm.loadTexture("sprites/flowRoot4194-2.png", "levelCompleted3");
+		cm.loadTexture("sprites/levelfailed.png", "levelfailed");
 		
 		
 		s = new SpriteBatch();

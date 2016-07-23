@@ -2,22 +2,18 @@ package com.mygdx.game.entities;
 
 public class MyUserData {
 	
-	private String data;
+	private boolean isOut;
 	
-	public MyUserData(String data){
-		this.data = data;
+	public MyUserData(){
+		this.isOut = false;
 	}
 	
-	public void setData(String data){
-		this.data = data;
+	public boolean isOut(){
+		return isOut;
 	}
 	
-	public String getData(){
-		return data;
-	}
-	
-	public String toString() {
-		return data;
+	public void setOut(boolean isOut){
+		this.isOut = isOut;
 	}
 	
 }
