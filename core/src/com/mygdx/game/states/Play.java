@@ -53,6 +53,8 @@ public class Play extends GameState {
 		super(m);
 		debug = false;
 		
+		cam.setToOrtho(false, Game.VWIDTH, Game.VHEIGHT);
+		
 		timeSlow = 1.0f;
 		
 		prefs = Gdx.app.getPreferences("stagesStar");

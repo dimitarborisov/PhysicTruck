@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.entities.LevelSelectButton;
+import com.mygdx.game.entities.SimpleImageButton;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.main.Game;
@@ -27,6 +28,9 @@ import aurelienribon.tweenengine.TweenManager;
 public class LevelSelect extends GameState {
 
 	private ArrayList<LevelSelectButton> sib;
+	
+	private SimpleImageButton optionsButton;
+	
 	private float ty, tx;
 
 	ShapeRenderer shapeRenderer;
@@ -212,6 +216,12 @@ public class LevelSelect extends GameState {
 			}
 		}
 		
+		optionsButton.update(tx, ty);
+		
+		if(optionsButton.isClicked()){
+			getStateManager().setTransition(GameStateManager.SLIDEFROMTOP, LevelSelect.this, GameStateManager.OPTIONS, true, false);
+		}
+		
 		// reset click position
 		tx = -1;
 		ty = -1;
@@ -235,6 +245,8 @@ public class LevelSelect extends GameState {
 		for (LevelSelectButton iButton : sib) {
 			iButton.render(s);
 		}
+		
+		optionsButton.render(s);
 
 	}
 
@@ -257,7 +269,7 @@ public class LevelSelect extends GameState {
 			}
 			
 			if(i == sib.size() - 1){
-				Tween.to(sib.get(i).getSprite(), TweenSpriteAccessor.POS_XY, 1f)
+				Tween.to(sib.get(i).getSprite(), TweenSpriteAccessor.POS_XY, 0.8f)
 				.target(sX, sY)
 				.delay(delay)
 				.ease(TweenEquations.easeInOutQuad)
@@ -276,7 +288,7 @@ public class LevelSelect extends GameState {
 				.start(tweenManager);
 
 			}else{
-				Tween.to(sib.get(i).getSprite(), TweenSpriteAccessor.POS_XY, 1f)
+				Tween.to(sib.get(i).getSprite(), TweenSpriteAccessor.POS_XY, 0.8f)
 						.target(sX, sY)
 						.delay(delay)
 						.ease(TweenEquations.easeInOutQuad)
@@ -287,10 +299,23 @@ public class LevelSelect extends GameState {
 			j++;
 		}
 		
+		Tween.to(optionsButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.8f)
+				.target(Game.VWIDTH - 150 -30, Game.VHEIGHT - 150 - 20)
+				.delay(delay + 0.8f)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager);
 		
 	}
 	
 	private void setupButtons() {
+		//SETUP OPTIONS BUTTON
+		optionsButton = new SimpleImageButton(Game.cm.getTexture("optionsButton"), 
+												Game.VWIDTH - 150 - 30, 
+												Game.VHEIGHT + 150, 
+												150, 
+												150, 
+												true, false);
+		
 		// row 1
 		//X1 = 215
 		//Y1 = 21

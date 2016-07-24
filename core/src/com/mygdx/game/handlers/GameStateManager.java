@@ -5,9 +5,12 @@ import java.util.Stack;
 import com.mygdx.game.main.Game;
 import com.mygdx.game.states.GameState;
 import com.mygdx.game.states.LevelSelect;
+import com.mygdx.game.states.Options;
 import com.mygdx.game.states.Play;
 import com.mygdx.game.states.SplashScreen;
 import com.mygdx.game.transitions.RightToLeftTransition;
+import com.mygdx.game.transitions.SlideFromTop;
+import com.mygdx.game.transitions.SlideToTop;
 
 public class GameStateManager {
 	private Game game;
@@ -16,17 +19,19 @@ public class GameStateManager {
 	public static final int PLAY = 0;
 	public static final int LEVELSELECT = 1;
 	public static final int SPLASHSCREEN = 2;
+	public static final int OPTIONS = 3;
 	
 	//game transitions
-	public static final int BOTTOMUP = 0;
+	public static final int SLIDETOTOP = 0;
 	public static final int RIGHTLEFT = 1;
+	public static final int SLIDEFROMTOP = 2;
 	
 	private Stack<GameState> gameStates;
 	
 	public GameStateManager(Game game){
 		this.game = game;
 		gameStates = new Stack<GameState>();
-		gameStates.push(getState(SPLASHSCREEN));
+		gameStates.push(getState(OPTIONS));
 		
 	}
 	
@@ -53,6 +58,10 @@ public class GameStateManager {
 			return new SplashScreen(this);
 		}
 		
+		if(state == OPTIONS){
+			return new Options(this);
+		}
+		
 		return null;
 	}
 	
@@ -60,6 +69,12 @@ public class GameStateManager {
 		
 		if(state == RIGHTLEFT){
 			return new RightToLeftTransition(this, from, to, updateFrom, updateTo);
+		}
+		if(state == SLIDETOTOP){
+			return new SlideToTop(this, from, to, updateFrom, updateTo);
+		}
+		if(state == SLIDEFROMTOP){
+			return new SlideFromTop(this, from, to, updateFrom, updateTo);
 		}
 		
 		return null;

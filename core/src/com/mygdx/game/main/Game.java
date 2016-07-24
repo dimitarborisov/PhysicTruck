@@ -83,6 +83,15 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/flowRoot4194-2.png", "levelCompleted3");
 		cm.loadTexture("sprites/levelfailed.png", "levelfailed");
 		
+		//COMMING SOON
+		cm.loadTexture("sprites/comingSoon.png", "comingSoon");
+		
+		//OTHER BUTTONS
+		cm.loadTexture("sprites/backButton.png", "backButton");
+		cm.loadTexture("sprites/optionsButton.png", "optionsButton");
+		cm.loadTexture("sprites/downButton.png", "downButton");
+		cm.loadTexture("sprites/downButton100.png", "downButton100");
+		cm.loadTexture("sprites/upButton.png", "upButton");
 		
 		s = new SpriteBatch();
 		cam = new OrthographicCamera();
