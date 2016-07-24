@@ -53,6 +53,8 @@ public class SplashScreen extends GameState{
 
 	public SplashScreen(GameStateManager m) {
 		super(m);
+		//update the camera!
+		cam.setToOrtho(false, Game.VWIDTH, Game.VHEIGHT);
 		
 		Texture tTexture = Game.cm.getTexture("press_enter");
 		tTexture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
