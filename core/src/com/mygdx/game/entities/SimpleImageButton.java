@@ -9,9 +9,13 @@ public class SimpleImageButton {
 
 	private Sprite imageSprite;
 	boolean clicked;
+	private float initialX;
+	private float initialY;
 
 	public SimpleImageButton(Texture texture, float x, float y, float width, float height, boolean fX, boolean fY) {
-
+		initialX = x;
+		initialY = y;
+		
 		clicked = false;
 		
 		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
@@ -48,7 +52,7 @@ public class SimpleImageButton {
 	}
 	
 	public void setY(float y){
-		imageSprite.setX(y);
+		imageSprite.setY(y);
 	}
 	
 	public boolean isClicked(){
@@ -59,6 +63,10 @@ public class SimpleImageButton {
 	
 	public Sprite getSprite(){
 		return this.imageSprite;
+	}
+	
+	public void reloadButton(){
+		imageSprite.setPosition(initialX, initialY);
 	}
 
 }

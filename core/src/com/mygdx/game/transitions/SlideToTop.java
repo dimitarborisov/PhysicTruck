@@ -125,7 +125,7 @@ public class SlideToTop extends GameState{
 
 	@Override
 	public void render() {
-
+		transitionBatch.disableBlending();
 		transitionBatch.setProjectionMatrix(transitionCam.combined);
 		
 		transitionBatch.begin();

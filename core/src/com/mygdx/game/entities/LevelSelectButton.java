@@ -42,12 +42,19 @@ public class LevelSelectButton {
 	
 	int stars;
 	
+	private float initialPositionX;
+	private float initialPositionY;
+	
 	public LevelSelectButton(String name, int sSelected, float x, float y, float width, float height, boolean iX, boolean iY, boolean renderText){
 		this( name, sSelected, x, y, width, height, iX, iY, 3, renderText);
 	}
 	
 	public LevelSelectButton(String name, int sSelected, float x, float y, float width, float height, boolean iX, boolean iY, int stars, boolean renderText){
 		this.stars = stars;
+		
+		//RESET VARIABLES
+		initialPositionX = x;
+		initialPositionY = y;
 		
 		texture1 = Game.cm.getTexture("buttonStage");
 		texture1.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
@@ -105,14 +112,28 @@ public class LevelSelectButton {
 		
 	}
 
+	public void reloadButton(){
+		buttonSprite.setPosition(initialPositionX, initialPositionY);
+		scrolled = false;
+		scrolling = false;
+		
+		
+		expansionX = initialPositionX;
+		expansionY = initialPositionY + buttonSprite.getHeight() -  expansionSprite.getHeight();
+		
+		expansionSprite.setPosition(expansionX, expansionY);
+	}
+	
 	public void render(SpriteBatch sb) {
 		//update expansion
 		if(!scrolling){
 			expansionX = buttonSprite.getX();
 			if(scrolled){
 				expansionY = buttonSprite.getY() + buttonSprite.getHeight() -  expansionSprite.getHeight() + 26;
+				expansionX = buttonSprite.getX();
 			}else{
 				expansionY = buttonSprite.getY() + buttonSprite.getHeight() -  expansionSprite.getHeight();
+				expansionX = buttonSprite.getX();
 			}
 			expansionSprite.setPosition(expansionX, expansionY);
 		}

@@ -94,6 +94,8 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/upButton.png", "upButton");
 		cm.loadTexture("sprites/boxes.png", "hudBoxes");
 		
+		
+		//OTHER INIT
 		s = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, VWIDTH, VHEIGHT);

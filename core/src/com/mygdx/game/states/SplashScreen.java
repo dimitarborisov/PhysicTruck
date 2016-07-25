@@ -48,6 +48,7 @@ public class SplashScreen extends GameState{
 	ShapeRenderer shapeRenderer;
 	Sprite pressEnterSprite;
 	
+	InputProcessor inputProcessor;
 	
 	OrthographicCamera splashCam;
 
@@ -85,7 +86,6 @@ public class SplashScreen extends GameState{
 			float i = 0;
 			@Override
 			public void run() {
-				
 				car.getBody().setLinearVelocity(i, 0);
 				
 				if(i < 2.0){
@@ -97,7 +97,7 @@ public class SplashScreen extends GameState{
 		
 		tweenSetting();
 		
-		Gdx.input.setInputProcessor(new InputProcessor() {
+		inputProcessor =  new InputProcessor() {
 
 			@Override
 			public boolean keyDown(int keycode) {
@@ -152,7 +152,9 @@ public class SplashScreen extends GameState{
 				// TODO Auto-generated method stub
 				return false;
 			}
-		});
+		};
+		
+		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
 	@Override
@@ -217,6 +219,13 @@ public class SplashScreen extends GameState{
 
 	}
 
+	
+	
+	
+	@Override
+	public void reloadState() {
+		Gdx.input.setInputProcessor(inputProcessor);
+	}
 
 	private void createBoxes() {
 		

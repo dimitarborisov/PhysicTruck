@@ -1,5 +1,6 @@
 package com.mygdx.game.handlers;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 import com.mygdx.game.main.Game;
@@ -8,12 +9,15 @@ import com.mygdx.game.states.LevelSelect;
 import com.mygdx.game.states.Options;
 import com.mygdx.game.states.Play;
 import com.mygdx.game.states.SplashScreen;
+import com.mygdx.game.transitions.LeftToRightTransition;
 import com.mygdx.game.transitions.RightToLeftTransition;
 import com.mygdx.game.transitions.SlideFromTop;
 import com.mygdx.game.transitions.SlideToTop;
 
 public class GameStateManager {
 	private Game game;
+	
+	private HashMap<Integer,GameState> gameStatesReady; 
 	
 	//general game states
 	public static final int PLAY = 0;
@@ -25,13 +29,22 @@ public class GameStateManager {
 	public static final int SLIDETOTOP = 0;
 	public static final int RIGHTLEFT = 1;
 	public static final int SLIDEFROMTOP = 2;
+	public static final int LEFTRIGHT = 3;
 	
 	private Stack<GameState> gameStates;
 	
 	public GameStateManager(Game game){
 		this.game = game;
+		
+		//TESTING
+		gameStatesReady = new HashMap<Integer,GameState>();
+		gameStatesReady.put(SPLASHSCREEN, new SplashScreen(this));
+		gameStatesReady.put(OPTIONS, new Options(this));
+		gameStatesReady.put(LEVELSELECT, new LevelSelect(this));
+				
+		//STATE MANAGER
 		gameStates = new Stack<GameState>();
-		gameStates.push(getState(OPTIONS));
+		gameStates.push(getState(SPLASHSCREEN));
 		
 	}
 	
@@ -51,15 +64,18 @@ public class GameStateManager {
 		}
 		
 		if(state == LEVELSELECT){
-			return new LevelSelect(this);
+			gameStatesReady.get(LEVELSELECT).reloadState();
+			return gameStatesReady.get(LEVELSELECT);
 		}
 		
 		if(state == SPLASHSCREEN){
-			return new SplashScreen(this);
+			gameStatesReady.get(SPLASHSCREEN).reloadState();
+			return gameStatesReady.get(SPLASHSCREEN);
 		}
 		
 		if(state == OPTIONS){
-			return new Options(this);
+			gameStatesReady.get(OPTIONS).reloadState();
+			return gameStatesReady.get(OPTIONS);
 		}
 		
 		return null;
@@ -75,6 +91,9 @@ public class GameStateManager {
 		}
 		if(state == SLIDEFROMTOP){
 			return new SlideFromTop(this, from, to, updateFrom, updateTo);
+		}
+		if(state == LEFTRIGHT){
+			return new LeftToRightTransition(this, from, to, updateFrom, updateTo);
 		}
 		
 		return null;
@@ -109,4 +128,19 @@ public class GameStateManager {
 		g.dispose();
 		gameStates.push(getState(state));
 	}
+	
+	
+	
+	//IF USING NEW INSTANCE EVERY TIME
+	//public void setState(GameState state){
+	//	GameState g = gameStates.pop();
+	//	g.dispose();
+	//	gameStates.push(state);
+	//}
+	
+	//public void setState(int state){
+	//	GameState g = gameStates.pop();
+	//	g.dispose();
+	//	gameStates.push(getState(state));
+	//}
 }

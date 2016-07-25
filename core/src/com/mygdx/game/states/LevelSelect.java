@@ -34,6 +34,8 @@ public class LevelSelect extends GameState {
 	private float ty, tx;
 
 	ShapeRenderer shapeRenderer;
+	
+	InputProcessor inputProcessor;
 
 	private final TweenManager tweenManager = new TweenManager();
 	Preferences prefs;
@@ -64,8 +66,8 @@ public class LevelSelect extends GameState {
 		setupButtons();
 		setupTweenBackground();
 		
-
-		Gdx.input.setInputProcessor(new InputProcessor() {
+		
+		inputProcessor = new InputProcessor() {
 
 			@Override
 			public boolean keyDown(int keycode) {
@@ -76,7 +78,7 @@ public class LevelSelect extends GameState {
 			@Override
 			public boolean keyUp(int keycode) {
 				if(keycode == Keys.ESCAPE){
-					getStateManager().setTransition(GameStateManager.RIGHTLEFT, LevelSelect.this, GameStateManager.SPLASHSCREEN, true, true);
+					getStateManager().setTransition(GameStateManager.LEFTRIGHT, LevelSelect.this, GameStateManager.SPLASHSCREEN, true, true);
 				}
 				return false;
 			}
@@ -120,8 +122,10 @@ public class LevelSelect extends GameState {
 				// TODO Auto-generated method stub
 				return false;
 			}
-		});
+		};
 		
+
+		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
 	private void setupTweenBackground() {
@@ -227,7 +231,7 @@ public class LevelSelect extends GameState {
 		backButton.update(tx, ty);
 		
 		if(backButton.isClicked()){
-			getStateManager().setTransition(GameStateManager.RIGHTLEFT, LevelSelect.this, GameStateManager.SPLASHSCREEN, true, true);
+			getStateManager().setTransition(GameStateManager.LEFTRIGHT, LevelSelect.this, GameStateManager.SPLASHSCREEN, true, true);
 		}
 		
 		// reset click position
@@ -381,5 +385,37 @@ public class LevelSelect extends GameState {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void reloadState() {
+		//RESET TWEEN
+		tweenManager.killAll();
+		
+		//BUTTONS
+		for(LevelSelectButton lsb: sib){
+			lsb.reloadButton();
+		}
+		backButton.reloadButton();
+		optionsButton.reloadButton();
+		
+		
+		//BACKGROUND
+		backgroundSprite1.setPosition(0, Game.VHEIGHT);
+
+		backgroundSprite2.setPosition(0, 0);
+		backgroundSprite2.setAlpha(0);
+
+		backgroundSprite3.setPosition(0, Game.VWIDTH);
+		
+		
+		//TWEEN
+		setupTweenBackground();
+		
+		
+		//INPUT
+		Gdx.input.setInputProcessor(inputProcessor);
+	}
+	
+	
 
 }

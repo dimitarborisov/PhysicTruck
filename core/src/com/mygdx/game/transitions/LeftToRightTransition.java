@@ -81,7 +81,7 @@ public class LeftToRightTransition extends GameState{
 		bufferNext.end();
 
 		nextSprite = new Sprite(bufferNext.getColorBufferTexture());
-		nextSprite.setPosition(Game.VWIDTH, 0);
+		nextSprite.setPosition(-nextSprite.getWidth(), 0);
 		nextSprite.flip(flipX, flipY);
 
 		tweenCallback = new TweenCallback() {
@@ -125,7 +125,7 @@ public class LeftToRightTransition extends GameState{
 
 	@Override
 	public void render() {
-
+		transitionBatch.disableBlending();
 		transitionBatch.setProjectionMatrix(transitionCam.combined);
 		
 		transitionBatch.begin();

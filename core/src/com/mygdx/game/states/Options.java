@@ -7,21 +7,40 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.entities.SimpleImageButton;
+import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.main.Game;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
 public class Options extends GameState{
 
 	private Sprite backgroundSprite;
 	
 	private SimpleImageButton returnButton;
+	private final TweenManager tweenManager = new TweenManager();
 	
 	OrthographicCamera optionsCam;
 	
+	InputProcessor inputProcessor;
+	
 	float tx, ty;
+	
+	public void reloadState(){
+		backgroundSprite.setPosition(0, 0);
+		returnButton.reloadButton();
+		setupTweenButtons();
+			
+		Gdx.input.setInputProcessor(inputProcessor);
+	}
 	
 	public Options(GameStateManager m) {
 		super(m);
+		
+		Tween.setCombinedAttributesLimit(4);
+		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
 		
 		tx = -1;
 		ty = -1;
@@ -30,8 +49,6 @@ public class Options extends GameState{
 		optionsCam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
 		
 		Texture texture = Game.cm.getTexture("image10.png");
-		
-		
 		backgroundSprite = new Sprite(texture);
 		
 		backgroundSprite.setPosition(0, 0);
@@ -39,13 +56,14 @@ public class Options extends GameState{
 		backgroundSprite.flip(false, true);
 	
 		
-		returnButton = new SimpleImageButton(Game.cm.getTexture("upButton"),
+		returnButton = new SimpleImageButton(Game.cm.getTexture("downButton"),
 												Game.VWIDTH - 150 - 30, 
-												Game.VHEIGHT - 150 - 20, 
+												Game.VHEIGHT, 
 												150, 150, false, true);
 	
 		
-		Gdx.input.setInputProcessor(new InputProcessor() {
+		
+		inputProcessor = new InputProcessor() {
 
 			@Override
 			public boolean keyDown(int keycode) {
@@ -100,14 +118,24 @@ public class Options extends GameState{
 				// TODO Auto-generated method stub
 				return false;
 			}
-		});
+		};	
+	
+		Gdx.input.setInputProcessor(inputProcessor);
 	
 	
+		setupTweenButtons();
+	}
 	
+	private void setupTweenButtons(){
+		Tween.to(returnButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
+				.target(Game.VWIDTH - 150 -30, Game.VHEIGHT - 150 - 20)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager);
 	}
 
 	@Override
 	public void update(float dt) {
+		tweenManager.update(dt);
 		returnButton.update(tx, ty);
 		
 		if(returnButton.isClicked()){
