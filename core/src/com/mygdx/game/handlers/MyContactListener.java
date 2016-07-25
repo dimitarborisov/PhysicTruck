@@ -62,6 +62,7 @@ public class MyContactListener implements ContactListener {
 				if (!mud.isOut()) {
 					cratesOut += 1;
 					mud.setOut(true);
+					state.updateBoxCounter(cratesOut);
 				}
 			}
 
@@ -70,6 +71,7 @@ public class MyContactListener implements ContactListener {
 				if (!mud.isOut()) {
 					cratesOut += 1;
 					mud.setOut(true);
+					state.updateBoxCounter(cratesOut);
 				}
 
 			}

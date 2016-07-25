@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.entities.LevelSelectButton;
@@ -30,6 +29,7 @@ public class LevelSelect extends GameState {
 	private ArrayList<LevelSelectButton> sib;
 	
 	private SimpleImageButton optionsButton;
+	private SimpleImageButton backButton;
 	
 	private float ty, tx;
 
@@ -41,8 +41,6 @@ public class LevelSelect extends GameState {
 	Sprite backgroundSprite1;
 	Sprite backgroundSprite2;
 	Sprite backgroundSprite3;
-
-	BitmapFont font;
 
 	OrthographicCamera levelCam;
 
@@ -216,10 +214,20 @@ public class LevelSelect extends GameState {
 			}
 		}
 		
+		
+		//check the options button
 		optionsButton.update(tx, ty);
 		
 		if(optionsButton.isClicked()){
 			getStateManager().setTransition(GameStateManager.SLIDEFROMTOP, LevelSelect.this, GameStateManager.OPTIONS, true, false);
+		}
+		
+		
+		//Check the back button
+		backButton.update(tx, ty);
+		
+		if(backButton.isClicked()){
+			getStateManager().setTransition(GameStateManager.RIGHTLEFT, LevelSelect.this, GameStateManager.SPLASHSCREEN, true, true);
 		}
 		
 		// reset click position
@@ -247,6 +255,7 @@ public class LevelSelect extends GameState {
 		}
 		
 		optionsButton.render(s);
+		backButton.render(s);
 
 	}
 
@@ -305,16 +314,30 @@ public class LevelSelect extends GameState {
 				.ease(TweenEquations.easeInOutQuad)
 				.start(tweenManager);
 		
+		Tween.to(backButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.8f)
+				.target(+30, Game.VHEIGHT - 150 - 20)
+				.delay(delay + 0.8f)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager);
+		
 	}
 	
 	private void setupButtons() {
+		//SETUP BACK BUTTON
+		backButton = new SimpleImageButton(Game.cm.getTexture("backButton"), 
+												+ 30, 
+												Game.VHEIGHT + 150, 
+												150, 
+												150, 
+												false, false);
+		
 		//SETUP OPTIONS BUTTON
 		optionsButton = new SimpleImageButton(Game.cm.getTexture("optionsButton"), 
 												Game.VWIDTH - 150 - 30, 
 												Game.VHEIGHT + 150, 
 												150, 
 												150, 
-												true, false);
+												false, false);
 		
 		// row 1
 		//X1 = 215

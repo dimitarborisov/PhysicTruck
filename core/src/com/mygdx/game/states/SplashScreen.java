@@ -51,6 +51,7 @@ public class SplashScreen extends GameState{
 	
 	OrthographicCamera splashCam;
 
+	
 	public SplashScreen(GameStateManager m) {
 		super(m);
 		//update the camera!

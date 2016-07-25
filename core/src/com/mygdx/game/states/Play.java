@@ -11,6 +11,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -22,11 +27,17 @@ import com.mygdx.game.entities.Box2DTerrain;
 import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
 import com.mygdx.game.entities.LevelCompletedMenu;
+import com.mygdx.game.entities.SimpleImageButton;
+import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.BackgroundHandler;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.handlers.MyContactListener;
 import com.mygdx.game.handlers.StageManager;
 import com.mygdx.game.main.Game;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
 public class Play extends GameState {
 	private World world;
@@ -41,6 +52,12 @@ public class Play extends GameState {
 	BackgroundHandler bh;
 	Preferences prefs;
 	
+	private final TweenManager tweenManager = new TweenManager();
+	
+	private SimpleImageButton backButton;
+	private Sprite hudBoxes;
+	BitmapFont font;
+	GlyphLayout layout;
 	
 	LevelCompletedMenu lcm;
 	private float ty, tx;
@@ -53,10 +70,39 @@ public class Play extends GameState {
 		super(m);
 		debug = false;
 		
-		cam.setToOrtho(false, Game.VWIDTH, Game.VHEIGHT);
+		initializeWorld();
+		createTruck();
+		createStage();
+		createBoxes();
+		bh = new BackgroundHandler(car);
 		
+		cam.setToOrtho(false, Game.VWIDTH, Game.VHEIGHT);
+		hud.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
+		
+		//HUD---------------
+		backButton = new SimpleImageButton(Game.cm.getTexture("backButton"), 
+															30, Game.VHEIGHT - 150 -20, 
+															150, 150,
+															false, true);
+		
+		Texture texture = Game.cm.getTexture("hudBoxes");
+		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
+		hudBoxes = new Sprite(texture);
+		hudBoxes.setSize(50, 50);
+		hudBoxes.setPosition(Game.VWIDTH / 2 - hudBoxes.getWidth(), 10);
+		
+		//Text setup
+		font = new BitmapFont(Gdx.files.internal("fonts/Burnstown_Dam.fnt"), true);
+		layout = new GlyphLayout(); //dont do this every frame!
+		layout.setText(font , truckLoad.size() + "/" + truckLoad.size());
+		
+		//TIMESLOW-----------
 		timeSlow = 1.0f;
 		
+		Tween.setCombinedAttributesLimit(4);
+		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
+		
+		//load the stars file
 		prefs = Gdx.app.getPreferences("stagesStar");
 		// System.out.println("starting stage: " + STAGESELECTED);
 
@@ -64,11 +110,6 @@ public class Play extends GameState {
 		ty = -1;
 		tx = -1;
 
-		initializeWorld();
-		createTruck();
-		createStage();
-		createBoxes();
-		bh = new BackgroundHandler(car);
 
 		// set inputProcessors
 
@@ -83,9 +124,15 @@ public class Play extends GameState {
 			@Override
 			public boolean keyUp(int keycode) {
 				if (keycode == Keys.ESCAPE) {
+					getStateManager().setTransition(GameStateManager.RIGHTLEFT ,Play.this , GameStateManager.LEVELSELECT, true, false);
+					return true;
+				}
+				
+				if (keycode == Keys.BACKSPACE) {
 					getStateManager().setState(GameStateManager.PLAY);
 					return true;
 				}
+				
 				return false;
 			}
 
@@ -133,6 +180,8 @@ public class Play extends GameState {
 	public void update(float dt) {
 		
 		world.step(dt * timeSlow, 6, 2);
+		tweenManager.update(dt);
+		
 		bh.update(dt * timeSlow);
 
 		// update camera
@@ -155,7 +204,14 @@ public class Play extends GameState {
 		if(lcm.replayIsClicked()){
 			m.setState(GameStateManager.PLAY);
 		}
+		
+		backButton.update(tx, ty);
+		
+		if(backButton.isClicked()){
+			getStateManager().setTransition(GameStateManager.RIGHTLEFT ,Play.this , GameStateManager.LEVELSELECT, true, false);
+		}
 
+		
 		// reset click position
 		tx = -1;
 		ty = -1;
@@ -181,14 +237,33 @@ public class Play extends GameState {
 			// debug box2d
 			box2dDebug.render(world, b2cam.combined);
 		}
+		
+		s.setProjectionMatrix(hud.combined);
+		backButton.render(s);
+		
+		s.begin();
+		hudBoxes.draw(s);
+		
 
+		font.draw(s, layout
+				, hudBoxes.getX() + hudBoxes.getWidth() + 5
+				, hudBoxes.getY());
+		
+		s.end();
+		
 		lcm.render(s);
-
 	}
 	
 	public void finishStage(boolean finished, int cratesOut){
 		//true finished at the flag
 		//false failed somewhere :(
+		
+		//HIDE BUTTONS
+		Tween.to(backButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
+					.targetRelative(0, + 150 + 20)
+					.ease(TweenEquations.easeInOutQuad)
+					.start(tweenManager);
+		
 		
 		//TIMER SETTINGS
 		Timer.schedule(new Task() {
@@ -244,6 +319,10 @@ public class Play extends GameState {
 		b2cam.setToOrtho(false, (Game.VWIDTH) / PPM, (Game.VHEIGHT) / PPM);
 	}
 
+	public void updateBoxCounter(int boxesDropped){
+		layout.setText(font, (truckLoad.size() - boxesDropped) + "/" + truckLoad.size());
+	}
+	
 	@Override
 	public void dispose() {
 	}

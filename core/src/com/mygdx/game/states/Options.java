@@ -1,8 +1,9 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.entities.SimpleImageButton;
@@ -15,6 +16,8 @@ public class Options extends GameState{
 	
 	private SimpleImageButton returnButton;
 	
+	OrthographicCamera optionsCam;
+	
 	float tx, ty;
 	
 	public Options(GameStateManager m) {
@@ -23,7 +26,8 @@ public class Options extends GameState{
 		tx = -1;
 		ty = -1;
 		
-		cam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
+		optionsCam = new OrthographicCamera();
+		optionsCam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
 		
 		Texture texture = Game.cm.getTexture("image10.png");
 		
@@ -37,7 +41,7 @@ public class Options extends GameState{
 		
 		returnButton = new SimpleImageButton(Game.cm.getTexture("upButton"),
 												Game.VWIDTH - 150 - 30, 
-												Game.VHEIGHT - 150 - 30, 
+												Game.VHEIGHT - 150 - 20, 
 												150, 150, false, true);
 	
 		
@@ -117,7 +121,7 @@ public class Options extends GameState{
 
 	@Override
 	public void render() {
-		s.setProjectionMatrix(cam.combined);
+		s.setProjectionMatrix(optionsCam.combined);
 		
 		s.begin();
 		backgroundSprite.draw(s);
