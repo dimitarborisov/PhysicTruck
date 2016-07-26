@@ -68,7 +68,7 @@ public class Play extends GameState {
 
 	public Play(GameStateManager m) {
 		super(m);
-		debug = false;
+		debug = true;
 		
 		initializeWorld();
 		createTruck();
@@ -103,7 +103,7 @@ public class Play extends GameState {
 		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
 		
 		//load the stars file
-		prefs = Gdx.app.getPreferences("stagesStar");
+		prefs = Gdx.app.getPreferences("stagesStars");
 		// System.out.println("starting stage: " + STAGESELECTED);
 
 		lcm = new LevelCompletedMenu();
@@ -280,16 +280,19 @@ public class Play extends GameState {
 
 		}, 0.01f, 0.015f);
 		
-		float sRatio = (float) 3 / truckLoad.size();
-		int stars = 3 - (int) Math.ceil(cratesOut * sRatio);
-		
-		//get previous stars
-		int prevStars = prefs.getInteger(Integer.toString(STAGESELECTED + 1), 0);
-		
-		//save current stars if the stage is finished correctly and the stars are more than the saved ones
-		if(prevStars < stars && finished){
-			prefs.putInteger(Integer.toString(STAGESELECTED + 1), stars);
-			prefs.flush();
+		int stars = 0;
+		if(finished){
+			float sRatio = (float) 3 / truckLoad.size();
+			stars = 3 - (int) Math.ceil(cratesOut * sRatio);
+			
+			//get previous stars
+			int prevStars = prefs.getInteger(Integer.toString(STAGESELECTED + 1), 0);
+			
+			//save current stars if the stage is finished correctly and the stars are more than the saved ones
+			if(prevStars < stars && finished){
+				prefs.putInteger(Integer.toString(STAGESELECTED + 1), stars);
+				prefs.flush();
+			}
 		}
 		
 		lcm.trigger(finished, stars);

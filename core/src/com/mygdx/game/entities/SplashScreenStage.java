@@ -16,7 +16,7 @@ import com.mygdx.game.handlers.BodyEditorLoader;
 import com.mygdx.game.handlers.Box2DVariables;
 import com.mygdx.game.main.Game;
 
-public class DummyStage extends Box2DTerrain {
+public class SplashScreenStage extends Box2DTerrain {
 	private Body terrain;
 
 	Vector2 terrainOrigin;
@@ -30,7 +30,7 @@ public class DummyStage extends Box2DTerrain {
 
 	float x, y;
 
-	public DummyStage(World w, float x, float y, float scale) {
+	public SplashScreenStage(World w, float x, float y, float scale) {
 		this.scale = scale;
 		this.x = x;
 		this.y = y;

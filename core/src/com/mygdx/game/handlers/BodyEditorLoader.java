@@ -113,7 +113,6 @@ public class BodyEditorLoader {
 		}
 	}
 	
-	
 	public void attachFixture(Body body, String name, FixtureDef fd, float scale) {
 		RigidBodyModel rbModel = model.rigidBodies.get(name);
 		if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
@@ -153,6 +152,46 @@ public class BodyEditorLoader {
 			free(center);
 		}
 	}
+	
+	public void attachFixture(Body body, String name, FixtureDef fd, float scaleX, float scaleY) {
+		RigidBodyModel rbModel = model.rigidBodies.get(name);
+		if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
+
+		Vector2 origin = vec.set(rbModel.origin).scl(scaleX, scaleY);
+
+		for (int i=0, n=rbModel.polygons.size(); i<n; i++) {
+			PolygonModel polygon = rbModel.polygons.get(i);
+			Vector2[] vertices = polygon.buffer;
+
+			for (int ii=0, nn=vertices.length; ii<nn; ii++) {
+				vertices[ii] = newVec().set(polygon.vertices.get(ii)).scl(scaleX, scaleY);
+				vertices[ii].sub(origin);
+			}
+
+			polygonShape.set(vertices);
+			fd.shape = polygonShape;
+			
+			body.createFixture(fd);
+			
+
+			for (int ii=0, nn=vertices.length; ii<nn; ii++) {
+				free(vertices[ii]);
+			}
+		}
+
+		for (int i=0, n=rbModel.circles.size(); i<n; i++) {
+			CircleModel circle = rbModel.circles.get(i);
+			Vector2 center = newVec().set(circle.center).scl(scaleX, scaleY);
+			float radius = circle.radius * scaleX;
+
+			circleShape.setPosition(center);
+			circleShape.setRadius(radius);
+			fd.shape = circleShape;
+			body.createFixture(fd);
+
+			free(center);
+		}
+	}
 
 	/**
 	 * Gets the image path attached to the given name.
@@ -177,6 +216,14 @@ public class BodyEditorLoader {
 		return vec.set(rbModel.origin).scl(scale);
 	}
 
+	public Vector2 getOrigin(String name, float scaleX, float scaleY) {
+		RigidBodyModel rbModel = model.rigidBodies.get(name);
+		if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
+
+		return vec.set(rbModel.origin).scl(scaleX, scaleY);
+	}
+	
+	
 	/**
 	 * <b>For advanced users only.</b> Lets you access the internal model of
 	 * this loader and modify it. Be aware that any modification is permanent

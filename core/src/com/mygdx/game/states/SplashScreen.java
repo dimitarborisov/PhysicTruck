@@ -23,7 +23,7 @@ import com.mygdx.game.entities.Box2DLoad;
 import com.mygdx.game.entities.Box2DTerrain;
 import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
-import com.mygdx.game.entities.DummyStage;
+import com.mygdx.game.entities.SplashScreenStage;
 import com.mygdx.game.entities.FarmTruck;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.BackgroundHandler;
@@ -51,12 +51,20 @@ public class SplashScreen extends GameState{
 	InputProcessor inputProcessor;
 	
 	OrthographicCamera splashCam;
+	
+	
+	//In update trigger initial values to update
+	//This is needed to give the thread enough time to load
+	//without messing up the timing and deltaTime
+	private boolean trigger;
 
 	
 	public SplashScreen(GameStateManager m) {
 		super(m);
 		//update the camera!
 		cam.setToOrtho(false, Game.VWIDTH, Game.VHEIGHT);
+		
+		trigger = false;
 		
 		Texture tTexture = Game.cm.getTexture("press_enter");
 		tTexture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
@@ -81,21 +89,6 @@ public class SplashScreen extends GameState{
 		createBoxes();
 		bh = new BackgroundHandler(car);
 
-		//TIMER SETTINGS
-		Timer.schedule(new Task() {
-			float i = 0;
-			@Override
-			public void run() {
-				car.getBody().setLinearVelocity(i, 0);
-				
-				if(i < 2.0){
-					i += 0.2;
-				}
-			}
-
-		}, 1, 0.1f);
-		
-		tweenSetting();
 		
 		inputProcessor =  new InputProcessor() {
 
@@ -159,6 +152,28 @@ public class SplashScreen extends GameState{
 
 	@Override
 	public void update(float dt) {
+		
+		//TRIGGER ALL CHANGES IN THE FIRST UPDATE
+		//TIMER SETTINGS
+		if(!trigger){
+			Timer.schedule(new Task() {
+				float i = 0;
+				@Override
+				public void run() {
+					car.getBody().setLinearVelocity(i, 0);
+						
+					if(i < 2.0){
+						i += 0.2;
+					}
+				}
+
+			}, 1, 0.1f);
+				
+			tweenSetting();
+			trigger = true;
+		}
+		
+		//UPDATE WORLD, TWEEN, AND BACGROUND HANDLER
 		tweenManager.update(dt);
 		world.step(dt, 6, 2);
 		bh.update(dt);
@@ -241,8 +256,8 @@ public class SplashScreen extends GameState{
 
 	private void createStage() {
 		// track0
-		terrain1 = new DummyStage(world, 0 / PPM, 0 / PPM, 10);
-		terrain2 = new DummyStage(world, terrain1.getSpriteTerrain().getWidth() / PPM, 0 / PPM, 10);
+		terrain1 = new SplashScreenStage(world, 0 / PPM, 0 / PPM, 10);
+		terrain2 = new SplashScreenStage(world, terrain1.getSpriteTerrain().getWidth() / PPM, 0 / PPM, 10);
 	}
 
 	private void createTruck() {

@@ -49,7 +49,7 @@ public class LevelSelect extends GameState {
 	public LevelSelect(GameStateManager m) {
 		super(m);
 		
-		prefs = Gdx.app.getPreferences("stagesStar");
+		prefs = Gdx.app.getPreferences("stagesStars");
 		
 		shapeRenderer = new ShapeRenderer();
 
@@ -391,9 +391,13 @@ public class LevelSelect extends GameState {
 		//RESET TWEEN
 		tweenManager.killAll();
 		
+		
+		LevelSelectButton lsb;
 		//BUTTONS
-		for(LevelSelectButton lsb: sib){
+		for(int i = 0; i < sib.size(); i++){
+			lsb = sib.get(i);
 			lsb.reloadButton();
+			lsb.setStars(prefs.getInteger(Integer.toString(i+1), 0));
 		}
 		backButton.reloadButton();
 		optionsButton.reloadButton();
@@ -410,6 +414,10 @@ public class LevelSelect extends GameState {
 		
 		//TWEEN
 		setupTweenBackground();
+		
+		
+		//LOAD PREFERENCES
+		//prefs = Gdx.app.getPreferences("stagesStars");
 		
 		
 		//INPUT

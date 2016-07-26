@@ -55,6 +55,8 @@ public class Game implements ApplicationListener{
 		
 		cm.loadTexture("sprites/path4172.png", "FarmTruck");
 		
+		//Stage2
+		cm.loadTexture("sprites/rect4136.png", "Stage02");
 		
 		//stage select
 		cm.loadTexture("sprites/levelselectbuttonSmallSolo.png", "buttonStage");

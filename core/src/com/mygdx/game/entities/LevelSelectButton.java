@@ -202,6 +202,10 @@ public class LevelSelectButton {
 		return this.renderText;
 	}
 	
+	public void setStars(int stars){
+		this.stars = stars;
+	}
+	
 	public void dropDown(TweenManager manager){
 		scrolling = true;
 		
