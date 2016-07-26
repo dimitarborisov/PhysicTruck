@@ -8,5 +8,4 @@ public abstract class Box2DTerrain implements Box2DSprite{
 	public abstract Body getFinish();
 	public abstract Sprite getSpriteTerrain();
 	public abstract void moveTerrain(float x, float y, float a);
-	
 }

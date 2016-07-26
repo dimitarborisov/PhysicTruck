@@ -10,6 +10,7 @@ import com.mygdx.game.entities.Box2DVehicle;
 import com.mygdx.game.entities.BoxLoad;
 import com.mygdx.game.entities.FarmTruck;
 import com.mygdx.game.entities.Stage02;
+import com.mygdx.game.entities.Stage03;
 import com.mygdx.game.entities.Terrain0;
 
 public class StageManager {
@@ -25,6 +26,9 @@ public class StageManager {
 		
 			case STAGE_2:
 				return new FarmTruck(world, 180 / PPM, 450 / PPM, 2);
+			
+			case STAGE_3:
+				return new FarmTruck(world, 160 / PPM, 1450 / PPM, 2);
 		}
 
 		return null;
@@ -54,6 +58,17 @@ public class StageManager {
 				//truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 400 / PPM) );
 				//truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 400 / PPM) );
 				return truckLoad;
+			
+			case STAGE_3:
+				truckLoad.add( new BoxLoad(world, 40, 40, 100 / PPM, 1450 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 140 / PPM, 1450 / PPM) );
+				
+				truckLoad.add( new BoxLoad(world, 40, 40, 100 / PPM, 1500 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 140 / PPM, 1500 / PPM) );
+				
+				//truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 400 / PPM) );
+				//truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 400 / PPM) );
+				return truckLoad;
 		}
 		
 		return null;
@@ -63,8 +78,12 @@ public class StageManager {
 		switch (stage) {
 			case STAGE_1:
 				return new Terrain0(world, 0 / PPM, 0 / PPM, 10);
+			
 			case STAGE_2:
 				return new Stage02(world, 0 / PPM, 0 / PPM, 50, 30);
+			
+			case STAGE_3:
+				return new Stage03(world, 0 / PPM, 0 / PPM, 70, 60);
 		}
 
 		return null;

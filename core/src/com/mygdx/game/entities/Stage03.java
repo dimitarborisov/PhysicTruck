@@ -9,18 +9,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.handlers.BodyEditorLoader;
 import com.mygdx.game.handlers.Box2DVariables;
 import com.mygdx.game.main.Game;
 
-//GROUND
-//BOTTOMBORDER
-//FINISH
-
-public class Terrain0 extends Box2DTerrain {
+public class Stage03 extends Box2DTerrain {
 	private Body terrain;
 	private Body flag;
 	private Body borderBottom;
@@ -28,7 +24,7 @@ public class Terrain0 extends Box2DTerrain {
 	Vector2 terrainOrigin;
 	Vector2 flagOrigin;
 
-	float scale;
+	float scaleX, scaleY;
 
 	Texture textureTerrain;
 	Texture textureFlag;
@@ -38,22 +34,23 @@ public class Terrain0 extends Box2DTerrain {
 
 	float x, y;
 
-	public Terrain0(World w, float x, float y, float scale) {
-		this.scale = scale;
+	public Stage03(World w, float x, float y, float scaleX, float scaleY) {
+		this.scaleX = scaleX;
+		this.scaleY = scaleY;
 		this.x = x;
 		this.y = y;
 
 		FixtureDef terrainFixture = new FixtureDef();
 		terrainFixture.friction = 2f;
 
-		textureTerrain = Game.cm.getTexture("track0");
+		textureTerrain = Game.cm.getTexture("Stage03");
 		textureTerrain.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		textureFlag = Game.cm.getTexture("finish");
 
 		spriteTerrain = new Sprite(textureTerrain);
-		spriteTerrain.setSize(scale * Box2DVariables.PPM,
-				(scale * spriteTerrain.getHeight() / spriteTerrain.getWidth()) * Box2DVariables.PPM);
+		spriteTerrain.setSize(scaleX * Box2DVariables.PPM,
+				(scaleY * spriteTerrain.getHeight() / spriteTerrain.getWidth()) * Box2DVariables.PPM);
 
 		spriteFlag = new Sprite(textureFlag);
 		spriteFlag.setSize(1f * Box2DVariables.PPM,
@@ -61,7 +58,7 @@ public class Terrain0 extends Box2DTerrain {
 
 		// body of the truck
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/track0,0.json"));
+		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/stage03.json"));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();
@@ -71,8 +68,8 @@ public class Terrain0 extends Box2DTerrain {
 		// 3. Create a Body, as usual.
 		terrain = w.createBody(bd);
 		// 4. Create the body fixture automatically by using the loader.
-		loader.attachFixture(terrain, "track", terrainFixture, scale);
-		terrainOrigin = loader.getOrigin("track", scale).cpy();
+		loader.attachFixture(terrain, "track", terrainFixture, scaleX, scaleY);
+		terrainOrigin = loader.getOrigin("track", scaleX, scaleY).cpy();
 		
 		// 5.set user data
 		terrain.setUserData("GROUND");
@@ -92,7 +89,7 @@ public class Terrain0 extends Box2DTerrain {
 		borderBottom = w.createBody(bb);
 		
 		// 4. Create the body fixture automatically by using the loader.
-		loader.attachFixture(borderBottom, "bottomBorder", bottomBorderFixture, scale);
+		loader.attachFixture(borderBottom, "bottomBorder", bottomBorderFixture, scaleX, scaleY);
 		
 		// 5.set user data
 		borderBottom.setUserData("BOTTOMBORDER");
@@ -106,7 +103,7 @@ public class Terrain0 extends Box2DTerrain {
 		// 1. Create a BodyDef, as usual.
 		BodyDef bdFlag = new BodyDef();
 		FixtureDef flagFixture = new FixtureDef();
-		bdFlag.position.set(9.5f, 1f);
+		bdFlag.position.set(69f, 4f);
 		flagFixture.isSensor = true;
 		// flagFixture.filter.categoryBits = 2;
 		// flagFixture.filter.maskBits = 0;
@@ -117,7 +114,7 @@ public class Terrain0 extends Box2DTerrain {
 
 		// 4. Create the body fixture automatically by using the loader.
 		flagLoader.attachFixture(flag, "flag", flagFixture, 1f);
-		flagOrigin = flagLoader.getOrigin("flag", scale).cpy();
+		flagOrigin = flagLoader.getOrigin("flag", 10).cpy();
 		
 		Vector2 terrainPos = terrain.getPosition().sub(terrainOrigin);
 		spriteTerrain.setPosition(terrainPos.x * Box2DVariables.PPM, terrainPos.y * Box2DVariables.PPM);
@@ -177,5 +174,5 @@ public class Terrain0 extends Box2DTerrain {
 		spriteTerrain.setRotation(terrain.getAngle() * MathUtils.radiansToDegrees);
 	}
 
-
 }
+

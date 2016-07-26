@@ -28,6 +28,7 @@ public class SplashScreenStage extends Box2DTerrain {
 
 	Sprite spriteTerrain;
 
+	
 	float x, y;
 
 	public SplashScreenStage(World w, float x, float y, float scale) {

@@ -33,12 +33,12 @@ import com.mygdx.game.main.Game;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
-public class SplashScreen extends GameState{
+public class SplashScreen extends GameState {
 
 	BackgroundHandler bh;
 
 	private final TweenManager tweenManager = new TweenManager();
-	
+
 	private World world;
 	private Box2DVehicle car;
 	private Box2DTerrain terrain1;
@@ -47,41 +47,38 @@ public class SplashScreen extends GameState{
 	Array<Body> bodies;
 	ShapeRenderer shapeRenderer;
 	Sprite pressEnterSprite;
-	
+
 	InputProcessor inputProcessor;
-	
+
 	OrthographicCamera splashCam;
-	
-	
-	//In update trigger initial values to update
-	//This is needed to give the thread enough time to load
-	//without messing up the timing and deltaTime
+
+	// In update trigger initial values to update
+	// This is needed to give the thread enough time to load
+	// without messing up the timing and deltaTime
 	private boolean trigger;
 
-	
 	public SplashScreen(GameStateManager m) {
 		super(m);
-		//update the camera!
+		// update the camera!
 		cam.setToOrtho(false, Game.VWIDTH, Game.VHEIGHT);
-		
+
 		trigger = false;
-		
+
 		Texture tTexture = Game.cm.getTexture("press_enter");
 		tTexture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
-		
+
 		pressEnterSprite = new Sprite(tTexture);
 		pressEnterSprite.flip(false, true);
 		pressEnterSprite.setSize(pressEnterSprite.getWidth() * 0.3f, pressEnterSprite.getHeight() * 0.3f);
 		pressEnterSprite.setAlpha(0);
-		
-		pressEnterSprite.setPosition((Game.VWIDTH / 2 - pressEnterSprite.getWidth() / 2) + 20 , 20);
-		
+
+		pressEnterSprite.setPosition((Game.VWIDTH / 2 - pressEnterSprite.getWidth() / 2) + 20, 20);
+
 		shapeRenderer = new ShapeRenderer();
-		
+
 		splashCam = new OrthographicCamera();
 		splashCam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
-		
-		
+
 		// create background
 		initializeWorld();
 		createTruck();
@@ -89,19 +86,19 @@ public class SplashScreen extends GameState{
 		createBoxes();
 		bh = new BackgroundHandler(car);
 
-		
-		inputProcessor =  new InputProcessor() {
+		inputProcessor = new InputProcessor() {
 
 			@Override
 			public boolean keyDown(int keycode) {
-				
+
 				return false;
 			}
 
 			@Override
 			public boolean keyUp(int keycode) {
-				if(keycode == Keys.ENTER){
-					getStateManager().setTransition(GameStateManager.RIGHTLEFT ,SplashScreen.this , GameStateManager.LEVELSELECT, true, false);
+				if (keycode == Keys.ENTER) {
+					getStateManager().setTransition(GameStateManager.RIGHTLEFT, SplashScreen.this,
+							GameStateManager.LEVELSELECT, true, false);
 				}
 				return true;
 			}
@@ -120,11 +117,12 @@ public class SplashScreen extends GameState{
 
 			@Override
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				//tweenManager.killAll();
-				//getStateManager().setState(getStateManager().LEVELSELECT);
-				
-				getStateManager().setTransition(GameStateManager.RIGHTLEFT ,SplashScreen.this , GameStateManager.LEVELSELECT, true, false);
-				
+				// tweenManager.killAll();
+				// getStateManager().setState(getStateManager().LEVELSELECT);
+
+				getStateManager().setTransition(GameStateManager.RIGHTLEFT, SplashScreen.this,
+						GameStateManager.LEVELSELECT, true, false);
+
 				return true;
 			}
 
@@ -146,34 +144,14 @@ public class SplashScreen extends GameState{
 				return false;
 			}
 		};
-		
+
 		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
 	@Override
 	public void update(float dt) {
-		
-		//TRIGGER ALL CHANGES IN THE FIRST UPDATE
-		//TIMER SETTINGS
-		if(!trigger){
-			Timer.schedule(new Task() {
-				float i = 0;
-				@Override
-				public void run() {
-					car.getBody().setLinearVelocity(i, 0);
-						
-					if(i < 2.0){
-						i += 0.2;
-					}
-				}
 
-			}, 1, 0.1f);
-				
-			tweenSetting();
-			trigger = true;
-		}
-		
-		//UPDATE WORLD, TWEEN, AND BACGROUND HANDLER
+		// UPDATE WORLD, TWEEN, AND BACGROUND HANDLER
 		tweenManager.update(dt);
 		world.step(dt, 6, 2);
 		bh.update(dt);
@@ -182,7 +160,6 @@ public class SplashScreen extends GameState{
 		// follow player sprite
 		cam.position.set((car.getBody().getPosition().x * PPM) + 200, (car.getBody().getPosition().y * PPM) + 100, 0);
 		cam.update();
-
 
 		// update world position
 		Sprite sprite1 = terrain1.getSpriteTerrain();
@@ -202,7 +179,27 @@ public class SplashScreen extends GameState{
 		} else {
 			terrain1.moveTerrain((sprite2.getX() - sprite1.getWidth()) / PPM, sprite1.getY() / PPM, 0);
 		}
-		
+
+		// TRIGGER ALL CHANGES IN THE FIRST UPDATE
+		// TIMER SETTINGS
+		if (!trigger) {
+			Timer.schedule(new Task() {
+				float i = 0;
+
+				@Override
+				public void run() {
+					car.getBody().setLinearVelocity(i, 0);
+
+					if (i < 2.0) {
+						i += 0.1;
+					}
+				}
+
+			}, 0.7f, 0.1f);
+
+			tweenSetting();
+			trigger = true;
+		}
 	}
 
 	@Override
@@ -220,12 +217,12 @@ public class SplashScreen extends GameState{
 		}
 
 		car.render(s);
-		
+
 		s.setProjectionMatrix(splashCam.combined);
 		s.begin();
 		pressEnterSprite.draw(s);
 		s.end();
-		
+
 	}
 
 	@Override
@@ -234,24 +231,21 @@ public class SplashScreen extends GameState{
 
 	}
 
-	
-	
-	
 	@Override
 	public void reloadState() {
 		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
 	private void createBoxes() {
-		
-		truckLoad.add(new BoxLoad(world, 40, 40, 130 / PPM, 300 / PPM));
-		truckLoad.add(new BoxLoad(world, 40, 40, 90 / PPM, 300 / PPM));
 
-		truckLoad.add(new BoxLoad(world, 40, 40, 130 / PPM, 350 / PPM));
-		truckLoad.add(new BoxLoad(world, 40, 40, 90 / PPM, 350 / PPM));
-		
-		truckLoad.add(new BoxLoad(world, 40, 40, 125 / PPM, 400 / PPM));
-	
+		truckLoad.add(new BoxLoad(world, 40, 40, 130 / PPM, 220 / PPM));
+		truckLoad.add(new BoxLoad(world, 40, 40, 90 / PPM, 220 / PPM));
+
+		truckLoad.add(new BoxLoad(world, 40, 40, 130 / PPM, 270 / PPM));
+		truckLoad.add(new BoxLoad(world, 40, 40, 90 / PPM, 270 / PPM));
+
+		truckLoad.add(new BoxLoad(world, 40, 40, 110 / PPM, 320 / PPM));
+
 	}
 
 	private void createStage() {
@@ -272,29 +266,19 @@ public class SplashScreen extends GameState{
 		bodies = new Array<Body>();
 	}
 
-	private void tweenSetting(){
-		//TWEEN SETTINGS
+	private void tweenSetting() {
+		// TWEEN SETTINGS
 		Tween.setCombinedAttributesLimit(6);
-		Tween.registerAccessor(Sprite.class, new 
-		                TweenSpriteAccessor()); 
-					
-		Tween.to(pressEnterSprite, TweenSpriteAccessor.ALPHA , 0.5f)
-				.target(1f)
-				.repeatYoyo(-1, 0.3f)
-				.start(tweenManager);
-				
-		Tween.to(car.getBodySprite(), TweenSpriteAccessor.ALPHA, 1f)
-				.target(1f)
-				.start(tweenManager);
-				
-		Tween.to(car.getLeftWheelSprite(), TweenSpriteAccessor.ALPHA, 1f)
-				.target(1f)
-				.start(tweenManager);
-				
-		for(Box2DLoad bl: truckLoad){
-			Tween.to(bl.getLoadSprite(), TweenSpriteAccessor.ALPHA, 1f)
-					.target(1f)
-					.start(tweenManager);
-				}
+		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
+
+		Tween.to(pressEnterSprite, TweenSpriteAccessor.ALPHA, 0.5f).target(1f).repeatYoyo(-1, 0.3f).start(tweenManager);
+
+		Tween.to(car.getBodySprite(), TweenSpriteAccessor.ALPHA, 1f).target(1f).start(tweenManager);
+
+		Tween.to(car.getLeftWheelSprite(), TweenSpriteAccessor.ALPHA, 1f).target(1f).start(tweenManager);
+
+		for (Box2DLoad bl : truckLoad) {
+			Tween.to(bl.getLoadSprite(), TweenSpriteAccessor.ALPHA, 1f).target(1f).start(tweenManager);
+		}
 	}
 }

@@ -101,16 +101,18 @@ public class FarmTruck extends Box2DVehicle{
 		
 		leftWheel = w.createBody(bd);
 		leftWheel.createFixture(wheelFixture);
-		
+		leftWheel.setAngularDamping(1f);
 
 		//right wheel
 		bd.position.set(body.getPosition().x + 0.46f, body.getPosition().y - 0.7f);
 		rightWheel = w.createBody(bd);
 	
 		rightWheel.createFixture(wheelFixture);
+		rightWheel.setAngularDamping(1f);
 		//rightWheel.setUserData(new MyUserData("leftWheel", rightWheel, "sprites/tyre.png"));
 		
 		//left axis
+		//FrictionJointDef asd = new FrictionJointDef();
 		WheelJointDef axisDef = new WheelJointDef();
 		axisDef.bodyA = body;
 		axisDef.bodyB = leftWheel;
