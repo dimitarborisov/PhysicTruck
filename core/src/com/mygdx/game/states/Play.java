@@ -66,6 +66,9 @@ public class Play extends GameState {
 	private float timeSlow;
 
 	private DistanceIndicator distanceIndicator;
+	
+	//USED TO MESURE DISTANCE FROM THE CAR SPAWN RATHER THAN THE WORLD 0,0
+	private float carSpawn;
 
 	public static int STAGESELECTED = -1;
 
@@ -114,6 +117,7 @@ public class Play extends GameState {
 		tx = -1;
 
 		// SET DISTANCE INDICATOR
+		carSpawn = car.getBody().getPosition().x;
 		distanceIndicator = new DistanceIndicator((float)Game.VWIDTH / 2 - 125, Game.VHEIGHT - 50, false, true);
 
 		// set inputProcessors
@@ -226,7 +230,11 @@ public class Play extends GameState {
 		//hudBoxes.setPosition(Game.VWIDTH / 2 - (hudBoxes.getWidth() + 5 + layout.width) / 2, 10);
 		
 		//UPDATE DISTANCE INDICATOR
-		distanceIndicator.update(dt, (car.getBody().getPosition().x / terrain.getFinish().getPosition().x) * 100);
+		float asd = (((car.getBody().getPosition().x) - carSpawn ) / (terrain.getFinish().getPosition().x - 2.5f)) * 100;
+		
+		
+		
+		distanceIndicator.update(dt, asd);
 	}
 
 	@Override
