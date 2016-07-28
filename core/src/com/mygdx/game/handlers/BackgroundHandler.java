@@ -3,9 +3,9 @@ package com.mygdx.game.handlers;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.entities.BackgroundLayer;
-import com.mygdx.game.entities.Box2DSprite;
-import com.mygdx.game.entities.Box2DVehicle;
+import com.mygdx.game.api.Box2DSprite;
+import com.mygdx.game.api.Box2DVehicle;
+import com.mygdx.game.entities.other.BackgroundLayer;
 import com.mygdx.game.main.Game;
 
 public class BackgroundHandler implements Box2DSprite{

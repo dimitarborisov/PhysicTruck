@@ -1,6 +1,6 @@
 package com.mygdx.game.entities.tweenEntities;
 
-import com.mygdx.game.entities.Box2DVehicle;
+import com.mygdx.game.api.Box2DVehicle;
 
 import aurelienribon.tweenengine.TweenAccessor;
 

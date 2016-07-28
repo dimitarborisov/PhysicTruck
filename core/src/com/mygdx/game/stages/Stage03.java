@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,11 +12,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.mygdx.game.api.Box2DTerrain;
 import com.mygdx.game.handlers.BodyEditorLoader;
 import com.mygdx.game.handlers.Box2DVariables;
 import com.mygdx.game.main.Game;
 
-public class Stage02 extends Box2DTerrain {
+public class Stage03 extends Box2DTerrain {
 	private Body terrain;
 	private Body flag;
 	private Body borderBottom;
@@ -34,7 +35,7 @@ public class Stage02 extends Box2DTerrain {
 
 	float x, y;
 
-	public Stage02(World w, float x, float y, float scaleX, float scaleY) {
+	public Stage03(World w, float x, float y, float scaleX, float scaleY) {
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
 		this.x = x;
@@ -43,7 +44,7 @@ public class Stage02 extends Box2DTerrain {
 		FixtureDef terrainFixture = new FixtureDef();
 		terrainFixture.friction = 2f;
 
-		textureTerrain = Game.cm.getTexture("Stage02");
+		textureTerrain = Game.cm.getTexture("Stage03");
 		textureTerrain.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		textureFlag = Game.cm.getTexture("finish");
@@ -58,7 +59,7 @@ public class Stage02 extends Box2DTerrain {
 
 		// body of the truck
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/stage02.json"));
+		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/stage03.json"));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();
@@ -103,7 +104,7 @@ public class Stage02 extends Box2DTerrain {
 		// 1. Create a BodyDef, as usual.
 		BodyDef bdFlag = new BodyDef();
 		FixtureDef flagFixture = new FixtureDef();
-		bdFlag.position.set(48f, 4.4f);
+		bdFlag.position.set(69f, 4f);
 		flagFixture.isSensor = true;
 		// flagFixture.filter.categoryBits = 2;
 		// flagFixture.filter.maskBits = 0;
@@ -175,3 +176,4 @@ public class Stage02 extends Box2DTerrain {
 	}
 
 }
+

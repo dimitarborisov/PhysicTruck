@@ -3,15 +3,17 @@ package com.mygdx.game.handlers;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 
 public class ContentManager {
 
-	
+	private HashMap<String, Preferences> prefs;
 	private HashMap<String, Texture> textures;
 	
 	public ContentManager(){
 		textures = new HashMap<String, Texture>();
+		prefs = new HashMap<String, Preferences>();
 	}
 	
 	public void loadTexture(String path, String key){
@@ -30,4 +32,14 @@ public class ContentManager {
 		}
 	}
 	
+	
+	//PREFERENCES
+	public void loadPreferences(String preferences, String key){
+		Preferences pref = Gdx.app.getPreferences(preferences);
+		prefs.put(key, pref);
+	}
+	
+	public Preferences getPref(String key){
+		return prefs.get(key);
+	}
 }

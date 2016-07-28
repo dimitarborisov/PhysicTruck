@@ -5,13 +5,13 @@ import static com.mygdx.game.handlers.Box2DVariables.PPM;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.entities.Box2DTerrain;
-import com.mygdx.game.entities.Box2DVehicle;
-import com.mygdx.game.entities.BoxLoad;
-import com.mygdx.game.entities.FarmTruck;
-import com.mygdx.game.entities.Stage02;
-import com.mygdx.game.entities.Stage03;
-import com.mygdx.game.entities.Terrain0;
+import com.mygdx.game.api.Box2DTerrain;
+import com.mygdx.game.api.Box2DVehicle;
+import com.mygdx.game.entities.other.BoxLoad;
+import com.mygdx.game.stages.Stage02;
+import com.mygdx.game.stages.Stage03;
+import com.mygdx.game.stages.Terrain0;
+import com.mygdx.game.vehicles.FarmTruck;
 
 public class StageManager {
 	public static final int STAGE_1 = 0;

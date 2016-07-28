@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,12 +22,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
-import com.mygdx.game.entities.Box2DTerrain;
-import com.mygdx.game.entities.Box2DVehicle;
-import com.mygdx.game.entities.BoxLoad;
-import com.mygdx.game.entities.DistanceIndicator;
-import com.mygdx.game.entities.LevelCompletedMenu;
-import com.mygdx.game.entities.SimpleImageButton;
+import com.mygdx.game.api.Box2DTerrain;
+import com.mygdx.game.api.Box2DVehicle;
+import com.mygdx.game.entities.other.BoxLoad;
+import com.mygdx.game.entities.other.DistanceIndicator;
+import com.mygdx.game.entities.other.LevelCompletedMenu;
+import com.mygdx.game.entities.other.SimpleImageButton;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.BackgroundHandler;
 import com.mygdx.game.handlers.GameStateManager;
@@ -51,11 +50,12 @@ public class Play extends GameState {
 	private ArrayList<BoxLoad> truckLoad;
 	Array<Body> bodies;
 	BackgroundHandler bh;
-	Preferences prefs;
 
 	private final TweenManager tweenManager = new TweenManager();
 
 	private SimpleImageButton backButton;
+	
+	//ADDON 1
 	private Sprite hudBoxes;
 	BitmapFont font;
 	GlyphLayout layout;
@@ -64,8 +64,11 @@ public class Play extends GameState {
 	private float ty, tx;
 
 	private float timeSlow;
-
+	
+	
+	//ADDONS 2
 	private DistanceIndicator distanceIndicator;
+	
 	
 	//USED TO MESURE DISTANCE FROM THE CAR SPAWN RATHER THAN THE WORLD 0,0
 	private float carSpawn;
@@ -95,7 +98,7 @@ public class Play extends GameState {
 		hudBoxes.setSize(50, 50);
 		//hudBoxes.setPosition(Game.VWIDTH / 2 - hudBoxes.getWidth(), 10);
 
-		// Text setup
+		//Text setup
 		font = new BitmapFont(Gdx.files.internal("fonts/Burnstown_Dam.fnt"), true);
 		layout = new GlyphLayout(); // dont do this every frame!
 		layout.setText(font, truckLoad.size() + "/" + truckLoad.size());
@@ -107,10 +110,6 @@ public class Play extends GameState {
 
 		Tween.setCombinedAttributesLimit(4);
 		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
-
-		// load the stars file
-		prefs = Gdx.app.getPreferences("stagesStars");
-		// System.out.println("starting stage: " + STAGESELECTED);
 
 		lcm = new LevelCompletedMenu();
 		ty = -1;
@@ -301,13 +300,13 @@ public class Play extends GameState {
 			stars = 3 - (int) Math.ceil(cratesOut * sRatio);
 
 			// get previous stars
-			int prevStars = prefs.getInteger(Integer.toString(STAGESELECTED + 1), 0);
+			int prevStars = Game.cm.getPref("stagesStars").getInteger(Integer.toString(STAGESELECTED + 1), 0);
 
 			// save current stars if the stage is finished correctly and the
 			// stars are more than the saved ones
 			if (prevStars < stars && finished) {
-				prefs.putInteger(Integer.toString(STAGESELECTED + 1), stars);
-				prefs.flush();
+				Game.cm.getPref("stagesStars").putInteger(Integer.toString(STAGESELECTED + 1), stars);
+				Game.cm.getPref("stagesStars").flush();
 			}
 		}
 

@@ -103,6 +103,8 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/upButton.png", "upButton");
 		cm.loadTexture("sprites/boxes.png", "hudBoxes");
 		
+		//STARS PREFERENCES
+		cm.loadPreferences("stagesStars","stagesStars");
 		
 		//OTHER INIT
 		s = new SpriteBatch();
@@ -172,5 +174,5 @@ public class Game implements ApplicationListener{
 	public GameStateManager getGameState(){
 		return m;
 	}
-
+	
 }

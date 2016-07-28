@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.other;
 
 import static com.mygdx.game.handlers.Box2DVariables.PPM;
 

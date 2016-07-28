@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.entities.LevelSelectButton;
-import com.mygdx.game.entities.SimpleImageButton;
+import com.mygdx.game.entities.other.LevelSelectButton;
+import com.mygdx.game.entities.other.SimpleImageButton;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.main.Game;
@@ -38,7 +37,7 @@ public class LevelSelect extends GameState {
 	InputProcessor inputProcessor;
 
 	private final TweenManager tweenManager = new TweenManager();
-	Preferences prefs;
+	
 	Sprite backgroundSprite0;
 	Sprite backgroundSprite1;
 	Sprite backgroundSprite2;
@@ -48,8 +47,6 @@ public class LevelSelect extends GameState {
 
 	public LevelSelect(GameStateManager m) {
 		super(m);
-		
-		prefs = Gdx.app.getPreferences("stagesStars");
 		
 		shapeRenderer = new ShapeRenderer();
 
@@ -351,33 +348,33 @@ public class LevelSelect extends GameState {
 		//dealtaY = 142
 		
 		
-		sib.add(new LevelSelectButton("1", 0, Game.VWIDTH + 215, 21, 106, 106, false, true, prefs.getInteger("1", 0), true));
-		sib.add(new LevelSelectButton("2", 1, Game.VWIDTH + 331, 21, 106, 106, false, true, prefs.getInteger("2", 0),true));
-		sib.add(new LevelSelectButton("3", 2, Game.VWIDTH + 447, 21, 106, 106, false, true, prefs.getInteger("3", 0),true));
-		sib.add(new LevelSelectButton("4", 3, Game.VWIDTH + 563, 21, 106, 106, false, true, prefs.getInteger("4", 0),true));
-		sib.add(new LevelSelectButton("5", 4, Game.VWIDTH + 679, 21, 106, 106, false, true, prefs.getInteger("5", 0),true));
+		sib.add(new LevelSelectButton("1", 0, Game.VWIDTH + 215, 21, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("1", 0), true));
+		sib.add(new LevelSelectButton("2", 1, Game.VWIDTH + 331, 21, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("2", 0),true));
+		sib.add(new LevelSelectButton("3", 2, Game.VWIDTH + 447, 21, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("3", 0),true));
+		sib.add(new LevelSelectButton("4", 3, Game.VWIDTH + 563, 21, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("4", 0),true));
+		sib.add(new LevelSelectButton("5", 4, Game.VWIDTH + 679, 21, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("5", 0),true));
 		
 
 		// row2
-		sib.add(new LevelSelectButton("6", 5, Game.VWIDTH + 215, 163, 106, 106, false, true, prefs.getInteger("6", 0),true));
-		sib.add(new LevelSelectButton("7", 6, Game.VWIDTH + 331, 163, 106, 106, false, true, prefs.getInteger("7", 0),true));
-		sib.add(new LevelSelectButton("8", 7, Game.VWIDTH + 447, 163, 106, 106, false, true, prefs.getInteger("8", 0),true));
-		sib.add(new LevelSelectButton("9", 8, Game.VWIDTH + 563, 163, 106, 106, false, true, prefs.getInteger("9", 0),true));
-		sib.add(new LevelSelectButton("10", 9, Game.VWIDTH + 679, 163, 106, 106, false, true, prefs.getInteger("10", 0),true));
+		sib.add(new LevelSelectButton("6", 5, Game.VWIDTH + 215, 163, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("6", 0),true));
+		sib.add(new LevelSelectButton("7", 6, Game.VWIDTH + 331, 163, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("7", 0),true));
+		sib.add(new LevelSelectButton("8", 7, Game.VWIDTH + 447, 163, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("8", 0),true));
+		sib.add(new LevelSelectButton("9", 8, Game.VWIDTH + 563, 163, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("9", 0),true));
+		sib.add(new LevelSelectButton("10", 9, Game.VWIDTH + 679, 163, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("10", 0),true));
 
 		// row3
-		sib.add(new LevelSelectButton("11", 10, Game.VWIDTH + 215, 305, 106, 106, false, true, prefs.getInteger("11", 0),true));
-		sib.add(new LevelSelectButton("12", 11, Game.VWIDTH + 331, 305, 106, 106, false, true, prefs.getInteger("12", 0),true));
-		sib.add(new LevelSelectButton("13", 12, Game.VWIDTH + 447, 305, 106, 106, false, true, prefs.getInteger("13", 0),true));
-		sib.add(new LevelSelectButton("14", 13, Game.VWIDTH + 563, 305, 106, 106, false, true, prefs.getInteger("14", 0),true));
-		sib.add(new LevelSelectButton("15", 14, Game.VWIDTH + 679, 305, 106, 106, false, true, prefs.getInteger("15", 0),true));
+		sib.add(new LevelSelectButton("11", 10, Game.VWIDTH + 215, 305, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("11", 0),true));
+		sib.add(new LevelSelectButton("12", 11, Game.VWIDTH + 331, 305, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("12", 0),true));
+		sib.add(new LevelSelectButton("13", 12, Game.VWIDTH + 447, 305, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("13", 0),true));
+		sib.add(new LevelSelectButton("14", 13, Game.VWIDTH + 563, 305, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("14", 0),true));
+		sib.add(new LevelSelectButton("15", 14, Game.VWIDTH + 679, 305, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("15", 0),true));
 
 		// row4
-		sib.add(new LevelSelectButton("16", 15, Game.VWIDTH + 215, 447, 106, 106, false, true, prefs.getInteger("16", 0),true));
-		sib.add(new LevelSelectButton("17", 16, Game.VWIDTH + 331, 447, 106, 106, false, true, prefs.getInteger("17", 0),true));
-		sib.add(new LevelSelectButton("18", 17, Game.VWIDTH + 447, 447, 106, 106, false, true, prefs.getInteger("18", 0),true));
-		sib.add(new LevelSelectButton("19", 18, Game.VWIDTH + 563, 447, 106, 106, false, true, prefs.getInteger("19", 0),true));
-		sib.add(new LevelSelectButton("20", 19, Game.VWIDTH + 679, 447, 106, 106, false, true, prefs.getInteger("20", 0),true));
+		sib.add(new LevelSelectButton("16", 15, Game.VWIDTH + 215, 447, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("16", 0),true));
+		sib.add(new LevelSelectButton("17", 16, Game.VWIDTH + 331, 447, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("17", 0),true));
+		sib.add(new LevelSelectButton("18", 17, Game.VWIDTH + 447, 447, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("18", 0),true));
+		sib.add(new LevelSelectButton("19", 18, Game.VWIDTH + 563, 447, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("19", 0),true));
+		sib.add(new LevelSelectButton("20", 19, Game.VWIDTH + 679, 447, 106, 106, false, true, Game.cm.getPref("stagesStars").getInteger("20", 0),true));
 	}
 
 	@Override
@@ -397,7 +394,7 @@ public class LevelSelect extends GameState {
 		for(int i = 0; i < sib.size(); i++){
 			lsb = sib.get(i);
 			lsb.reloadButton();
-			lsb.setStars(prefs.getInteger(Integer.toString(i+1), 0));
+			lsb.setStars(Game.cm.getPref("stagesStars").getInteger(Integer.toString(i+1), 0));
 		}
 		backButton.reloadButton();
 		optionsButton.reloadButton();

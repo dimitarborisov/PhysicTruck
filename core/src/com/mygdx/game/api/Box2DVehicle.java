@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.api;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
