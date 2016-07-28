@@ -51,11 +51,14 @@ public class Play extends GameState {
 	Array<Body> bodies;
 	BackgroundHandler bh;
 
+	// STARS
+	int stars = 0;
+
 	private final TweenManager tweenManager = new TweenManager();
 
 	private SimpleImageButton backButton;
-	
-	//ADDON 1
+
+	// ADDON 1
 	private Sprite hudBoxes;
 	BitmapFont font;
 	GlyphLayout layout;
@@ -64,13 +67,11 @@ public class Play extends GameState {
 	private float ty, tx;
 
 	private float timeSlow;
-	
-	
-	//ADDONS 2
+
+	// ADDONS 2
 	private DistanceIndicator distanceIndicator;
-	
-	
-	//USED TO MESURE DISTANCE FROM THE CAR SPAWN RATHER THAN THE WORLD 0,0
+
+	// USED TO MESURE DISTANCE FROM THE CAR SPAWN RATHER THAN THE WORLD 0,0
 	private float carSpawn;
 
 	public static int STAGESELECTED = -1;
@@ -96,13 +97,13 @@ public class Play extends GameState {
 		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 		hudBoxes = new Sprite(texture);
 		hudBoxes.setSize(50, 50);
-		//hudBoxes.setPosition(Game.VWIDTH / 2 - hudBoxes.getWidth(), 10);
+		// hudBoxes.setPosition(Game.VWIDTH / 2 - hudBoxes.getWidth(), 10);
 
-		//Text setup
+		// Text setup
 		font = new BitmapFont(Gdx.files.internal("fonts/Burnstown_Dam.fnt"), true);
 		layout = new GlyphLayout(); // dont do this every frame!
 		layout.setText(font, truckLoad.size() + "/" + truckLoad.size());
-		
+
 		hudBoxes.setPosition(Game.VWIDTH / 2 - (hudBoxes.getWidth() + 5 + layout.width) / 2, 10);
 
 		// TIMESLOW-----------
@@ -117,7 +118,7 @@ public class Play extends GameState {
 
 		// SET DISTANCE INDICATOR
 		carSpawn = car.getBody().getPosition().x;
-		distanceIndicator = new DistanceIndicator((float)Game.VWIDTH / 2 - 125, Game.VHEIGHT - 50, false, true);
+		distanceIndicator = new DistanceIndicator((float) Game.VWIDTH / 2 - 125, Game.VHEIGHT - 50, false, true);
 
 		// set inputProcessors
 		Gdx.input.setInputProcessor(new InputMultiplexer(new InputProcessor() {
@@ -225,14 +226,13 @@ public class Play extends GameState {
 		tx = -1;
 		ty = -1;
 
-		//UPDATE BOXES POSITION
-		//hudBoxes.setPosition(Game.VWIDTH / 2 - (hudBoxes.getWidth() + 5 + layout.width) / 2, 10);
-		
-		//UPDATE DISTANCE INDICATOR
-		float asd = (((car.getBody().getPosition().x) - carSpawn ) / (terrain.getFinish().getPosition().x - 2.5f)) * 100;
-		
-		
-		
+		// UPDATE BOXES POSITION
+		// hudBoxes.setPosition(Game.VWIDTH / 2 - (hudBoxes.getWidth() + 5 +
+		// layout.width) / 2, 10);
+
+		// UPDATE DISTANCE INDICATOR
+		float asd = (((car.getBody().getPosition().x) - carSpawn) / (terrain.getFinish().getPosition().x - 2.5f)) * 100;
+
 		distanceIndicator.update(dt, asd);
 	}
 
@@ -294,7 +294,6 @@ public class Play extends GameState {
 
 		}, 0.01f, 0.015f);
 
-		int stars = 0;
 		if (finished) {
 			float sRatio = (float) 3 / truckLoad.size();
 			stars = 3 - (int) Math.ceil(cratesOut * sRatio);
@@ -305,8 +304,18 @@ public class Play extends GameState {
 			// save current stars if the stage is finished correctly and the
 			// stars are more than the saved ones
 			if (prevStars < stars && finished) {
-				Game.cm.getPref("stagesStars").putInteger(Integer.toString(STAGESELECTED + 1), stars);
-				Game.cm.getPref("stagesStars").flush();
+
+				// start a new thread to save the files
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						Game.cm.getPref("stagesStars").putInteger(Integer.toString(STAGESELECTED + 1), stars);
+						Game.cm.getPref("stagesStars").flush();
+					}
+
+				}).start();
+
 			}
 		}
 
