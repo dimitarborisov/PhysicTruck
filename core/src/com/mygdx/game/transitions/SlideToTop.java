@@ -15,7 +15,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 
-public class SlideToTop extends GameState{
+public class SlideToTop extends GameState {
 	FrameBuffer bufferPrevious;
 	FrameBuffer bufferNext;
 
@@ -27,34 +27,106 @@ public class SlideToTop extends GameState{
 
 	SpriteBatch transitionBatch;
 	OrthographicCamera transitionCam;
-	
+
 	TweenCallback tweenCallback;
 
 	private final TweenManager tweenManager = new TweenManager();
-	
+
 	boolean updatePrevious;
 	boolean updateNext;
-	
-	public SlideToTop(GameStateManager m, GameState from, GameState to){
-		this(m, from, to, false, false, false, false);
-	}
-	public SlideToTop(GameStateManager m, GameState from, GameState to, boolean updateFrom, boolean updateTo){
-		this(m, from, to, updateFrom, updateTo, false, false);
-	}
-	
-	public SlideToTop(GameStateManager m, GameState from, GameState to, boolean updateFrom, boolean updateTo, boolean flipX, boolean flipY) {
+
+	// NEW REUSE VERSION
+	public SlideToTop(GameStateManager m) {
 		super(m);
-		
+
 		transitionBatch = new SpriteBatch();
 		transitionCam = new OrthographicCamera();
 		transitionCam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
 		transitionCam.position.x = Game.VWIDTH / 2;
 		transitionCam.position.y = Game.VHEIGHT / 2;
 		transitionCam.update();
-		
+
+		bufferPrevious = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Game.VWIDTH, (int) Game.VHEIGHT, false);
+		bufferNext = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Game.VWIDTH, (int) Game.VHEIGHT, false);
+
+		previousSprite = new Sprite(bufferPrevious.getColorBufferTexture());
+		previousSprite.setPosition(0, 0);
+
+		nextSprite = new Sprite(bufferNext.getColorBufferTexture());
+		nextSprite.setPosition(Game.VWIDTH, 0);
+
+		// TWEEN SETTINGS
+		Tween.setCombinedAttributesLimit(4);
+		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
+
+		tweenCallback = new TweenCallback() {
+			@Override
+			public void onEvent(int type, BaseTween<?> source) {
+				getStateManager().setState(getNextState());
+			}
+		};
+	}
+
+	@Override
+	public void reloadTransition(GameState from, GameState to, boolean updateFrom, boolean updateTo, boolean flipX,
+			boolean flipY) {
+		previousSprite.setPosition(0, 0);
+		nextSprite.setPosition(0, 0);
+
+		previousState = from;
+		nextState = to;
+
+		// from sprite render
+		bufferPrevious.begin();
+		previousState.render();
+		bufferPrevious.end();
+
+		// to sprite render
+		bufferNext.begin();
+		nextState.render();
+		bufferNext.end();
+
 		updatePrevious = updateFrom;
 		updateNext = updateTo;
+
+		previousSprite.flip(flipX, flipY);
+		nextSprite.flip(flipX, flipY);
 		
+
+		Tween.to(previousSprite, TweenSpriteAccessor.POS_XY, 1f).
+					target(0, -previousSprite.getHeight())
+					.delay(0.5f)
+					// .ease(TweenEquations.easeOutBack)
+					.setCallback(tweenCallback)
+					.setCallbackTriggers(TweenCallback.COMPLETE)
+					.start(tweenManager);
+		
+	}
+
+	// OLD
+	// VERSION==================================================================================================
+	public SlideToTop(GameStateManager m, GameState from, GameState to) {
+		this(m, from, to, false, false, false, false);
+	}
+
+	public SlideToTop(GameStateManager m, GameState from, GameState to, boolean updateFrom, boolean updateTo) {
+		this(m, from, to, updateFrom, updateTo, false, false);
+	}
+
+	public SlideToTop(GameStateManager m, GameState from, GameState to, boolean updateFrom, boolean updateTo,
+			boolean flipX, boolean flipY) {
+		super(m);
+
+		transitionBatch = new SpriteBatch();
+		transitionCam = new OrthographicCamera();
+		transitionCam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
+		transitionCam.position.x = Game.VWIDTH / 2;
+		transitionCam.position.y = Game.VHEIGHT / 2;
+		transitionCam.update();
+
+		updatePrevious = updateFrom;
+		updateNext = updateTo;
+
 		bufferPrevious = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Game.VWIDTH, (int) Game.VHEIGHT, false);
 		bufferNext = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Game.VWIDTH, (int) Game.VHEIGHT, false);
 
@@ -65,16 +137,15 @@ public class SlideToTop extends GameState{
 		this.previousState = from;
 		this.nextState = to;
 
-		
 		// from sprite render
 		bufferPrevious.begin();
 		previousState.render();
 		bufferPrevious.end();
-			
+
 		previousSprite = new Sprite(bufferPrevious.getColorBufferTexture());
 		previousSprite.setPosition(0, 0);
 		previousSprite.flip(flipX, flipY);
-		
+
 		// to sprite render
 		bufferNext.begin();
 		nextState.render();
@@ -91,35 +162,36 @@ public class SlideToTop extends GameState{
 			}
 		};
 
-		Tween.to(previousSprite, TweenSpriteAccessor.POS_XY, 1f)
-						.target(0, -previousSprite.getHeight())
-						.delay(0.5f)
-						//.ease(TweenEquations.easeOutBack)
-						.setCallback(tweenCallback)
-						.setCallbackTriggers(TweenCallback.COMPLETE)
-						.start(tweenManager);
+		Tween.to(previousSprite, TweenSpriteAccessor.POS_XY, 1f).
+					target(0, -previousSprite.getHeight())
+					.delay(0.5f)
+				// .ease(TweenEquations.easeOutBack)
+				.setCallback(tweenCallback)
+				.setCallbackTriggers(TweenCallback.COMPLETE)
+				.start(tweenManager);
 	}
+	// OLD
+	// VERSION=======================================================================================
 
 	@Override
 	public void update(float dt) {
 		tweenManager.update(dt);
 
-		if(updatePrevious){
+		if (updatePrevious) {
 			previousState.update(dt);
 
 			bufferPrevious.begin();
 			previousState.render();
 			bufferPrevious.end();
 		}
-		
-		if(updateNext){
+
+		if (updateNext) {
 			nextState.update(dt);
 
 			bufferNext.begin();
 			nextState.render();
 			bufferNext.end();
 		}
-		
 
 	}
 
@@ -127,7 +199,7 @@ public class SlideToTop extends GameState{
 	public void render() {
 		transitionBatch.disableBlending();
 		transitionBatch.setProjectionMatrix(transitionCam.combined);
-		
+
 		transitionBatch.begin();
 		nextSprite.draw(transitionBatch);
 		previousSprite.draw(transitionBatch);

@@ -26,21 +26,28 @@ public class GameStateManager {
 	public static final int OPTIONS = 3;
 	
 	//game transitions
-	public static final int SLIDETOTOP = 0;
-	public static final int RIGHTLEFT = 1;
-	public static final int SLIDEFROMTOP = 2;
-	public static final int LEFTRIGHT = 3;
+	public static final int SLIDETOTOP = 10;
+	public static final int RIGHTLEFT = 11;
+	public static final int SLIDEFROMTOP = 12;
+	public static final int LEFTRIGHT = 13;
 	
 	private Stack<GameState> gameStates;
 	
 	public GameStateManager(Game game){
 		this.game = game;
 		
-		//TESTING
+		
+		//TESTING STATES
 		gameStatesReady = new HashMap<Integer,GameState>();
 		gameStatesReady.put(SPLASHSCREEN, new SplashScreen(this));
 		gameStatesReady.put(OPTIONS, new Options(this));
 		gameStatesReady.put(LEVELSELECT, new LevelSelect(this));
+		
+		//TESTING TRANSTIONS
+		gameStatesReady.put(RIGHTLEFT, new RightToLeftTransition(this));
+		gameStatesReady.put(LEFTRIGHT, new LeftToRightTransition(this));
+		gameStatesReady.put(SLIDETOTOP, new SlideToTop(this));
+		gameStatesReady.put(SLIDEFROMTOP, new SlideFromTop(this));
 				
 		//STATE MANAGER
 		gameStates = new Stack<GameState>();
@@ -84,16 +91,24 @@ public class GameStateManager {
 	private GameState getTransition(int state, GameState from, GameState to, boolean updateFrom, boolean updateTo){
 		
 		if(state == RIGHTLEFT){
-			return new RightToLeftTransition(this, from, to, updateFrom, updateTo);
+			gameStatesReady.get(RIGHTLEFT).reloadTransition(from, to, updateFrom, updateTo, false, false);
+			return gameStatesReady.get(RIGHTLEFT);
+			//return new RightToLeftTransition(this, from, to, updateFrom, updateTo);
 		}
 		if(state == SLIDETOTOP){
-			return new SlideToTop(this, from, to, updateFrom, updateTo);
+			gameStatesReady.get(SLIDETOTOP).reloadTransition(from, to, updateFrom, updateTo, false, false);
+			return gameStatesReady.get(SLIDETOTOP);
+			//return new SlideToTop(this, from, to, updateFrom, updateTo);
 		}
 		if(state == SLIDEFROMTOP){
-			return new SlideFromTop(this, from, to, updateFrom, updateTo);
+			gameStatesReady.get(SLIDEFROMTOP).reloadTransition(from, to, updateFrom, updateTo, false, false);
+			return gameStatesReady.get(SLIDEFROMTOP);
+			//return new SlideFromTop(this, from, to, updateFrom, updateTo);
 		}
 		if(state == LEFTRIGHT){
-			return new LeftToRightTransition(this, from, to, updateFrom, updateTo);
+			gameStatesReady.get(LEFTRIGHT).reloadTransition(from, to, updateFrom, updateTo, false, false);
+			return gameStatesReady.get(LEFTRIGHT);
+			//return new LeftToRightTransition(this, from, to, updateFrom, updateTo);
 		}
 		
 		return null;
