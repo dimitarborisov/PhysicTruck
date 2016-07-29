@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.entities.other.SimpleImageButton;
+import com.mygdx.game.entities.other.SmallPopup;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.main.Game;
@@ -20,19 +21,31 @@ public class Options extends GameState{
 	private Sprite backgroundSprite;
 	
 	private SimpleImageButton returnButton;
+	private SimpleImageButton resetButton;
+	
+	private SimpleImageButton effectButton;
+	private SimpleImageButton musicButton;
+	
 	private final TweenManager tweenManager = new TweenManager();
 	
 	OrthographicCamera optionsCam;
 	
 	InputProcessor inputProcessor;
+	Runnable runnable, flushOptions;
+	SmallPopup popUp;
 	
 	float tx, ty;
 	
 	public void reloadState(){
+		tweenManager.killAll();
+		
 		backgroundSprite.setPosition(0, 0);
 		returnButton.reloadButton();
+		resetButton.reloadButton();
+		popUp.reload();
+		
 		setupTweenButtons();
-			
+
 		Gdx.input.setInputProcessor(inputProcessor);
 	}
 	
@@ -44,6 +57,8 @@ public class Options extends GameState{
 		
 		tx = -1;
 		ty = -1;
+		
+		popUp = new SmallPopup();
 		
 		optionsCam = new OrthographicCamera();
 		optionsCam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
@@ -60,7 +75,34 @@ public class Options extends GameState{
 												Game.VWIDTH - 150 - 30, 
 												Game.VHEIGHT, 
 												150, 150, false, true);
+		
+		resetButton = new SimpleImageButton(Game.cm.getTexture("resetButton"),
+												30, 
+												Game.VHEIGHT, 
+												150, 150, false, true);
 	
+		
+		if(Game.cm.getPref("gameOptions").getBoolean("music", false)){
+			texture = Game.cm.getTexture("musicOn");
+		}else{
+			texture = Game.cm.getTexture("musicOff");
+		}
+		
+		musicButton = new SimpleImageButton(texture,
+												Game.VWIDTH/2 - 255, 
+												Game.VHEIGHT/2 - 125, 
+												250, 250, false, true);
+		
+		
+		if(Game.cm.getPref("gameOptions").getBoolean("effects", false)){
+			texture = Game.cm.getTexture("soundOn");
+		}else{
+			texture = Game.cm.getTexture("soundOff");
+		}
+		effectButton = new SimpleImageButton(texture,
+												Game.VWIDTH/2 + 5, 
+												Game.VHEIGHT/2 - 125, 
+												250, 250, false, true);
 		
 		
 		inputProcessor = new InputProcessor() {
@@ -119,7 +161,28 @@ public class Options extends GameState{
 				return false;
 			}
 		};	
-	
+		runnable = new Runnable() {
+
+			@Override
+			public void run() {
+				for(int i = 0; i <= 20; i++){
+					Game.cm.getPref("stagesStars").putInteger(i + "", 0);
+				}
+				
+				Game.cm.getPref("stagesStars").flush();
+			}
+
+		};
+		
+		flushOptions = new Runnable(){
+
+			@Override
+			public void run() {
+				Game.cm.getPref("gameOptions").flush();
+			}
+			
+		};
+		
 		Gdx.input.setInputProcessor(inputProcessor);
 	
 	
@@ -131,15 +194,64 @@ public class Options extends GameState{
 				.target(Game.VWIDTH - 150 -30, Game.VHEIGHT - 150 - 20)
 				.ease(TweenEquations.easeInOutQuad)
 				.start(tweenManager);
+	
+	
+		Tween.to(resetButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
+				.target(30, Game.VHEIGHT - 150 - 20)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager);
 	}
 
 	@Override
 	public void update(float dt) {
 		tweenManager.update(dt);
 		returnButton.update(tx, ty);
+		resetButton.update(tx, ty);
+		musicButton.update(tx, ty);
+		effectButton.update(tx, ty);
+		
+		popUp.update(dt, tx, ty);
 		
 		if(returnButton.isClicked()){
 			getStateManager().setTransition(GameStateManager.SLIDETOTOP, Options.this, GameStateManager.LEVELSELECT, true, false);
+		}
+		
+		if(resetButton.isClicked()){
+			// start a new thread for use with HDD opreations
+			popUp.toogle(tweenManager);
+		}
+		
+		if(popUp.yesIsClicked()){
+			new Thread(runnable).start();
+			popUp.toogle(tweenManager);
+		}
+		
+		if(popUp.noIsClicked()){
+			popUp.toogle(tweenManager);
+		}
+		
+		if(musicButton.isClicked()){
+			if(!Game.cm.getPref("gameOptions").getBoolean("music", false)){
+				musicButton.setSprite(Game.cm.getTexture("musicOn"));
+				Game.cm.getPref("gameOptions").putBoolean("music", true);
+			}else{
+				musicButton.setSprite(Game.cm.getTexture("musicOff"));
+				Game.cm.getPref("gameOptions").putBoolean("music", false);
+			}
+			
+			new Thread(flushOptions).start();
+		}
+		
+		if(effectButton.isClicked()){
+			if(!Game.cm.getPref("gameOptions").getBoolean("effects", false)){
+				effectButton.setSprite(Game.cm.getTexture("soundOn"));
+				Game.cm.getPref("gameOptions").putBoolean("effects", true);
+			}else{
+				effectButton.setSprite(Game.cm.getTexture("soundOff"));
+				Game.cm.getPref("gameOptions").putBoolean("effects", false);
+			}
+			
+			new Thread(flushOptions).start();
 		}
 		
 		tx = -1;
@@ -155,7 +267,13 @@ public class Options extends GameState{
 		backgroundSprite.draw(s);
 		s.end();
 		
+		
 		returnButton.render(s);
+		resetButton.render(s);
+		musicButton.render(s);
+		effectButton.render(s);
+		
+		popUp.render(s);
 	}
 
 	@Override

@@ -105,9 +105,17 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/downButton100.png", "downButton100");
 		cm.loadTexture("sprites/upButton.png", "upButton");
 		cm.loadTexture("sprites/boxes.png", "hudBoxes");
+		cm.loadTexture("sprites/resetButton.png", "resetButton");
+		cm.loadTexture("sprites/ok.png", "yesButton");
+		cm.loadTexture("sprites/no.png", "noButton");
+		cm.loadTexture("sprites/musicOff.png", "musicOff");
+		cm.loadTexture("sprites/musicOn.png", "musicOn");
+		cm.loadTexture("sprites/soundOff.png", "soundOff");
+		cm.loadTexture("sprites/soundOn.png", "soundOn");
 		
 		//STARS PREFERENCES
 		cm.loadPreferences("stagesStars","stagesStars");
+		cm.loadPreferences("gameOptions", "gameOptions");
 		
 		//OTHER INIT
 		s = new SpriteBatch();

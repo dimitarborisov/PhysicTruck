@@ -11,7 +11,7 @@ public class SimpleImageButton {
 	boolean clicked;
 	private float initialX;
 	private float initialY;
-
+	
 	public SimpleImageButton(Texture texture, float x, float y, float width, float height, boolean fX, boolean fY) {
 		initialX = x;
 		initialY = y;
@@ -67,6 +67,17 @@ public class SimpleImageButton {
 	
 	public void reloadButton(){
 		imageSprite.setPosition(initialX, initialY);
+	}
+	
+	public void setSprite(Texture texture){
+		Sprite tempSprite = imageSprite;
+		
+		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
+		
+		imageSprite = new Sprite(texture);
+		imageSprite.setSize(tempSprite.getWidth(), tempSprite.getHeight());
+		imageSprite.setPosition(tempSprite.getX(), tempSprite.getY());
+		imageSprite.flip(tempSprite.isFlipX(), tempSprite.isFlipY());
 	}
 
 }
