@@ -42,6 +42,9 @@ public class Options extends GameState{
 		backgroundSprite.setPosition(0, 0);
 		returnButton.reloadButton();
 		resetButton.reloadButton();
+		effectButton.reloadButton();
+		musicButton.reloadButton();
+		
 		popUp.reload();
 		
 		setupTweenButtons();
@@ -90,7 +93,7 @@ public class Options extends GameState{
 		
 		musicButton = new SimpleImageButton(texture,
 												Game.VWIDTH/2 - 255, 
-												Game.VHEIGHT/2 - 125, 
+												Game.VHEIGHT, 
 												250, 250, false, true);
 		
 		
@@ -99,9 +102,11 @@ public class Options extends GameState{
 		}else{
 			texture = Game.cm.getTexture("soundOff");
 		}
+		
+		
 		effectButton = new SimpleImageButton(texture,
 												Game.VWIDTH/2 + 5, 
-												Game.VHEIGHT/2 - 125, 
+												Game.VHEIGHT, 
 												250, 250, false, true);
 		
 		
@@ -195,11 +200,21 @@ public class Options extends GameState{
 				.ease(TweenEquations.easeInOutQuad)
 				.start(tweenManager);
 	
-	
 		Tween.to(resetButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
 				.target(30, Game.VHEIGHT - 150 - 20)
 				.ease(TweenEquations.easeInOutQuad)
 				.start(tweenManager);
+		
+		Tween.to(musicButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
+				.target(Game.VWIDTH/2 - 255, Game.VHEIGHT/2 - 125)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager); 
+		
+		Tween.to(effectButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
+				.target(Game.VWIDTH/2 + 5, Game.VHEIGHT/2 - 125)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager); 
+		
 	}
 
 	@Override

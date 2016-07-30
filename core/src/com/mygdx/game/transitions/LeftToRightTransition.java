@@ -92,9 +92,12 @@ public class LeftToRightTransition extends GameState {
 		previousSprite.flip(flipX, flipY);
 		nextSprite.flip(flipX, flipY);
 
-		Tween.to(nextSprite, TweenSpriteAccessor.POS_XY, 1f).target(0, 0).delay(0.5f)
+		Tween.to(nextSprite, TweenSpriteAccessor.POS_XY, 0.6f)
+				.target(0, 0)
 				// .ease(TweenEquations.easeOutBack)
-				.setCallback(tweenCallback).setCallbackTriggers(TweenCallback.COMPLETE).start(tweenManager);
+				.setCallback(tweenCallback)
+				.setCallbackTriggers(TweenCallback.COMPLETE)
+				.start(tweenManager);
 	}
 
 	// OLD

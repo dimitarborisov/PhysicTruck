@@ -4,16 +4,23 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class ContentManager {
 
 	private HashMap<String, Preferences> prefs;
 	private HashMap<String, Texture> textures;
+	private HashMap<String, Sound> sounds;
+	private HashMap<String, Music> music;
 	
 	public ContentManager(){
 		textures = new HashMap<String, Texture>();
 		prefs = new HashMap<String, Preferences>();
+		
+		sounds = new HashMap<String, Sound>();
+		music = new HashMap<String, Music>();
 	}
 	
 	public void loadTexture(String path, String key){
@@ -41,5 +48,27 @@ public class ContentManager {
 	
 	public Preferences getPref(String key){
 		return prefs.get(key);
+	}
+	
+	
+	//SOUND
+	public void loadSound(String path, String key){
+		Sound sound = Gdx.audio.newSound(Gdx.files.internal(path));
+		sounds.put(key, sound);
+	}
+
+	public Sound getSound(String key){
+		return sounds.get(key);
+	}
+	
+	
+	//MUSIC
+	public void loadMusic(String path, String key){
+		Music m = Gdx.audio.newMusic(Gdx.files.internal(path));
+		music.put(key, m);
+	}
+	
+	public Music getMusic(String key){
+		return music.get(key);
 	}
 }

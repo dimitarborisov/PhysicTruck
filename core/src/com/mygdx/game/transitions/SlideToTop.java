@@ -93,9 +93,8 @@ public class SlideToTop extends GameState {
 		nextSprite.flip(flipX, flipY);
 		
 
-		Tween.to(previousSprite, TweenSpriteAccessor.POS_XY, 1f).
+		Tween.to(previousSprite, TweenSpriteAccessor.POS_XY, 0.6f).
 					target(0, -previousSprite.getHeight())
-					.delay(0.5f)
 					// .ease(TweenEquations.easeOutBack)
 					.setCallback(tweenCallback)
 					.setCallbackTriggers(TweenCallback.COMPLETE)

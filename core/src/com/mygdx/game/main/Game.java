@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.handlers.AudioHandler;
 import com.mygdx.game.handlers.ContentManager;
 import com.mygdx.game.handlers.GameStateManager;
 import com.mygdx.game.handlers.StageManager;
@@ -31,6 +32,7 @@ public class Game implements ApplicationListener{
 	
 	
 	public static StageManager stageManager;
+	public static AudioHandler ah;
 	public static ContentManager cm;
 	
 	
@@ -117,7 +119,13 @@ public class Game implements ApplicationListener{
 		cm.loadPreferences("stagesStars","stagesStars");
 		cm.loadPreferences("gameOptions", "gameOptions");
 		
+		
+		//MUSIC & SOUNDS
+		
+		
+		
 		//OTHER INIT
+		ah = new AudioHandler();
 		s = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, VWIDTH, VHEIGHT);
