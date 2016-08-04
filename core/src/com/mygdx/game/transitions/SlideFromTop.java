@@ -70,6 +70,8 @@ public class SlideFromTop extends GameState {
 	@Override
 	public void reloadTransition(GameState from, GameState to, boolean updateFrom, boolean updateTo, boolean flipX,
 			boolean flipY) {
+		tweenManager.killAll();
+		
 		previousSprite.setPosition(0, 0);
 		nextSprite.setPosition(0, -nextSprite.getHeight());
 

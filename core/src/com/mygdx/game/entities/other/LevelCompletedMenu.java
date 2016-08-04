@@ -93,7 +93,7 @@ public class LevelCompletedMenu {
 		starSprite3.flip(false, true);
 		starSprite3.setPosition(background.getX() - 50 + background.getWidth() - starSprite3.getWidth() / 2, background.getY() + 145);
 	
-		//levelCompleted.png
+		//levelCompleted
 		texture = Game.cm.getTexture("levelCompleted3");
 		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 		
@@ -102,7 +102,7 @@ public class LevelCompletedMenu {
 		levelCompletedTextCompleted.flip(false, true);
 		levelCompletedTextCompleted.setPosition(background.getX() + (background.getWidth() / 2) - levelCompletedTextCompleted.getWidth() / 2, background.getY() - levelCompletedTextCompleted.getHeight());
 		
-		//levelCompleted.png
+		//levelFailed
 		texture = Game.cm.getTexture("levelfailed");
 		texture.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.MipMapLinearLinear);
 				

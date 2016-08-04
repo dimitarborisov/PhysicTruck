@@ -70,6 +70,8 @@ public class LeftToRightTransition extends GameState {
 	@Override
 	public void reloadTransition(GameState from, GameState to, boolean updateFrom, boolean updateTo, boolean flipX,
 			boolean flipY) {
+		
+		tweenManager.killAll();
 		previousSprite.setPosition(0, 0);
 		nextSprite.setPosition(-nextSprite.getWidth(), 0);
 

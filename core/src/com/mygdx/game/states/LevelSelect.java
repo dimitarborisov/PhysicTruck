@@ -58,6 +58,10 @@ public class LevelSelect extends GameState {
 
 		// add buttons
 		sib = new ArrayList<LevelSelectButton>();
+		
+		// TWEEN SETTINGS
+		Tween.setCombinedAttributesLimit(4);
+		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
 	
 		setupBackground();
 		setupButtons();
@@ -126,9 +130,6 @@ public class LevelSelect extends GameState {
 	}
 
 	private void setupTweenBackground() {
-		// TWEEN SETTINGS
-		Tween.setCombinedAttributesLimit(4);
-		Tween.registerAccessor(Sprite.class, new TweenSpriteAccessor());
 
 		Tween.to(backgroundSprite1, TweenSpriteAccessor.POS_XY, 1.5f)
 				.delay(0.5f)
@@ -142,7 +143,7 @@ public class LevelSelect extends GameState {
 				.ease(TweenEquations.easeInOutQuad)
 				.start(tweenManager);
 
-		Tween.to(backgroundSprite3, TweenSpriteAccessor.POS_XY, 1.5f)
+		Tween.to(backgroundSprite3, TweenSpriteAccessor.POS_XY, 1.2f)
 				.target(0, 0)
 				.ease(TweenEquations.easeOutExpo)
 				.setCallback(new TweenCallback(){
