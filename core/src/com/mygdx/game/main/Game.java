@@ -53,8 +53,7 @@ public class Game implements ApplicationListener{
 		//play parallax background
 		cm.loadTexture("sprites/image10.png", "image10.png");
 		cm.loadTexture("sprites/image4146.png", "image4146.png");
-		//cm.loadTexture("sprites/clouds.png", "image4146.png");
-		cm.loadTexture("sprites/image4157.png", "image4157.png");
+		cm.loadTexture("sprites/moutains.png", "image4157.png");
 		
 		//Finish Flag
 		cm.loadTexture("sprites/finish.png", "finish");
