@@ -1,6 +1,5 @@
 package com.mygdx.game.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,9 +8,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.api.Box2DTerrain;
 import com.mygdx.game.handlers.BodyEditorLoader;
 import com.mygdx.game.handlers.Box2DVariables;
@@ -21,7 +20,7 @@ public class Stage04 extends Box2DTerrain {
 	private Body terrain;
 	private Body flag;
 	private Body borderBottom;
-
+	
 	Vector2 terrainOrigin;
 	Vector2 flagOrigin;
 
@@ -34,7 +33,10 @@ public class Stage04 extends Box2DTerrain {
 	Sprite spriteFlag;
 
 	float x, y;
-
+	private final String texture = "Stage04";
+	private final String model = "Stage04";
+	
+	
 	public Stage04(World w, float x, float y, float scaleX, float scaleY) {
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
@@ -44,7 +46,7 @@ public class Stage04 extends Box2DTerrain {
 		FixtureDef terrainFixture = new FixtureDef();
 		terrainFixture.friction = 2f;
 
-		textureTerrain = Game.cm.getTexture("Stage04");
+		textureTerrain = Game.cm.getTexture(texture);
 		textureTerrain.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		textureFlag = Game.cm.getTexture("finish");
@@ -59,7 +61,7 @@ public class Stage04 extends Box2DTerrain {
 
 		// body of the truck
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/stage04-2.json"));
+		BodyEditorLoader loader = new BodyEditorLoader(Game.cm.getModel(model));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();
@@ -99,12 +101,12 @@ public class Stage04 extends Box2DTerrain {
 		
 		// CREATE FINISH FLAG
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader flagLoader = new BodyEditorLoader(Gdx.files.internal("models/finish.json"));
+		BodyEditorLoader flagLoader = new BodyEditorLoader(Game.cm.getModel("finish"));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bdFlag = new BodyDef();
 		FixtureDef flagFixture = new FixtureDef();
-		bdFlag.position.set(29.5f, 4.5f);
+		bdFlag.position.set(9.5f, 1f);
 		flagFixture.isSensor = true;
 		// flagFixture.filter.categoryBits = 2;
 		// flagFixture.filter.maskBits = 0;
@@ -176,3 +178,4 @@ public class Stage04 extends Box2DTerrain {
 	}
 
 }
+

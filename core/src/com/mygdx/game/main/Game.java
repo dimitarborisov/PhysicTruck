@@ -38,17 +38,16 @@ public class Game implements ApplicationListener{
 	
 	@Override
 	public void create() {
-
+		
 		//load textures
 		cm = new ContentManager();
 		
 		//Farm Truck
 		cm.loadTexture("sprites/path4172.png", "FarmTruck");
+		cm.loadModel("models/truck1,1.json", "farmTruck");
+		
 		cm.loadTexture("sprites/path4209.png", "Wheel");
 		cm.loadTexture("sprites/box.png", "Box");
-		
-		//SplashScreen track
-		cm.loadTexture("sprites/track0,0.png", "track0");
 		
 		//play parallax background
 		cm.loadTexture("sprites/image10.png", "image10.png");
@@ -57,19 +56,31 @@ public class Game implements ApplicationListener{
 		
 		//Finish Flag
 		cm.loadTexture("sprites/finish.png", "finish");
+		cm.loadModel("models/finish.json", "finish");
 		
 		//distance bar
 		cm.loadTexture("sprites/distanceBar.png", "distanceBar");
 		cm.loadTexture("sprites/distanceCursor.png", "distanceCursor");
 			
+		//SplashScreen track / stage 1
+		cm.loadTexture("sprites/track0,0.png", "track0");
+		cm.loadModel("models/track0,0.json", "Stage01");
+		
 		//Stage2
-		cm.loadTexture("sprites/rect4136.png", "Stage02");
+		cm.loadTexture("sprites/stage02.png", "Stage02");
+		cm.loadModel("models/stage02new.json", "Stage02");
 		
 		//Stage3
-		cm.loadTexture("sprites/stage03.png", "Stage03");
+		cm.loadTexture("sprites/stage03new.png", "Stage03");
+		cm.loadModel("models/stage03new.json", "Stage03");
 		
 		//Stage4
-		cm.loadTexture("sprites/stage04-2.png", "Stage04");
+		cm.loadTexture("sprites/stage04new.png", "Stage04");
+		cm.loadModel("models/stage04new.json", "Stage04");
+		
+		//Stage5
+		cm.loadTexture("sprites/stage05new.png", "Stage05");
+		cm.loadModel("models/stage05new.json", "Stage05");
 		
 		//stage select
 		cm.loadTexture("sprites/levelselectbuttonSmallSolo.png", "buttonStage");
@@ -105,12 +116,22 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/musicOn.png", "musicOn");
 		cm.loadTexture("sprites/soundOff.png", "soundOff");
 		cm.loadTexture("sprites/soundOn.png", "soundOn");
+		cm.loadTexture("sprites/exitButton.png", "exitButton");
+		cm.loadTexture("sprites/changeScreenButton.png", "fullScreenButton");
 		
 		//STARS PREFERENCES
 		cm.loadPreferences("stagesStars","stagesStars");
 		cm.loadPreferences("gameOptions", "gameOptions");
 		
-	
+		
+		//Setup Screen
+		boolean screen = Game.cm.getPref("gameOptions").getBoolean("screen", false);
+		if(screen){
+			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+		}else{
+			Gdx.graphics.setWindowedMode(Game.VWIDTH, Game.VHEIGHT);
+		}
+		
 		
 		//OTHER INIT
 		ah = new AudioHandler();

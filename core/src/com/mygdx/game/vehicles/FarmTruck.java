@@ -1,6 +1,5 @@
 package com.mygdx.game.vehicles;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -71,7 +70,7 @@ public class FarmTruck extends Box2DVehicle{
 		
 		//body of the truck
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("models/truck1,1.json"));
+		BodyEditorLoader loader = new BodyEditorLoader(Game.cm.getModel("farmTruck"));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();

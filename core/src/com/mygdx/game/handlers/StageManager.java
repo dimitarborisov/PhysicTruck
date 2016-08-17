@@ -11,6 +11,7 @@ import com.mygdx.game.entities.other.BoxLoad;
 import com.mygdx.game.stages.Stage02;
 import com.mygdx.game.stages.Stage03;
 import com.mygdx.game.stages.Stage04;
+import com.mygdx.game.stages.Stage05;
 import com.mygdx.game.stages.Terrain0;
 import com.mygdx.game.vehicles.FarmTruck;
 
@@ -19,6 +20,7 @@ public class StageManager {
 	public static final int STAGE_2 = 1;
 	public static final int STAGE_3 = 2;
 	public static final int STAGE_4 = 3;
+	public static final int STAGE_5 = 4;
 
 	public static Box2DVehicle getVehicle(World world, int stage) {
 		switch (stage) {
@@ -26,13 +28,16 @@ public class StageManager {
 				return new FarmTruck(world, 150 / PPM, 130 / PPM, 2);
 		
 			case STAGE_2:
-				return new FarmTruck(world, 180 / PPM, 450 / PPM, 2);
+				return new FarmTruck(world, 150 / PPM, 130 / PPM, 2);
 			
 			case STAGE_3:
-				return new FarmTruck(world, 160 / PPM, 1450 / PPM, 2);
+				return new FarmTruck(world, 150 / PPM, 130 / PPM, 2);
 			
 			case STAGE_4:
-				return new FarmTruck(world, 100 / PPM, 600 / PPM, 2);
+				return new FarmTruck(world, 150 / PPM, 200 / PPM, 2);
+			
+			case STAGE_5:
+				return new FarmTruck(world, 150 / PPM, 200 / PPM, 2);
 		}
 
 		return null;
@@ -53,33 +58,44 @@ public class StageManager {
 				return truckLoad;
 		
 			case STAGE_2:
-				truckLoad.add( new BoxLoad(world, 40, 40, 120 / PPM, 650 / PPM) );
-				truckLoad.add( new BoxLoad(world, 40, 40, 160 / PPM, 650 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 300 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 300 / PPM) );
 				
-				truckLoad.add( new BoxLoad(world, 40, 40, 120 / PPM, 700 / PPM) );
-				truckLoad.add( new BoxLoad(world, 40, 40, 160 / PPM, 700 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 350 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 350 / PPM) );
 				
 				//truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 400 / PPM) );
 				//truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 400 / PPM) );
 				return truckLoad;
 			
 			case STAGE_3:
-				truckLoad.add( new BoxLoad(world, 40, 40, 100 / PPM, 1450 / PPM) );
-				truckLoad.add( new BoxLoad(world, 40, 40, 140 / PPM, 1450 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 300 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 300 / PPM) );
 				
-				truckLoad.add( new BoxLoad(world, 40, 40, 100 / PPM, 1500 / PPM) );
-				truckLoad.add( new BoxLoad(world, 40, 40, 140 / PPM, 1500 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 350 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 350 / PPM) );
 				
 				//truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 400 / PPM) );
 				//truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 400 / PPM) );
 				return truckLoad;
 			
 			case STAGE_4:
-				truckLoad.add( new BoxLoad(world, 40, 40, 40 / PPM, 600 / PPM) );
-				truckLoad.add( new BoxLoad(world, 40, 40, 80 / PPM, 600 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 85 / PPM, 200 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 125 / PPM, 200 / PPM) );
 				
-				truckLoad.add( new BoxLoad(world, 40, 40, 40 / PPM, 650 / PPM) );
-				truckLoad.add( new BoxLoad(world, 40, 40, 80 / PPM, 650 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 85 / PPM, 250 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 125 / PPM, 250 / PPM) );
+				
+				//truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 400 / PPM) );
+				//truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 400 / PPM) );
+				return truckLoad;
+		
+			case STAGE_5:
+				truckLoad.add( new BoxLoad(world, 40, 40, 85 / PPM, 200 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 125 / PPM, 200 / PPM) );
+				
+				truckLoad.add( new BoxLoad(world, 40, 40, 85 / PPM, 250 / PPM) );
+				truckLoad.add( new BoxLoad(world, 40, 40, 125 / PPM, 250 / PPM) );
 				
 				//truckLoad.add( new BoxLoad(world, 40, 40, 90 / PPM, 400 / PPM) );
 				//truckLoad.add( new BoxLoad(world, 40, 40, 130 / PPM, 400 / PPM) );
@@ -95,13 +111,16 @@ public class StageManager {
 				return new Terrain0(world, 0 / PPM, 0 / PPM, 10);
 			
 			case STAGE_2:
-				return new Stage02(world, 0 / PPM, 0 / PPM, 50, 30);
+				return new Stage02(world, 0 / PPM, 0 / PPM, 10, 10);
 			
 			case STAGE_3:
-				return new Stage03(world, 0 / PPM, 0 / PPM, 70, 60);
+				return new Stage03(world, 0 / PPM, 0 / PPM, 10, 10);
 				
 			case STAGE_4:
-				return new Stage04(world, 0 / PPM, 0 / PPM, 30, 20);
+				return new Stage04(world, 0 / PPM, 0 / PPM, 10, 10);
+				
+			case STAGE_5:
+				return new Stage05(world, 0 / PPM, 0 / PPM, 10, 10);
 		}
 
 		return null;
@@ -117,6 +136,8 @@ public class StageManager {
 				return STAGE_3;
 			case 3:
 				return STAGE_4;
+			case 4:
+				return STAGE_5;
 		}
 	
 		return -1;

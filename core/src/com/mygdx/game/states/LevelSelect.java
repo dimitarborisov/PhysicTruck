@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.entities.other.LevelSelectButton;
 import com.mygdx.game.entities.other.SimpleImageButton;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
@@ -46,8 +45,6 @@ public class LevelSelect extends GameState {
 	Sprite backgroundSprite3;
 
 	OrthographicCamera levelCam;
-	
-	FitViewport viewport;
 
 	public LevelSelect(GameStateManager m) {
 		super(m);
@@ -56,8 +53,6 @@ public class LevelSelect extends GameState {
 
 		levelCam = new OrthographicCamera();
 		levelCam.setToOrtho(true, Game.VWIDTH, Game.VHEIGHT);
-		//viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), levelCam);
-		//viewport.apply();
 		
 		ty = -1;
 		tx = -1;
@@ -272,7 +267,7 @@ public class LevelSelect extends GameState {
 		
 		optionsButton.render(s);
 		backButton.render(s);
-
+		
 	}
 
 	private void setupTweenButtons(){

@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -159,8 +160,11 @@ public class Play extends GameState {
 
 			@Override
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				tx = screenX;
-				ty = screenY;
+				Vector3 input = new Vector3(screenX, screenY, 0);
+				hud.unproject(input);
+				
+				tx = input.x;
+				ty = input.y;
 
 				return true;
 			}

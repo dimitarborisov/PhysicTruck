@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.entities.other.SimpleImageButton;
 import com.mygdx.game.entities.other.SmallPopup;
 import com.mygdx.game.entities.tweenEntities.TweenSpriteAccessor;
@@ -22,6 +23,8 @@ public class Options extends GameState{
 	
 	private SimpleImageButton returnButton;
 	private SimpleImageButton resetButton;
+	private SimpleImageButton exitButton;
+	private SimpleImageButton changeScreenButton;
 	
 	private SimpleImageButton effectButton;
 	private SimpleImageButton musicButton;
@@ -44,6 +47,8 @@ public class Options extends GameState{
 		resetButton.reloadButton();
 		effectButton.reloadButton();
 		musicButton.reloadButton();
+		exitButton.reloadButton();
+		changeScreenButton.reloadButton();
 		
 		popUp.reload();
 		
@@ -83,7 +88,16 @@ public class Options extends GameState{
 												30, 
 												Game.VHEIGHT, 
 												150, 150, false, true);
+		
+		changeScreenButton = new SimpleImageButton(Game.cm.getTexture("fullScreenButton"),
+												30, 
+												-150, 
+												150, 150, false, true);
 	
+		exitButton = new SimpleImageButton(Game.cm.getTexture("exitButton"),
+												Game.VWIDTH - 150 - 30, 
+												-150, 
+												150, 150, false, true);
 		
 		if(Game.cm.getPref("gameOptions").getBoolean("music", false)){
 			texture = Game.cm.getTexture("musicOn");
@@ -140,10 +154,10 @@ public class Options extends GameState{
 
 			@Override
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				// Vector3 input = new Vector3(screenX, screenY, 0);
-				// cam.unproject(input);
-				tx = screenX;
-				ty = screenY;
+				Vector3 input = new Vector3(screenX, screenY, 0);
+				optionsCam.unproject(input);
+				tx = input.x;
+				ty = input.y;
 				
 				return true;
 			}
@@ -205,6 +219,16 @@ public class Options extends GameState{
 				.ease(TweenEquations.easeInOutQuad)
 				.start(tweenManager);
 		
+		Tween.to(changeScreenButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
+				.target(30, 30)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager);
+
+		Tween.to(exitButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
+				.target(Game.VWIDTH - 150 -30, 30)
+				.ease(TweenEquations.easeInOutQuad)
+				.start(tweenManager);
+		
 		Tween.to(musicButton.getSprite(), TweenSpriteAccessor.POS_XY, 0.5f)
 				.target(Game.VWIDTH/2 - 255, Game.VHEIGHT/2 - 125)
 				.ease(TweenEquations.easeInOutQuad)
@@ -224,8 +248,26 @@ public class Options extends GameState{
 		resetButton.update(tx, ty);
 		musicButton.update(tx, ty);
 		effectButton.update(tx, ty);
+		exitButton.update(tx, ty);
+		changeScreenButton.update(tx, ty);
 		
 		popUp.update(dt, tx, ty);
+		
+		if(exitButton.isClicked()){
+			Gdx.app.exit();
+		}
+		
+		if(changeScreenButton.isClicked()){
+			boolean screen = Game.cm.getPref("gameOptions").getBoolean("screen", false);
+			if(!screen){
+				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+				Game.cm.getPref("gameOptions").putBoolean("screen", true);
+			}else{
+				Gdx.graphics.setWindowedMode(Game.VWIDTH, Game.VHEIGHT);
+				Game.cm.getPref("gameOptions").putBoolean("screen", false);
+			}
+			Game.cm.getPref("gameOptions").flush();
+		}
 		
 		if(returnButton.isClicked()){
 			getStateManager().setTransition(GameStateManager.SLIDETOTOP, Options.this, GameStateManager.LEVELSELECT, true, false);
@@ -244,6 +286,7 @@ public class Options extends GameState{
 		if(popUp.noIsClicked()){
 			popUp.toogle(tweenManager);
 		}
+
 		
 		if(musicButton.isClicked()){
 			if(!Game.cm.getPref("gameOptions").getBoolean("music", false)){
@@ -287,6 +330,8 @@ public class Options extends GameState{
 		resetButton.render(s);
 		musicButton.render(s);
 		effectButton.render(s);
+		exitButton.render(s);
+		changeScreenButton.render(s);
 		
 		popUp.render(s);
 	}

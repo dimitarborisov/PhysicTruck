@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 
 public class ContentManager {
@@ -14,6 +15,7 @@ public class ContentManager {
 	private HashMap<String, Texture> textures;
 	private HashMap<String, Sound> sounds;
 	private HashMap<String, Music> music;
+	private HashMap<String, FileHandle> model;
 	
 	public ContentManager(){
 		textures = new HashMap<String, Texture>();
@@ -21,6 +23,8 @@ public class ContentManager {
 		
 		sounds = new HashMap<String, Sound>();
 		music = new HashMap<String, Music>();
+		
+		model = new HashMap<String, FileHandle>();
 	}
 	
 	public void loadTexture(String path, String key){
@@ -71,4 +75,16 @@ public class ContentManager {
 	public Music getMusic(String key){
 		return music.get(key);
 	}
+
+	
+	//MODEL FILES
+	public void loadModel(String path, String key){
+		FileHandle f = Gdx.files.internal(path);
+		model.put(key, f);
+	}
+	
+	public FileHandle getModel(String key){
+		return model.get(key);
+	}
+
 }
