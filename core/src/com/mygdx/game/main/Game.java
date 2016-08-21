@@ -82,6 +82,26 @@ public class Game implements ApplicationListener{
 		cm.loadTexture("sprites/stage05new.png", "Stage05");
 		cm.loadModel("models/stage05new.json", "Stage05");
 		
+		//Stage6
+		cm.loadTexture("sprites/stage06.png", "Stage06");
+		cm.loadModel("models/stage06.json", "Stage06");
+		
+		//Stage7
+		cm.loadTexture("sprites/stage07.png", "Stage07");
+		cm.loadModel("models/stage07.json", "Stage07");
+		
+		//Stage8
+		cm.loadTexture("sprites/stage08.png", "Stage08");
+		cm.loadModel("models/stage08.json", "Stage08");
+		
+		//Stage9
+		cm.loadTexture("sprites/stage09.png", "Stage09");
+		cm.loadModel("models/stage09.json", "Stage09");
+		
+		//Stage10
+		cm.loadTexture("sprites/stage10.png", "Stage10");
+		cm.loadModel("models/stage10.json", "Stage10");
+		
 		//stage select
 		cm.loadTexture("sprites/levelselectbuttonSmallSolo.png", "buttonStage");
 		cm.loadTexture("sprites/levelselectbuttonSmallExtention.png", "levelSelectButtonExpansion");
